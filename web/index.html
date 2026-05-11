@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>竞技大空间 · 控制中心</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #0f0f1a;
+  color: #e0e0e0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top Nav ── */
+.top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: 56px;
+  background: rgba(15,15,26,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 16px;
+  overflow-x: auto;
+}
+.nav-brand {
+  position: absolute;
+  left: 24px;
+  font-size: 16px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #818cf8, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+}
+.nav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.nav-tab:hover {
+  color: #d1d5db;
+  background: rgba(255,255,255,0.04);
+}
+.nav-tab.active {
+  color: #a5b4fc;
+  background: rgba(129,140,248,0.1);
+  border-color: rgba(129,140,248,0.2);
+}
+.nav-tab .tab-icon { font-size: 15px; }
+
+/* ── iframe ── */
+.frame-wrap {
+  flex: 1;
+  margin-top: 56px;
+  position: relative;
+}
+.frame-wrap iframe {
+  width: 100%;
+  height: calc(100vh - 56px);
+  border: none;
+  display: none;
+}
+.frame-wrap iframe.visible { display: block; }
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-brand">🏟️ 竞技大空间</div>
+  <a class="nav-tab active" data-page="page-event" onclick="switchPage('page-event', this)">
+    <span class="tab-icon">🔄</span>赛事流程
+  </a>
+  <a class="nav-tab" data-page="page-login" onclick="switchPage('page-login', this)">
+    <span class="tab-icon">🔐</span>登录与门店
+  </a>
+  <a class="nav-tab" data-page="page-home" onclick="switchPage('page-home', this)">
+    <span class="tab-icon">🏟️</span>首页：赛事选择
+  </a>
+  <a class="nav-tab" data-page="page-waiting" onclick="switchPage('page-waiting', this)">
+    <span class="tab-icon">⏳</span>等待：开放报名
+  </a>
+  <a class="nav-tab" data-page="page-join" onclick="switchPage('page-join', this)">
+    <span class="tab-icon">🤺</span>匹配：选手报名
+  </a>
+  <a class="nav-tab" data-page="page-bet" onclick="switchPage('page-bet', this)">
+    <span class="tab-icon">🎰</span>竞猜：参与押注
+  </a>
+  <a class="nav-tab" data-page="page-match" onclick="switchPage('page-match', this)">
+    <span class="tab-icon">⚔️</span>赛事：进行比赛
+  </a>
+  <a class="nav-tab" data-page="page-result" onclick="switchPage('page-result', this)">
+    <span class="tab-icon">🏆</span>结束：胜负结算
+  </a>
+  <a class="nav-tab" data-page="page-todo" onclick="switchPage('page-todo', this)">
+    <span class="tab-icon">📋</span>待开发功能
+  </a>
+</nav>
+
+<div class="frame-wrap">
+  <iframe id="page-event" class="visible" src="page-event.html"></iframe>
+  <iframe id="page-login" src="page-login.html"></iframe>
+  <iframe id="page-home" src="page-home.html"></iframe>
+  <iframe id="page-waiting" src="page-waiting.html"></iframe>
+  <iframe id="page-join" src="page-join.html"></iframe>
+  <iframe id="page-bet" src="page-bet.html"></iframe>
+  <iframe id="page-match" src="page-match.html"></iframe>
+  <iframe id="page-result" src="page-result.html"></iframe>
+  <iframe id="page-todo" src="page-todo.html"></iframe>
+</div>
+
+<script>
+function switchPage(pageId, tabEl) {
+  document.querySelectorAll('.frame-wrap iframe').forEach(f => f.classList.remove('visible'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(pageId).classList.add('visible');
+  tabEl.classList.add('active');
+}
+</script>
+</body>
+</html>
