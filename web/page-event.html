@@ -524,21 +524,64 @@ body::after {
 .ctrl-icon { font-size: 28px; margin-bottom: 8px; display: block; }
 .ctrl-name { font-size: 14px; font-weight: 600; color: #d1d5db; margin-bottom: 4px; }
 .ctrl-desc { font-size: 11px; color: #6b7280; line-height: 1.5; }
-.ctrl-or {
+.ctrl-sep {
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; color: #4b5563; font-weight: 600;
   letter-spacing: 1px; flex-shrink: 0;
 }
 
-.footer-note {
+/* 控制模式说明 */
+.ctrl-mode-list {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.ctrl-mode-item {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 16px;
+}
+.ctrl-mode-item h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ctrl-mode-item p {
+  font-size: 12px;
+  color: #9ca3af;
+  line-height: 1.7;
+}
+.ctrl-mode-item .mode-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.ctrl-mode-item .mode-badge.default {
+  background: rgba(74,222,128,0.12);
+  color: #4ade80;
+}
+.ctrl-mode-item .mode-badge.optional {
+  background: rgba(129,140,248,0.12);
+  color: #a5b4fc;
+}
+
+.ctrl-footer-note {
   text-align: center;
   font-size: 12px;
   color: #4b5563;
-  margin-top: 12px;
+  margin-top: 16px;
   padding: 12px;
   border-top: 1px solid rgba(255,255,255,0.04);
 }
-.footer-note span { color: #818cf8; font-weight: 500; }
+.ctrl-footer-note span { color: #818cf8; font-weight: 500; }
 
 /* ── 响应式 ── */
 @media (max-width: 700px) {
@@ -551,6 +594,7 @@ body::after {
   .flow-page-img-wrap { width: 260px; }
   .cell-action { font-size: 10px; padding: 2px 4px; }
   .matrix-header { font-size: 10px; }
+  .ctrl-mode-list { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -568,7 +612,7 @@ body::after {
   <div class="header">
     <div class="header-icon">🏟️</div>
     <h1>竞技大空间 · 赛事流程</h1>
-    <p>6 步生命周期 · 双端并行控制 · 三角色协同</p>
+    <p>6 步生命周期 · 双端互斥控制 · 三角色协同</p>
   </div>
 
   <!-- 赛事全流程（横向 6 步） -->
@@ -843,7 +887,7 @@ body::after {
     </div>
   </div>
 
-  <!-- 控制方式 -->
+  <!-- 控制方式（互斥） -->
   <div class="card">
     <div class="card-title">🎮 控制方式</div>
     <div class="control-row">
@@ -852,15 +896,31 @@ body::after {
         <div class="ctrl-name">小程序管理端</div>
         <div class="ctrl-desc">远程操控全流程<br>实时状态查看</div>
       </div>
-      <div class="ctrl-or">OR</div>
+      <div class="ctrl-sep">XOR</div>
       <div class="ctrl-card">
         <span class="ctrl-icon">🖥️</span>
-        <div class="ctrl-name">Server 控制台</div>
-        <div class="ctrl-desc">本地 UI 直控<br>完全保留不改动</div>
+        <div class="ctrl-name">PC / Server 控制台</div>
+        <div class="ctrl-desc">本地 UI 直控<br>PC 操控开关开启时生效</div>
       </div>
     </div>
-    <div class="footer-note">
-      两套控制 <span>并行运行 · 互不冲突</span>，任意一端操作均可驱动赛事流程
+
+    <div class="ctrl-mode-list">
+      <div class="ctrl-mode-item">
+        <h4>📱 小程序管理模式 <span class="mode-badge default">默认</span></h4>
+        <p>
+          <strong style="color:#e0e0ff;">PC 操控开关 = 关闭</strong>时，<strong style="color:#4ade80;">仅小程序管理端</strong>可操控赛事流程（配置、报名、竞猜、开赛、结算等）。Server 端仅展示画面，不接受操控指令。
+        </p>
+      </div>
+      <div class="ctrl-mode-item">
+        <h4>🖥️ PC 控制台模式 <span class="mode-badge optional">需手动开启</span></h4>
+        <p>
+          <strong style="color:#e0e0ff;">PC 操控开关 = 开启</strong>时，<strong style="color:#a5b4fc;">仅 PC / Server 端</strong>可操控赛事流程。此时小程序管理端的操控按钮将禁用，仅保留状态查看功能。
+        </p>
+      </div>
+    </div>
+
+    <div class="ctrl-footer-note">
+      两端 <span>互斥控制 · 同一时刻仅一端可操控</span>，状态数据始终实时同步
     </div>
   </div>
 
