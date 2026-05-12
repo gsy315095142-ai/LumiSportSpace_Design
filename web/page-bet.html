@@ -7,407 +7,104 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: #0f0f1a;
-  color: #e0e0e0;
-  line-height: 1.7;
-}
+body { font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #0f0f1a; color: #e0e0e0; line-height: 1.7; }
+.container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+.page-header { text-align: center; margin-bottom: 48px; }
+.page-header h1 { font-size: 32px; font-weight: 700; background: linear-gradient(135deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 8px; }
+.page-header .subtitle { color: #9ca3af; font-size: 15px; }
 
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 40px 24px 80px;
-}
-
-/* ── 页面标题 ── */
-.page-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-.page-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #818cf8, #c084fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 8px;
-}
-.page-header .subtitle {
-  color: #9ca3af;
-  font-size: 15px;
-}
-
-/* ── 卡片 ── */
-.card {
-  background: rgba(129,140,248,0.04);
-  border: 1px solid rgba(129,140,248,0.10);
-  border-top: 2px solid;
-  border-image: linear-gradient(90deg, #818cf8, #06b6d4) 1;
-  border-radius: 16px;
-  padding: 32px;
-  margin-bottom: 32px;
-}
-.card h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.card { background: rgba(129,140,248,0.04); border: 1px solid rgba(129,140,248,0.10); border-top: 2px solid; border-image: linear-gradient(90deg, #818cf8, #06b6d4) 1; border-radius: 16px; padding: 32px; margin-bottom: 32px; }
+.card h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 .card h2 .icon { font-size: 22px; }
 
-/* ── 图文布局 ── */
-.illus-row {
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  margin-bottom: 36px;
-}
+.illus-row { display: flex; gap: 32px; align-items: flex-start; margin-bottom: 36px; }
 .illus-row:last-child { margin-bottom: 0; }
+.phone-frame { flex-shrink: 0; width: 280px; background: #1e1e35; border-radius: 28px; border: 3px solid #2a2a3e; padding: 12px 10px 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative; }
+.phone-frame::before { content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 60px; height: 5px; background: #2a2a3e; border-radius: 3px; }
+.phone-frame img { width: 100%; border-radius: 16px; display: block; cursor: zoom-in; transition: filter 0.2s; }
+.phone-frame img:hover { filter: brightness(1.08); }
+.phone-label { text-align: center; margin-top: 10px; font-size: 13px; color: #6b7280; font-weight: 500; }
+.desc-area { flex: 1; min-width: 0; }
+.desc-area h3 { font-size: 17px; font-weight: 600; color: #e0e0ff; margin-bottom: 14px; }
 
-/* 手机壳 */
-.phone-frame {
-  flex-shrink: 0;
-  width: 280px;
-  background: #1e1e35;
-  border-radius: 28px;
-  border: 3px solid #2a2a3e;
-  padding: 12px 10px 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  position: relative;
-}
-.phone-frame::before {
-  content: '';
-  position: absolute;
-  top: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 5px;
-  background: #2a2a3e;
-  border-radius: 3px;
-}
-.phone-frame img {
-  width: 100%;
-  border-radius: 16px;
-  display: block;
-  cursor: zoom-in;
-  transition: filter 0.2s;
-}
-.phone-frame img:hover {
-  filter: brightness(1.08);
-}
-.phone-label {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-/* 说明区 */
-.desc-area {
-  flex: 1;
-  min-width: 0;
-}
-.desc-area h3 {
-  font-size: 17px;
-  font-weight: 600;
-  color: #e0e0ff;
-  margin-bottom: 14px;
-}
-
-.anno-list {
-  list-style: none;
-}
-.anno-list li {
-  position: relative;
-  padding: 10px 0 10px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 14px;
-  color: #c0c0d0;
-  transition: background 0.2s;
-}
+.anno-list { list-style: none; }
+.anno-list li { position: relative; padding: 10px 0 10px 24px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; color: #c0c0d0; transition: background 0.2s; }
 .anno-list li:last-child { border-bottom: none; }
-.anno-list li:hover {
-  background: rgba(129,140,248,0.06);
-  border-radius: 6px;
-}
-.anno-list li::before {
-  content: attr(data-num);
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 18px;
-  height: 18px;
-  background: rgba(129,140,248,0.2);
-  color: #a5b4fc;
-  border-radius: 50%;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.anno-list li strong {
-  color: #e0e0ff;
-  font-weight: 600;
-}
+.anno-list li:hover { background: rgba(129,140,248,0.06); border-radius: 6px; }
+.anno-list li::before { content: attr(data-num); position: absolute; left: 0; top: 10px; width: 18px; height: 18px; background: rgba(129,140,248,0.2); color: #a5b4fc; border-radius: 50%; font-size: 11px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+.anno-list li strong { color: #e0e0ff; font-weight: 600; }
 
-/* ── 图片放大遮罩 ── */
-.img-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.88);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  cursor: zoom-out;
-  backdrop-filter: blur(8px);
-  animation: overlayIn 0.25s ease;
-}
-.img-overlay.active {
-  display: flex;
-}
-@keyframes overlayIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.img-overlay img {
-  max-width: 92vw;
-  max-height: 90vh;
-  border-radius: 12px;
-  box-shadow: 0 0 60px rgba(129,140,248,0.15);
-  animation: imgZoomIn 0.3s ease;
-}
-@keyframes imgZoomIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.img-overlay .zoom-hint {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 1px;
-}
+.img-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 9999; align-items: center; justify-content: center; cursor: zoom-out; backdrop-filter: blur(8px); animation: overlayIn 0.25s ease; }
+.img-overlay.active { display: flex; }
+@keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+.img-overlay img { max-width: 92vw; max-height: 90vh; border-radius: 12px; box-shadow: 0 0 60px rgba(129,140,248,0.15); animation: imgZoomIn 0.3s ease; }
+@keyframes imgZoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.img-overlay .zoom-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
 
-/* ── 状态流转图 ── */
-.flow-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  flex-wrap: wrap;
-  margin: 16px 0 8px;
-}
-.flow-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 16px;
-  background: rgba(129,140,248,0.08);
-  border: 1px solid rgba(129,140,248,0.15);
-  border-radius: 10px;
-  min-width: 100px;
-  text-align: center;
-}
-.flow-step .step-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #a5b4fc;
-}
-.flow-arrow {
-  font-size: 18px;
-  color: #4b5563;
-  padding: 0 6px;
-}
+.flow-strip { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin: 16px 0 8px; }
+.flow-step { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 16px; background: rgba(129,140,248,0.08); border: 1px solid rgba(129,140,248,0.15); border-radius: 10px; min-width: 100px; text-align: center; }
+.flow-step .step-label { font-size: 13px; font-weight: 600; color: #a5b4fc; }
+.flow-arrow { font-size: 18px; color: #4b5563; padding: 0 6px; }
 
-/* ── 玩法卡片网格 ── */
-.game-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
-}
-.game-card {
-  background: rgba(129,140,248,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 20px;
-  transition: border-color 0.2s, background 0.2s;
-}
-.game-card:hover {
-  border-color: rgba(129,140,248,0.3);
-  background: rgba(129,140,248,0.05);
-}
-.game-card .game-icon {
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-.game-card .game-name {
-  font-size: 16px;
-  font-weight: 600;
-  color: #e0e0ff;
-  margin-bottom: 6px;
-}
-.game-card .game-odds {
-  font-size: 13px;
-  color: #fb923c;
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-.game-card .game-desc {
-  font-size: 13px;
-  color: #9ca3af;
-  line-height: 1.7;
-}
-.game-card .game-scope {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 11px;
-  background: rgba(129,140,248,0.1);
-  color: #a5b4fc;
-}
+.game-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 16px; }
+.game-card { background: rgba(129,140,248,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; transition: border-color 0.2s, background 0.2s; }
+.game-card:hover { border-color: rgba(129,140,248,0.3); background: rgba(129,140,248,0.05); }
+.game-card .game-icon { font-size: 28px; margin-bottom: 10px; }
+.game-card .game-name { font-size: 16px; font-weight: 600; color: #e0e0ff; margin-bottom: 6px; }
+.game-card .game-odds { font-size: 13px; color: #fb923c; margin-bottom: 8px; font-weight: 500; }
+.game-card .game-desc { font-size: 13px; color: #9ca3af; line-height: 1.7; }
+.game-card .game-scope { display: inline-block; margin-top: 8px; padding: 2px 8px; border-radius: 4px; font-size: 11px; background: rgba(129,140,248,0.1); color: #a5b4fc; }
 
-/* ── 角色标签 ── */
-.role-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-}
+.role-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.role-tag.admin { background: rgba(251,146,60,0.15); color: #fb923c; }
 .role-tag.player { background: rgba(74,222,128,0.15); color: #4ade80; }
 .role-tag.viewer { background: rgba(96,165,250,0.15); color: #60a5fa; }
 
-/* ── 规则提示框 ── */
-.rule-box {
-  background: rgba(129,140,248,0.06);
-  border: 1px solid rgba(129,140,248,0.15);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-top: 20px;
-}
-.rule-box.warning {
-  background: rgba(251,146,60,0.06);
-  border-color: rgba(251,146,60,0.15);
-}
-.rule-box p.rule-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-.rule-box p.rule-title.blue { color: #a5b4fc; }
-.rule-box p.rule-title.orange { color: #fb923c; }
-.rule-box p.rule-text {
-  font-size: 13px;
-  color: #9ca3af;
-  line-height: 1.8;
-}
+.rule-box { border-radius: 12px; padding: 16px 20px; margin-top: 20px; }
+.rule-box p.rule-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.rule-box p.rule-text { font-size: 13px; color: #9ca3af; line-height: 1.8; }
+.rule-box p.rule-text strong { font-weight: 600; }
+.rule-box.warn { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.15); }
+.rule-box.warn p.rule-title { color: #fb923c; }
+.rule-box.warn p.rule-text strong { color: #c0c0d0; }
+.rule-box.info { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15); }
+.rule-box.info p.rule-title { color: #818cf8; }
+.rule-box.info p.rule-text strong { color: #c0c0d0; }
+.rule-box.pending { background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.15); }
+.rule-box.pending p.rule-title { color: #fbbf24; }
 
-/* ── 段位表 / 对照表 ── */
-.rank-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: 14px;
-}
-.rank-table th {
-  background: rgba(129,140,248,0.1);
-  color: #a5b4fc;
-  font-weight: 600;
-  padding: 10px 16px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.rank-table td {
-  padding: 10px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: #c0c0d0;
-}
-.rank-table tr:hover td {
-  background: rgba(129,140,248,0.04);
-}
+.rank-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+.rank-table th { background: rgba(129,140,248,0.1); color: #a5b4fc; font-weight: 600; padding: 10px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.rank-table td { padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #c0c0d0; }
+.rank-table tr:hover td { background: rgba(129,140,248,0.04); }
 
-/* ── 竞猜玩法对照表 ── */
-.bet-matrix {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: 13px;
-}
-.bet-matrix th {
-  background: rgba(96,165,250,0.08);
-  color: #60a5fa;
-  font-weight: 600;
-  padding: 10px 14px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  font-size: 12px;
-}
-.bet-matrix td {
-  padding: 10px 14px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: #c0c0d0;
-  text-align: center;
-}
-.bet-matrix tr:hover td {
-  background: rgba(129,140,248,0.04);
-}
-.bet-matrix td:first-child {
-  text-align: left;
-  font-weight: 600;
-  color: #e0e0ff;
-}
+.bet-matrix { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+.bet-matrix th { background: rgba(96,165,250,0.08); color: #60a5fa; font-weight: 600; padding: 10px 14px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 12px; }
+.bet-matrix td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #c0c0d0; text-align: center; }
+.bet-matrix tr:hover td { background: rgba(129,140,248,0.04); }
+.bet-matrix td:first-child { text-align: left; font-weight: 600; color: #e0e0ff; }
 .check { color: #4ade80; font-size: 16px; }
 .cross { color: #4b5563; font-size: 14px; }
 
-/* ── 响应式 ── */
 @media (max-width: 700px) {
-  .illus-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  .phone-frame {
-    width: 240px;
-  }
-  .desc-area {
-    width: 100%;
-  }
-  .game-card-grid {
-    grid-template-columns: 1fr;
-  }
+  .illus-row { flex-direction: column; align-items: center; }
+  .phone-frame { width: 240px; }
+  .desc-area { width: 100%; }
+  .game-card-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- 图片放大遮罩 -->
-<div class="img-overlay" id="imgOverlay">
-  <img id="overlayImg" src="" alt="zoom">
-  <div class="zoom-hint">click anywhere to close</div>
-</div>
+<div class="img-overlay" id="imgOverlay"><img id="overlayImg" src="" alt="zoom"><div class="zoom-hint">click anywhere to close</div></div>
 
 <div class="container">
 
-  <!-- 页面标题 -->
   <div class="page-header">
     <h1>🎰 竞猜：参与押注</h1>
     <p class="subtitle">管理员开启竞猜后，观众在竞猜面板选择玩法、下注押注的完整流程</p>
   </div>
 
-  <!-- 1. 页面定位 -->
   <div class="card">
     <h2><span class="icon">📖</span>页面定位</h2>
     <p style="color:#c0c0d0;font-size:15px;margin-bottom:16px;">
@@ -418,54 +115,53 @@ body {
     </p>
   </div>
 
-  <!-- 2. 竞猜流程概览 -->
   <div class="card">
     <h2><span class="icon">🔄</span>竞猜流程概览</h2>
     <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      从选手就位到竞猜结算，竞猜环节经历以下步骤：
+      竞猜环节从管理员开启竞猜到系统结算，经历以下步骤：
     </p>
-
     <div class="flow-strip">
-      <div class="flow-step">
-        <span class="step-label">双方选手审核通过</span>
-      </div>
+      <div class="flow-step"><span class="step-label">管理员开启竞猜</span></div>
       <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">管理员开启竞猜</span>
-      </div>
+      <div class="flow-step"><span class="step-label">观众选择玩法下注</span></div>
       <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">观众选择玩法下注</span>
-      </div>
+      <div class="flow-step"><span class="step-label">管理员开赛</span></div>
       <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">管理员开赛</span>
-      </div>
+      <div class="flow-step"><span class="step-label">比赛进行中</span></div>
       <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">比赛进行中</span>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">系统自动结算</span>
-      </div>
+      <div class="flow-step"><span class="step-label">系统自动结算</span></div>
     </div>
-
-    <div class="rule-box">
-      <p class="rule-title blue">💡 开放条件</p>
+    <div class="rule-box info">
+      <p class="rule-title">💡 开放条件</p>
       <p class="rule-text">
-        竞猜功能需要<strong style="color:#e0e0ff;">管理员手动点击「开启竞猜」</strong>后才会开放。前提条件是红蓝双方至少各有 1 名通过审核的正式选手，且双方实力差距在合理范围内（预期胜率不超过 80%）。在此之前，观众只能看到竞猜面板但无法操作。
+        竞猜功能需要<strong>管理员手动点击「开启竞猜」</strong>后才会开放。前提条件是红蓝双方至少各有 1 名通过审核的正式选手（<code>redUserId</code> / <code>blueUserId</code> 非空），且任一方预期胜率不超过 80%（<code>START_MATCH_VOID_MAX_WIN_RATE = 0.8</code>）。在此之前，观众只能看到竞猜面板但无法操作。
       </p>
     </div>
   </div>
 
-  <!-- 3. 选手无法竞猜 -->
+  <div class="card">
+    <h2><span class="icon">💬</span>竞猜面板各阶段提示文案</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      根据当前赛事进度，竞猜面板顶部展示不同的提示文案，引导观众了解当前状态：
+    </p>
+    <table class="rank-table">
+      <thead><tr><th>阶段场景</th><th>提示文案</th><th>常量名</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;color:#e0e0ff;">报名中，选手未齐人</td><td style="color:#9ca3af;">当前为报名阶段；待红蓝双方选手均通过审核就位后，将开放观众竞猜</td><td style="font-size:11px;color:#6b7280;">PRE_REGISTRATION_PHASE_HINT</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">双方已就位，管理员未开竞猜</td><td style="color:#9ca3af;">双方选手已定；请管理员在「场次管理」流程操作中点击「开启竞猜」后，观众方可下注</td><td style="font-size:11px;color:#6b7280;">ADMIN_GUESSING_NOT_OPEN_HINT</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">实力悬殊（>80%）</td><td style="color:#fbbf24;">红蓝均已就位，但实力悬殊过大（参考：任一侧预期胜率高于 80%），本场暂不开放竞猜下注</td><td style="font-size:11px;color:#6b7280;">LOPSIDED_BETTING_PAUSED_HINT</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">竞猜已开放</td><td style="color:#4ade80;">竞猜已开放：下注后请以开赛结果为准（若临场不齐人等，开赛时仍可流局作废并退还）</td><td style="font-size:11px;color:#6b7280;">PRE_START_BETTING_HINT</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">管理员未开启竞猜（通用）</td><td style="color:#9ca3af;">管理员尚未开启竞猜；请在管理人员开启后再下注</td><td style="font-size:11px;color:#6b7280;">BETTING_GUESSING_CLOSED_MESSAGE</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">开赛流局退款通知</td><td style="color:#fb923c;">开赛时未满足条件（未齐人或实力悬殊），本场押注已作废，竞猜币已全额退还</td><td style="font-size:11px;color:#6b7280;">MATCH_START_VOID_BANNER_TEXT</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="card">
     <h2><span class="icon">🚫</span>选手：无法参与竞猜</h2>
     <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      已报名参赛（或待审核中）的选手，在竞猜阶段无法对本场进行任何下注操作：
+      已报名参赛的选手，在竞猜阶段无法对本场进行任何下注操作。待审核状态的选手理论上也不可竞猜（<code>myPendingSide</code> 非空同样被拦截），不过实际场景中待审选手存在说明双方选手尚未确定，此时竞猜本就无法开启：
     </p>
-
     <div class="illus-row">
       <div>
         <div class="phone-frame">
@@ -477,10 +173,10 @@ body {
         <h3><span class="role-tag player">选手</span> 竞猜阶段时</h3>
         <ul class="anno-list">
           <li data-num="1">
-            <strong>竞猜面板不可操作</strong> — 已报名/待审核的选手无法进入竞猜下注界面，系统会给出「参赛者不可竞猜」的拦截提示
+            <strong>竞猜面板不可操作</strong> — 已报名的选手无法进入竞猜下注界面，系统给出「参赛者不可竞猜」的拦截提示
           </li>
           <li data-num="2">
-            <strong>参赛者身份标识</strong> — 界面顶部明确显示当前用户为「红方选手」或「蓝方选手」（或「审核中」），与观众身份区分
+            <strong>参赛者身份标识</strong> — 界面顶部明确显示当前用户为「红方选手」或「蓝方选手」，与观众身份区分
           </li>
           <li data-num="3">
             <strong>撤销参赛后可竞猜</strong> — 如果选手在比赛开始前撤销参赛，身份恢复为观众后即可正常参与竞猜
@@ -491,22 +187,19 @@ body {
         </ul>
       </div>
     </div>
-
-    <div class="rule-box warning">
-      <p class="rule-title orange">⚠️ 参赛者竞猜限制</p>
+    <div class="rule-box warn">
+      <p class="rule-title">⚠️ 参赛者竞猜限制（代码层面）</p>
       <p class="rule-text">
-        已报名或审核中的选手<strong style="color:#c0c0d0;">无法对本场任何玩法下注</strong>，包括胜负盘、元素之王、躺平之王、精准总分、精准分差。该限制的目的是防止选手操纵比赛结果获利。选手撤销参赛后限制即刻解除。
+        代码中 <code>mySide</code>（正式选手）和 <code>myPendingSide</code>（待审核）<strong>任一非空</strong>都阻止竞猜。不过实际业务上，待审选手存在意味着双方选手尚未确定，管理员无法开启竞猜，因此理论上不会出现「竞猜已开放但有待审选手试图下注」的场景——此处拦截主要是防御性兜底。
       </p>
     </div>
   </div>
 
-  <!-- 4. 观众竞猜操作界面 -->
   <div class="card">
     <h2><span class="icon">🎰</span>观众：竞猜操作界面</h2>
     <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
       观众在「我要竞猜」Tab 下看到完整的竞猜面板，根据当前游戏类型显示对应的竞猜玩法：
     </p>
-
     <div class="illus-row">
       <div>
         <div class="phone-frame">
@@ -517,348 +210,237 @@ body {
       <div class="desc-area">
         <h3><span class="role-tag viewer">观众</span> 竞猜下注时</h3>
         <ul class="anno-list">
-          <li data-num="1">
-            <strong>本场对阵模块显示当前状态</strong> — 局数 · 竞猜中 · 游戏类型；红蓝双方选手昵称 + 积分清晰展示
-          </li>
-          <li data-num="2">
-            <strong>竞猜玩法根据游戏类型动态显示</strong> — 胜负盘（全游戏通用）、元素之王（仅冰球大师模式）、躺平之王（仅拳击）、精准总分、精准分差
-          </li>
-          <li data-num="3">
-            <strong>个人竞猜资产信息条</strong> — 昵称 + 当前竞猜币余额，实时变动
-          </li>
-          <li data-num="4">
-            <strong>下注金额输入</strong> — 选择玩法后输入下注金额（最低 10 竞猜币），系统自动校验余额是否充足
-          </li>
-          <li data-num="5">
-            <strong>赔率实时展示</strong> — 胜负盘赔率根据双方积分动态计算（1.1~2.0）；其余玩法为固定赔率
-          </li>
-          <li data-num="6">
-            <strong>已下注状态</strong> — 下注成功后显示「已下注 XX 币」标识，竞猜阶段内可随时修改或取消
-          </li>
+          <li data-num="1"><strong>本场对阵模块</strong> — 局数 · 竞猜中 · 游戏类型；红蓝双方选手昵称 + 积分清晰展示</li>
+          <li data-num="2"><strong>竞猜玩法动态显示</strong> — 胜负盘（全游戏）、元素之王（仅冰球大师）、躺平之王（仅拳击）、精准总分、精准分差</li>
+          <li data-num="3"><strong>个人竞猜资产</strong> — 昵称 + 当前竞猜币余额，实时变动</li>
+          <li data-num="4"><strong>下注金额输入</strong> — 最低 10 竞猜币，系统自动校验余额</li>
+          <li data-num="5"><strong>赔率实时展示</strong> — 胜负盘动态（1.1~2.0）；其余固定</li>
+          <li data-num="6"><strong>已下注状态</strong> — 显示「已下注 XX 币」，开赛前可修改或取消</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- 5. 竞猜玩法详解 -->
   <div class="card">
     <h2><span class="icon">🎲</span>竞猜玩法详解</h2>
     <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
       竞猜玩法根据游戏类型动态显示，观众可任选一种或多种同时下注，每种玩法的下注相互独立：
     </p>
-
     <div class="game-card-grid">
-      <!-- 1. 胜负盘 -->
       <div class="game-card">
         <div class="game-icon">⚔️</div>
         <div class="game-name">胜负盘</div>
         <div class="game-odds">赔率 1.1 ~ 2.0（动态）</div>
-        <div class="game-desc">
-          押红方胜 或 蓝方胜。赔率根据双方积分（Rating）实时计算：强者赔率低、弱者赔率高。平局时<strong style="color:#e0e0ff;">退还全部下注金额</strong>。
-        </div>
+        <div class="game-desc">押红方胜 或 蓝方胜。赔率根据双方积分实时计算：强者赔率低、弱者赔率高。平局时<strong>退还全部下注金额</strong>。</div>
         <div class="game-scope">适用：全部游戏</div>
       </div>
-
-      <!-- 2. 元素之王 -->
       <div class="game-card">
         <div class="game-icon">🔥</div>
         <div class="game-name">元素之王</div>
         <div class="game-odds">赔率 3 倍（固定）</div>
-        <div class="game-desc">
-          预测冰球大师模式中哪种元素球数量最多。可选<strong style="color:#e0e0ff;">冰 / 火 / 风</strong>三种元素之一。
-        </div>
+        <div class="game-desc">预测冰球大师模式中哪种元素球数量最多。可选<strong>冰 / 火 / 风</strong>三种元素之一。若多项并列最大，优先级为 ice > fire > wind。</div>
         <div class="game-scope">适用：疾速冰球（大师模式）</div>
       </div>
-
-      <!-- 3. 躺平之王 -->
       <div class="game-card">
         <div class="game-icon">🥊</div>
         <div class="game-name">躺平之王</div>
         <div class="game-odds">赔率 3 倍（固定）</div>
-        <div class="game-desc">
-          预测拳击比赛中<strong style="color:#e0e0ff;">总倒地次数</strong>的精确数值。统计整场比赛双方累计倒地的总次数。
-        </div>
+        <div class="game-desc">预测拳击比赛中<strong>总倒地次数</strong>的精确数值。统计整场比赛双方累计倒地的总次数。</div>
         <div class="game-scope">适用：烈焰拳王</div>
       </div>
-
-      <!-- 4. 精准总分 -->
       <div class="game-card">
         <div class="game-icon">🎯</div>
         <div class="game-name">精准总分</div>
         <div class="game-odds">赔率 20 倍（固定）</div>
-        <div class="game-desc">
-          预测<strong style="color:#e0e0ff;">红蓝双方总得分的精确数值</strong>。难度最高，赔率最丰厚。
-        </div>
+        <div class="game-desc">预测<strong>红蓝双方总得分的精确数值</strong>。难度最高，赔率最丰厚。</div>
         <div class="game-scope">适用：全部游戏</div>
       </div>
-
-      <!-- 5. 精准分差 -->
       <div class="game-card">
         <div class="game-icon">📏</div>
         <div class="game-name">精准分差</div>
         <div class="game-odds">赔率 15 倍（固定）</div>
-        <div class="game-desc">
-          预测<strong style="color:#e0e0ff;">双方分差的精确数值</strong>（|红方得分 − 蓝方得分|）。难度较高，回报丰厚。
-        </div>
+        <div class="game-desc">预测<strong>双方分差的精确数值</strong>（|红方得分 − 蓝方得分|）。难度较高，回报丰厚。</div>
         <div class="game-scope">适用：全部游戏</div>
       </div>
     </div>
   </div>
 
-  <!-- 6. 竞猜玩法与游戏对应关系 -->
   <div class="card">
     <h2><span class="icon">📊</span>竞猜玩法与游戏对应关系</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      竞猜玩法并非固定五种，而是根据管理员选择的<strong style="color:#e0e0ff;">游戏类型</strong>动态展示。下表列出各玩法在不同游戏下的可用性：
-    </p>
-
     <table class="bet-matrix">
-      <thead>
-        <tr>
-          <th>竞猜玩法</th>
-          <th>冰球（普通）</th>
-          <th>冰球（大师模式）</th>
-          <th>拳王</th>
-          <th>击剑</th>
-        </tr>
-      </thead>
+      <thead><tr><th>竞猜玩法</th><th>冰球（普通）</th><th>冰球（大师模式）</th><th>拳王</th><th>击剑</th></tr></thead>
       <tbody>
-        <tr>
-          <td>胜负盘</td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>精准总分</td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>精准分差</td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="check">✓</span></td>
-        </tr>
-        <tr>
-          <td>元素之王 ×3</td>
-          <td><span class="cross">—</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="cross">—</span></td>
-          <td><span class="cross">—</span></td>
-        </tr>
-        <tr>
-          <td>躺平之王 ×3</td>
-          <td><span class="cross">—</span></td>
-          <td><span class="cross">—</span></td>
-          <td><span class="check">✓</span></td>
-          <td><span class="cross">—</span></td>
-        </tr>
+        <tr><td>胜负盘</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>精准总分</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>精准分差</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td>元素之王</td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td></tr>
+        <tr><td>躺平之王</td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="cross">—</span></td></tr>
       </tbody>
     </table>
-
-    <p style="font-size:12px;color:#6b7280;margin-top:14px;">
-      💡 竞猜面板会根据当前场次的 gameType 和 isMasterMode 自动显示或隐藏对应玩法卡片，用户无需手动选择
-    </p>
   </div>
 
-  <!-- 7. 赔率机制 -->
   <div class="card">
     <h2><span class="icon">📊</span>赔率计算机制</h2>
-
     <h3 style="font-size:16px;font-weight:600;color:#a5b4fc;margin-bottom:12px;">⚔️ 胜负盘：动态赔率</h3>
     <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      胜负盘的赔率不是固定的，而是根据双方选手的<strong style="color:#e0e0ff;">积分（Rating）</strong>实时计算，公式如下：
+      胜负盘的赔率不是固定的，而是根据双方选手的<strong>积分（Rating）</strong>实时计算：
     </p>
-
     <div style="background:rgba(0,0,0,0.3);border-radius:8px;padding:16px 20px;margin-bottom:16px;font-family:monospace;font-size:14px;color:#c0c0d0;text-align:center;">
+      预期胜率 = <span style="color:#60a5fa;">myRating</span> / ( <span style="color:#60a5fa;">myRating</span> + <span style="color:#f87171;">enemyRating</span> )<br>
       赔率 = <span style="color:#fb923c;">( 1 / 预期胜率 )</span> × <span style="color:#a5b4fc;">( 1 − 10% 手续费 )</span><br>
-      <span style="font-size:12px;color:#6b7280;">最终结果钳位在 1.1 ~ 2.0 之间</span>
+      <span style="font-size:12px;color:#6b7280;">最终结果钳位在 1.1 ~ 2.0 之间；开赛瞬间锁定为 lockedOdds</span>
     </div>
-
     <ul style="font-size:14px;color:#c0c0d0;padding-left:20px;line-height:2.2;margin-bottom:24px;">
-      <li><strong style="color:#e0e0ff;">强者低赔、弱者高赔</strong> — 积分越高的选手，其胜率预期越高，赔率越低（最低 1.1）；相反，弱势方的赔率可高达 2.0</li>
-      <li><strong style="color:#e0e0ff;">10% 手续费</strong> — 系统从赔付中抽取 10% 作为平台费用，用于竞猜币总量调控</li>
-      <li><strong style="color:#e0e0ff;">平局退款</strong> — 若比赛结果为平局，胜负盘所有下注金额全额退还（不输不赢）</li>
-      <li><strong style="color:#e0e0ff;">开赛时锁定</strong> — 管理员点击「开赛」瞬间，胜负盘赔率锁定；此后赔率不再变动</li>
+      <li><strong>强者低赔、弱者高赔</strong> — 积分越高的选手，预期胜率越高，赔率越低（最低 1.1）；弱势方赔率可高达 2.0</li>
+      <li><strong>10% 手续费</strong> — 从赔付中抽取 10% 作为平台费用（<code>REF_ODDS_FEE_RATE = 0.1</code>）</li>
+      <li><strong>赔率钳制</strong> — 下限 1.1（<code>REF_MIN_WIN_ODDS</code>），上限 2.0（<code>REF_MAX_WIN_ODDS</code>）</li>
+      <li><strong>实时浮动 → 开赛锁定</strong> — 报名/竞猜阶段赔率随积分实时浮动；管理员点击「开赛」瞬间锁定为 <code>lockedRedOdds</code> / <code>lockedBlueOdds</code></li>
     </ul>
-
     <h3 style="font-size:16px;font-weight:600;color:#a5b4fc;margin-bottom:12px;">🎲 其余玩法：固定赔率</h3>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:12px;">
-      元素之王、躺平之王、精准总分、精准分差使用固定赔率，不受选手积分影响：
-    </p>
-
     <table class="rank-table">
-      <thead>
-        <tr>
-          <th>玩法</th>
-          <th>固定赔率</th>
-          <th>猜中收益（下注 100 币为例）</th>
-        </tr>
-      </thead>
+      <thead><tr><th>玩法</th><th>固定赔率</th><th>常量</th><th>下注 100 币收益</th></tr></thead>
       <tbody>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">元素之王</td>
-          <td style="color:#fb923c;">3 倍</td>
-          <td>300 竞猜币</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">躺平之王</td>
-          <td style="color:#fb923c;">3 倍</td>
-          <td>300 竞猜币</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">精准总分</td>
-          <td style="color:#fb923c;">20 倍</td>
-          <td>2,000 竞猜币</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">精准分差</td>
-          <td style="color:#fb923c;">15 倍</td>
-          <td>1,500 竞猜币</td>
-        </tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">元素之王</td><td style="color:#fb923c;">3 倍</td><td style="font-size:11px;color:#6b7280;">ODDS_ELEMENT_KING</td><td>300 竞猜币</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">躺平之王</td><td style="color:#fb923c;">3 倍</td><td style="font-size:11px;color:#6b7280;">ODDS_KNOCKDOWN_KING</td><td>300 竞猜币</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">精准总分</td><td style="color:#fb923c;">20 倍</td><td style="font-size:11px;color:#6b7280;">ODDS_PRECISE_TOTAL</td><td>2,000 竞猜币</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">精准分差</td><td style="color:#fb923c;">15 倍</td><td style="font-size:11px;color:#6b7280;">ODDS_PRECISE_DIFF</td><td>1,500 竞猜币</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- 8. 下注与修改 -->
   <div class="card">
     <h2><span class="icon">💰</span>下注、修改与取消</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      竞猜阶段内（管理员开赛前），观众可以自由调整下注策略：
-    </p>
-
     <div class="flow-strip">
-      <div class="flow-step">
-        <span class="step-label">选择玩法</span>
-      </div>
+      <div class="flow-step"><span class="step-label">选择玩法</span></div>
       <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">输入金额（≥10币）</span>
-      </div>
+      <div class="flow-step"><span class="step-label">输入金额（≥10币）</span></div>
       <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">确认下注</span>
-      </div>
+      <div class="flow-step"><span class="step-label">确认下注</span></div>
       <span class="flow-arrow">⇄</span>
-      <div class="flow-step">
-        <span class="step-label">可修改 / 取消</span>
-      </div>
+      <div class="flow-step"><span class="step-label">可修改 / 取消</span></div>
     </div>
-
     <table class="rank-table" style="margin-top:20px;">
-      <thead>
-        <tr>
-          <th>操作</th>
-          <th>效果</th>
-          <th>竞猜币变化</th>
-        </tr>
-      </thead>
+      <thead><tr><th>操作</th><th>效果</th><th>竞猜币变化</th></tr></thead>
       <tbody>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">首次下注</td>
-          <td>创建该玩法的下注记录</td>
-          <td style="color:#fb923c;">扣除下注额</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">修改下注（增额）</td>
-          <td>更新下注金额和选择；可更换竞猜选项</td>
-          <td style="color:#fb923c;">补扣差额</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">修改下注（减额）</td>
-          <td>更新下注金额和选择；可更换竞猜选项</td>
-          <td style="color:#4ade80;">退还差额</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">取消下注</td>
-          <td>删除该玩法的下注记录</td>
-          <td style="color:#4ade80;">全额退还</td>
-        </tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">首次下注</td><td>创建该玩法的下注记录</td><td style="color:#fb923c;">扣除下注额</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">修改下注（同一类型）</td><td><strong>覆盖</strong>之前的金额和选项，不是叠加</td><td style="color:#fb923c;">多退少补</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">取消下注</td><td>删除该玩法的下注记录</td><td style="color:#4ade80;">全额退还</td></tr>
       </tbody>
     </table>
-
-    <div class="rule-box warning">
-      <p class="rule-title orange">⚠️ 开赛后不可修改</p>
-      <p class="rule-text">
-        管理员点击「开赛」后，所有下注<strong style="color:#c0c0d0;">立即锁定</strong>，无法再修改、取消或新增。请在开赛前确认自己的下注选择。
-      </p>
+    <div class="rule-box info" style="margin-top:12px;">
+      <p class="rule-title">💡 覆盖机制</p>
+      <p class="rule-text">同一类型（如胜负盘）重复下注会<strong>覆盖</strong>之前的金额和选项，不是叠加。取消下注则全额退还。不同类型（如胜负盘 + 精准总分）之间互不影响，可各自持有下注。</p>
+    </div>
+    <div class="rule-box warn">
+      <p class="rule-title">⚠️ 开赛后不可修改</p>
+      <p class="rule-text">管理员点击「开赛」后，所有下注<strong>立即锁定</strong>，无法再修改、取消或新增。</p>
     </div>
   </div>
 
-  <!-- 9. 开赛流局 -->
   <div class="card">
     <h2><span class="icon">⚠️</span>开赛校验与流局处理</h2>
     <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      管理员点击「开赛」瞬间，系统会进行两项校验。若不通过，所有竞猜作废、全额退款：
+      管理员点击「开赛」（<code>adminStartMatch</code>）瞬间，系统进行两项校验。任一不通过则触发流局：
     </p>
-
     <div class="game-card-grid">
       <div class="game-card">
         <div class="game-icon">👤</div>
         <div class="game-name">选手不齐</div>
-        <div class="game-desc">
-          任一方无正式选手时，比赛无法开始。所有已下注的竞猜<strong style="color:#fb923c;">全额退还</strong>，场次退回等待状态。
-        </div>
+        <div class="game-desc">任一方无正式选手（<code>redUserId</code> 或 <code>blueUserId</code> 为空）时，比赛无法开始。所有已下注押注<strong style="color:#fb923c;">作废并全额退还</strong>。</div>
       </div>
       <div class="game-card">
         <div class="game-icon">⚡</div>
         <div class="game-name">实力过于悬殊</div>
-        <div class="game-desc">
-          预期胜率较高一方<strong style="color:#fb923c;">超过 80%</strong>时，判定为实力悬殊。所有竞猜<strong style="color:#fb923c;">全额退还</strong>，保障公平性。
-        </div>
+        <div class="game-desc">任一方预期胜率 <strong style="color:#fb923c;">超过 80%</strong> 时，判定为实力悬殊。所有竞猜<strong style="color:#fb923c;">全额退还</strong>。</div>
       </div>
     </div>
-
-    <div class="rule-box warning">
-      <p class="rule-title orange">⚠️ 流局后果</p>
+    <div class="rule-box warn">
+      <p class="rule-title">⚠️ 流局后果与代码细节</p>
       <p class="rule-text">
-        流局时所有观众的已下注金额<strong style="color:#c0c0d0;">原路退还</strong>，竞猜币余额恢复下注前状态。管理员需重新安排选手或更换玩法后方可再次开赛。
+        满足流局条件时：所有已下注押注<strong>作废并全额退还</strong>，赔率置为 null，<code>betsVoidedAtMatchStart</code> 设为 <strong>true</strong>。竞猜区顶部展示通知：<span style="color:#fb923c;">「开赛时未满足条件（未齐人或实力悬殊），本场押注已作废，竞猜币已全额退还」</span>。
       </p>
     </div>
   </div>
 
-  <!-- 10. 关键规则汇总 -->
+  <div class="card">
+    <h2><span class="icon">💰</span>管理员操作的退款连锁规则</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
+      管理员的以下操作会触发连锁退款，确保观众竞猜币安全：
+    </p>
+    <table class="rank-table">
+      <thead><tr><th>操作</th><th>执行阶段</th><th>退款规则</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;color:#e0e0ff;">返回首页 / 重选玩法</td><td>报名中（betting）或 比赛中（started）</td><td>当场内存在观众押注时，<strong style="color:#fbbf24;">先全额退还所有观众押注</strong>，再收起当前场次</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">剔除选手</td><td>报名中（betting）</td><td>剔除后 <code>guessingOpen</code> 自动重置为 <strong style="color:#fbbf24;">false</strong>，若该场已有押注则<strong style="color:#fbbf24;">全部退还</strong></td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">取消本局竞猜</td><td>报名中（betting）</td><td>全额退还所有观众下注，局数不变，状态不变</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">📅</span>每日签到系统</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      用户可通过每日签到获取竞猜币，作为参与竞猜的初始资金：
+    </p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.15);border-radius:10px;padding:18px;">
+        <p style="font-size:14px;font-weight:600;color:#34d399;margin-bottom:8px;">🪙 签到奖励</p>
+        <p style="font-size:13px;color:#9ca3af;line-height:1.8;">每次签到获得 <strong style="color:#34d399;">+100 竞猜币</strong><br>常量：<code>DAILY_CHECK_IN_COINS = 100</code></p>
+      </div>
+      <div style="background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.15);border-radius:10px;padding:18px;">
+        <p style="font-size:14px;font-weight:600;color:#818cf8;margin-bottom:8px;">⏰ 签到规则</p>
+        <p style="font-size:13px;color:#9ca3af;line-height:1.8;">按 <strong>Asia/Shanghai</strong> 时区自然日限制<br>同一用户每日仅可签到一次<br>接口：<code>POST /api/player/check-in</code></p>
+      </div>
+    </div>
+    <div class="rule-box info" style="margin-top:16px;">
+      <p class="rule-title">💡 初始状态</p>
+      <p class="rule-text">新用户首次登录后竞猜币为 <strong>0</strong>，需通过每日签到获取初始资金。竞猜币不可充值、不可提现、不可转让，仅限当前门店内使用。</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="icon">🏆</span>预言家段位表</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      按累计竞猜派奖（<code>totalBettingWinnings</code>）判定段位，7 个段位逐步晋升：
+    </p>
+    <table class="rank-table">
+      <thead><tr><th>段位</th><th>图标</th><th>累计竞猜派奖阈值</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;color:#e0e0ff;">新手预言家</td><td style="font-size:20px;">🔮</td><td>0+</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">青铜预言家</td><td style="font-size:20px;">🥉</td><td>2,500+</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">白银预言家</td><td style="font-size:20px;">🥈</td><td>5,000+</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">黄金预言家</td><td style="font-size:20px;">🥇</td><td>10,000+</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">钻石预言家</td><td style="font-size:20px;">💎</td><td>20,000+</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">铂金预言家</td><td style="font-size:20px;">👑</td><td>50,000+</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">王者预言家</td><td style="font-size:20px;">🏆</td><td>100,000+</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="card">
     <h2><span class="icon">⚙️</span>关键规则汇总</h2>
     <ul style="font-size:14px;color:#c0c0d0;padding-left:20px;line-height:2.2;">
-      <li><strong style="color:#e0e0ff;">最低下注 10 币</strong> — 每种玩法的单次下注金额不得低于 10 竞猜币</li>
-      <li><strong style="color:#e0e0ff;">每日签到 100 币</strong> — 用户每日可签到领取 100 竞猜币，作为初始资金</li>
-      <li><strong style="color:#e0e0ff;">参赛者禁猜</strong> — 已报名或审核中的选手无法对本场任何玩法下注</li>
-      <li><strong style="color:#e0e0ff;">管理员手动开启竞猜</strong> — 竞猜不是自动开放的，需管理员点击「开启竞猜」按钮</li>
-      <li><strong style="color:#e0e0ff;">实力悬殊拦截</strong> — 开启竞猜时，若双方实力差距过大（预期胜率 > 80%），系统拒绝开启</li>
-      <li><strong style="color:#e0e0ff;">可多玩法同时下注</strong> — 各玩法相互独立，观众可在每个玩法各有下注</li>
-      <li><strong style="color:#e0e0ff;">竞猜阶段内自由修改</strong> — 开赛前可随时修改金额、更换选项或取消下注，差额多退少补</li>
-      <li><strong style="color:#e0e0ff;">开赛锁定赔率</strong> — 管理员开赛瞬间，胜负盘动态赔率锁定，所有下注不可再更改</li>
-      <li><strong style="color:#e0e0ff;">胜负盘平局退款</strong> — 若比赛结果为平局，胜负盘所有下注全额退还</li>
-      <li><strong style="color:#e0e0ff;">系统自动结算</strong> — 比赛结束后系统自动根据比分结算，猜中者获得「下注额 × 赔率」，未猜中者扣除全部下注额</li>
+      <li><strong>最低下注 10 币</strong> — 单次最低 <code>BET_MIN_AMOUNT = 10</code> 竞猜币</li>
+      <li><strong>每日签到 100 币</strong> — 新用户初始 0 币，签到获取初始资金，Asia/Shanghai 自然日限一次</li>
+      <li><strong>参赛者禁猜</strong> — <code>mySide</code> 或 <code>myPendingSide</code> 任一非空即禁止竞猜</li>
+      <li><strong>管理员手动开启竞猜</strong> — 竞猜非自动开放，需管理员点击「开启竞猜」按钮</li>
+      <li><strong>实力悬殊拦截</strong> — 开启竞猜时，若预期胜率 > 80%，系统拒绝；开赛时再检一次，触发流局退款</li>
+      <li><strong>同一类型覆盖</strong> — 重复下注同一玩法会覆盖之前金额和选项，非叠加；不同类型互相独立</li>
+      <li><strong>竞猜阶段内自由修改</strong> — 开赛前可随时修改金额、更换选项或取消下注，差额多退少补</li>
+      <li><strong>开赛锁定赔率</strong> — 管理员开赛瞬间，胜负盘动态赔率锁定为 <code>lockedOdds</code></li>
+      <li><strong>开赛流局退款</strong> — 开赛时未齐人或实力悬殊 → 全额退还所有押注，<code>betsVoidedAtMatchStart = true</code></li>
+      <li><strong>胜负盘平局退款</strong> — 若比赛结果为平局，胜负盘所有下注全额退还</li>
+      <li><strong>系统自动结算</strong> — 比赛结束后系统根据比分自动结算，猜中者获得「下注额 × 赔率」，未猜中者扣除全部</li>
+      <li><strong>预言家段位</strong> — 按累计竞猜派奖（<code>totalBettingWinnings</code>）自动晋升，7 个段位从 🔮 到 🏆</li>
     </ul>
   </div>
 
 </div>
 
 <script>
-function zoomImg(src) {
-  var overlay = document.getElementById('imgOverlay');
-  var img = document.getElementById('overlayImg');
-  img.src = src;
-  overlay.classList.add('active');
-}
-
-document.getElementById('imgOverlay').addEventListener('click', function() {
-  this.classList.remove('active');
-});
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('imgOverlay').classList.remove('active');
-  }
-});
+function zoomImg(src) { var o=document.getElementById('imgOverlay');document.getElementById('overlayImg').src=src;o.classList.add('active'); }
+document.getElementById('imgOverlay').addEventListener('click',function(){this.classList.remove('active');});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('imgOverlay').classList.remove('active');});
 </script>
-
 </body>
 </html>
