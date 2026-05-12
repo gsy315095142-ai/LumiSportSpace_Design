@@ -20,7 +20,6 @@ body {
   padding: 40px 24px 80px;
 }
 
-/* ── 页面标题 ── */
 .page-header {
   text-align: center;
   margin-bottom: 48px;
@@ -39,7 +38,6 @@ body {
   font-size: 15px;
 }
 
-/* ── 卡片 ── */
 .card {
   background: rgba(129,140,248,0.04);
   border: 1px solid rgba(129,140,248,0.10);
@@ -59,7 +57,6 @@ body {
 }
 .card h2 .icon { font-size: 22px; }
 
-/* ── 图文布局 ── */
 .illus-row {
   display: flex;
   gap: 32px;
@@ -68,7 +65,6 @@ body {
 }
 .illus-row:last-child { margin-bottom: 0; }
 
-/* 手机壳 */
 .phone-frame {
   flex-shrink: 0;
   width: 280px;
@@ -108,21 +104,10 @@ body {
   font-weight: 500;
 }
 
-/* 说明区 */
-.desc-area {
-  flex: 1;
-  min-width: 0;
-}
-.desc-area h3 {
-  font-size: 17px;
-  font-weight: 600;
-  color: #e0e0ff;
-  margin-bottom: 14px;
-}
+.desc-area { flex: 1; min-width: 0; }
+.desc-area h3 { font-size: 17px; font-weight: 600; color: #e0e0ff; margin-bottom: 14px; }
 
-.anno-list {
-  list-style: none;
-}
+.anno-list { list-style: none; }
 .anno-list li {
   position: relative;
   padding: 10px 0 10px 24px;
@@ -132,32 +117,20 @@ body {
   transition: background 0.2s;
 }
 .anno-list li:last-child { border-bottom: none; }
-.anno-list li:hover {
-  background: rgba(129,140,248,0.06);
-  border-radius: 6px;
-}
+.anno-list li:hover { background: rgba(129,140,248,0.06); border-radius: 6px; }
 .anno-list li::before {
   content: attr(data-num);
   position: absolute;
-  left: 0;
-  top: 10px;
-  width: 18px;
-  height: 18px;
+  left: 0; top: 10px;
+  width: 18px; height: 18px;
   background: rgba(129,140,248,0.2);
   color: #a5b4fc;
   border-radius: 50%;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
 }
-.anno-list li strong {
-  color: #e0e0ff;
-  font-weight: 600;
-}
+.anno-list li strong { color: #e0e0ff; font-weight: 600; }
 
-/* ── 图片放大遮罩 ── */
 .img-overlay {
   display: none;
   position: fixed;
@@ -171,64 +144,47 @@ body {
   backdrop-filter: blur(8px);
   animation: overlayIn 0.25s ease;
 }
-.img-overlay.active {
-  display: flex;
-}
-@keyframes overlayIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+.img-overlay.active { display: flex; }
+@keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
 .img-overlay img {
-  max-width: 92vw;
-  max-height: 90vh;
-  border-radius: 12px;
+  max-width: 92vw; max-height: 90vh; border-radius: 12px;
   box-shadow: 0 0 60px rgba(129,140,248,0.15);
   animation: imgZoomIn 0.3s ease;
 }
-@keyframes imgZoomIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
+@keyframes imgZoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .img-overlay .zoom-hint {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 1px;
+  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 1px;
 }
 
-/* ── 角色标签 ── */
-.role-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-}
+.role-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
 .role-tag.admin { background: rgba(251,146,60,0.15); color: #fb923c; }
 .role-tag.player { background: rgba(74,222,128,0.15); color: #4ade80; }
 .role-tag.viewer { background: rgba(96,165,250,0.15); color: #60a5fa; }
 
-/* ── 响应式 ── */
+.rule-box { border-radius: 12px; padding: 16px 20px; margin-top: 20px; }
+.rule-box p.rule-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.rule-box p.rule-text { font-size: 13px; color: #9ca3af; line-height: 1.8; }
+.rule-box p.rule-text strong { font-weight: 600; }
+.rule-box.warn { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.15); }
+.rule-box.warn p.rule-title { color: #fb923c; }
+.rule-box.warn p.rule-text strong { color: #c0c0d0; }
+.rule-box.info { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15); }
+.rule-box.info p.rule-title { color: #818cf8; }
+.rule-box.info p.rule-text strong { color: #c0c0d0; }
+.rule-box.pending { background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.15); }
+.rule-box.pending p.rule-title { color: #fbbf24; }
+.rule-box.pending p.rule-text strong { color: #c0c0d0; }
+
 @media (max-width: 700px) {
-  .illus-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  .phone-frame {
-    width: 240px;
-  }
-  .desc-area {
-    width: 100%;
-  }
+  .illus-row { flex-direction: column; align-items: center; }
+  .phone-frame { width: 240px; }
+  .desc-area { width: 100%; }
 }
 </style>
 </head>
 <body>
 
-<!-- 图片放大遮罩 -->
 <div class="img-overlay" id="imgOverlay">
   <img id="overlayImg" src="" alt="zoom">
   <div class="zoom-hint">click anywhere to close</div>
@@ -236,7 +192,6 @@ body {
 
 <div class="container">
 
-  <!-- 页面标题 -->
   <div class="page-header">
     <h1>🏟️ 首页：赛事选择</h1>
     <p class="subtitle">选择门店后进入的赛事主页 — 三种角色、两个 Tab、完整赛事生命周期</p>
@@ -274,33 +229,50 @@ body {
             <strong>场次流程进度条</strong> — 顶部显示 6 步流程：玩法配置 → 等待报名 → 报名中 → 竞猜中 → 比赛中 → 已结算。当前步骤高亮显示，下方提示当前阶段操作指引
           </li>
           <li data-num="2">
-            <strong>场次名称输入框</strong> — 可自定义赛事名称，如「春季友谊赛」
+            <strong>场次名称输入框</strong> — 可自定义赛事名称，如「春季友谊赛」。最多 <strong style="color:#fbbf24;">20 个字符</strong>，可为空（nullable）；开启下一轮时若不填，后端自动命名为「第N局」。（代码中数据库字段为 varchar(200)，前端 20 字符限制待实现）
           </li>
           <li data-num="3">
             <strong>玩法项目切换按钮</strong> — 三个按钮：冰球 / 拳王 / 击剑。点击切换时有二次确认弹窗
           </li>
           <li data-num="4">
-            <strong>冰球大师模式开关</strong> — 仅当玩法选为「冰球」时显示。开启后结算时由 Server 自动上报冰/火/风球出现次数
+            <strong>冰球大师模式开关</strong> — 仅当玩法选为「冰球」时显示。开启后结算时由 Server 自动上报冰/火/风球出现次数。<strong style="color:#fbbf24;">切换到非冰球玩法时开关值保留但隐藏</strong>，切回冰球后恢复显示原设置（isMasterMode 与 gameType 为独立字段）
           </li>
           <li data-num="5">
-            <strong>「确认玩法」按钮</strong> — 填写完玩法配置后点击此按钮，系统创建首局场次并进入「等待报名」阶段。此时 Unity Server 端会自动跳转进入对应玩法的匹配页面，等待选手就位
+            <strong>Server 端玩法切换</strong> — 点击玩法按钮切换时，不仅前端配置变化，Server 端（Unity 大屏）也会同步跳转到对应玩法的匹配界面。<strong style="color:#fbbf24;">⚠️ 待调整</strong>：当前 Server 端的模式切换在匹配页面操作，将改为统一收归到首页（玩法配置阶段）
           </li>
           <li data-num="6">
+            <strong>「确认玩法」按钮</strong> — 填写完玩法配置后点击此按钮，系统创建首局场次并进入「等待报名」阶段。此时 Unity Server 端会自动跳转进入对应玩法的匹配页面，等待选手就位
+          </li>
+          <li data-num="7">
             <strong>确认后界面变化</strong> — 点击「确认玩法」后：配置字段自动锁定为只读；出现顶部 Tab 栏（场次管理 / 竞猜大盘池）；流程操作区出现「重选玩法」和「开始报名」两个按钮
           </li>
         </ul>
       </div>
     </div>
 
-    <div style="background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15);border-radius:12px;padding:16px 20px;margin-top:20px;">
-      <p style="font-size:14px;color:#fb923c;font-weight:600;margin-bottom:8px;">⚠️ 配置锁定规则</p>
-      <p style="font-size:13px;color:#9ca3af;line-height:1.8;">
-        场次名称、玩法项目、冰球大师模式<strong style="color:#c0c0d0;">在点击「确认玩法」后自动锁定</strong>，进入等待报名阶段后不可修改。如需修改，必须通过「重选玩法」退回到玩法配置阶段。进入报名阶段后，「重选玩法」按钮消失，只能通过「重新等待报名」退回。
+    <div class="rule-box warn">
+      <p class="rule-title">⚠️ 配置锁定规则</p>
+      <p class="rule-text">
+        场次名称、玩法项目、冰球大师模式<strong>在点击「确认玩法」后自动锁定</strong>，进入等待报名阶段后不可修改。如需修改，必须通过「重选玩法」退回到玩法配置阶段。进入报名阶段后，「重选玩法」按钮消失，只能通过「重新等待报名」退回。
+      </p>
+    </div>
+
+    <div class="rule-box info">
+      <p class="rule-title">💡 场次名称自动命名规则</p>
+      <p class="rule-text">
+        管理员每次点击「再来一局」进入新一轮时，若<strong>不填写</strong>场次名称，后端会自动命名为「第N局」（N 为当前轮次序号）。例如第 1 局不填则自动命名为「第1局」，第 3 局不填则为「第3局」。管理员可随时在配置阶段手动修改为自定义名称（如「春季友谊赛 · 决赛」），最长 <strong>20 个字符</strong>。
+      </p>
+    </div>
+
+    <div class="rule-box pending">
+      <p class="rule-title">🚧 Server 端模式切换将改为首页</p>
+      <p class="rule-text">
+        当前 Server 端（Unity 大屏）的模式切换操作位于<strong>匹配页面</strong>，将在后续版本中调整为<strong>首页</strong>（玩法配置阶段），使管理员在小程序端确认玩法时，Server 端即同步切换到对应游戏界面，避免两端操作不一致。匹配页面将仅保留匹配/比赛功能。
       </p>
     </div>
   </div>
 
-  <!-- 3. 赛事主页子Tab详解（紧跟管理员场次管理页面） -->
+  <!-- 3. 赛事主页子Tab详解 -->
   <div class="card">
     <h2><span class="icon">📑</span>赛事主页子 Tab 详解</h2>
     <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
