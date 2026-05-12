@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>弹幕：实时互动</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #0f0f1a;
+  color: #e0e0e0;
+  line-height: 1.7;
+}
+.container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
+.page-header { text-align: center; margin-bottom: 48px; }
+.page-header h1 {
+  font-size: 32px; font-weight: 700;
+  background: linear-gradient(135deg, #818cf8, #c084fc);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 8px;
+}
+.page-header .subtitle { color: #9ca3af; font-size: 15px; }
+
+.card {
+  background: rgba(129,140,248,0.04);
+  border: 1px solid rgba(129,140,248,0.10);
+  border-top: 2px solid;
+  border-image: linear-gradient(90deg, #818cf8, #06b6d4) 1;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+}
+.card h2 {
+  font-size: 20px; font-weight: 600; margin-bottom: 20px;
+  display: flex; align-items: center; gap: 10px;
+}
+.card h2 .icon { font-size: 22px; }
+
+.illus-row { display: flex; gap: 32px; align-items: flex-start; margin-bottom: 36px; }
+.illus-row:last-child { margin-bottom: 0; }
+
+.phone-frame {
+  flex-shrink: 0; width: 280px;
+  background: #1e1e35;
+  border-radius: 28px;
+  border: 3px solid #2a2a3e;
+  padding: 12px 10px 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  position: relative;
+}
+.phone-frame::before {
+  content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 60px; height: 5px; background: #2a2a3e; border-radius: 3px;
+}
+.phone-frame img {
+  width: 100%; border-radius: 16px; display: block;
+  cursor: zoom-in; transition: filter 0.2s;
+}
+.phone-frame img:hover { filter: brightness(1.08); }
+.phone-label { text-align: center; margin-top: 10px; font-size: 13px; color: #6b7280; font-weight: 500; }
+
+.desc-area { flex: 1; min-width: 0; }
+.desc-area h3 { font-size: 17px; font-weight: 600; color: #e0e0ff; margin-bottom: 14px; }
+
+.anno-list { list-style: none; }
+.anno-list li {
+  position: relative; padding: 10px 0 10px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 14px; color: #c0c0d0; transition: background 0.2s;
+}
+.anno-list li:last-child { border-bottom: none; }
+.anno-list li:hover { background: rgba(129,140,248,0.06); border-radius: 6px; }
+.anno-list li::before {
+  content: attr(data-num); position: absolute; left: 0; top: 10px;
+  width: 18px; height: 18px;
+  background: rgba(129,140,248,0.2); color: #a5b4fc;
+  border-radius: 50%; font-size: 11px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+}
+.anno-list li strong { color: #e0e0ff; font-weight: 600; }
+
+.img-overlay {
+  display: none; position: fixed; top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.88); z-index: 9999;
+  align-items: center; justify-content: center; cursor: zoom-out;
+  backdrop-filter: blur(8px); animation: overlayIn 0.25s ease;
+}
+.img-overlay.active { display: flex; }
+@keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
+.img-overlay img {
+  max-width: 92vw; max-height: 90vh; border-radius: 12px;
+  box-shadow: 0 0 60px rgba(129,140,248,0.15);
+  animation: imgZoomIn 0.3s ease;
+}
+@keyframes imgZoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.img-overlay .zoom-hint {
+  position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+  font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 1px;
+}
+
+.role-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.role-tag.admin { background: rgba(251,146,60,0.15); color: #fb923c; }
+.role-tag.player { background: rgba(74,222,128,0.15); color: #4ade80; }
+.role-tag.viewer { background: rgba(96,165,250,0.15); color: #60a5fa; }
+.role-tag.all { background: rgba(168,85,247,0.15); color: #c084fc; }
+
+.rule-box { border-radius: 12px; padding: 16px 20px; margin-top: 20px; }
+.rule-box p.rule-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+.rule-box p.rule-text { font-size: 13px; color: #9ca3af; line-height: 1.8; }
+.rule-box p.rule-text strong { font-weight: 600; }
+.rule-box.warn { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.15); }
+.rule-box.warn p.rule-title { color: #fb923c; }
+.rule-box.warn p.rule-text strong { color: #c0c0d0; }
+.rule-box.info { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15); }
+.rule-box.info p.rule-title { color: #818cf8; }
+.rule-box.info p.rule-text strong { color: #c0c0d0; }
+.rule-box.ok { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); }
+.rule-box.ok p.rule-title { color: #34d399; }
+.rule-box.ok p.rule-text strong { color: #c0c0d0; }
+.rule-box.code { background: rgba(0,0,0,0.35); border: 1px solid rgba(96,165,250,0.15); }
+.rule-box.code p.rule-title { color: #60a5fa; }
+.rule-box.code p.rule-text { font-family: 'Menlo', 'Consolas', monospace; font-size: 12px; color: #9ca3af; line-height: 2; }
+.rule-box.code p.rule-text strong { color: #c0c0d0; }
+
+.flow-strip { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin: 16px 0 8px; }
+.flow-step {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 12px 16px; background: rgba(129,140,248,0.08);
+  border: 1px solid rgba(129,140,248,0.15); border-radius: 10px;
+  min-width: 100px; text-align: center;
+}
+.flow-step .step-label { font-size: 13px; font-weight: 600; color: #a5b4fc; }
+.flow-arrow { font-size: 18px; color: #4b5563; padding: 0 6px; }
+
+.api-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+.api-table th {
+  background: rgba(129,140,248,0.1); color: #a5b4fc; font-weight: 600;
+  padding: 10px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.api-table td { padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #c0c0d0; }
+.api-table tr:hover td { background: rgba(129,140,248,0.04); }
+.api-table code {
+  background: rgba(96,165,250,0.1); color: #60a5fa; padding: 2px 6px;
+  border-radius: 4px; font-size: 12px; font-family: 'Menlo','Consolas',monospace;
+}
+
+.danmaku-demo {
+  position: relative;
+  height: 260px;
+  background: linear-gradient(180deg, #0a0e1a 0%, #111827 100%);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+  margin: 20px 0;
+}
+.danmaku-demo .demo-label {
+  position: absolute; bottom: 8px; right: 12px;
+  font-size: 11px; color: rgba(255,255,255,0.2); letter-spacing: 1px;
+}
+.danmaku-bullet {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 14px;
+  color: #ffffff;
+  text-shadow: 0 0 4px #000, 0 0 8px rgba(0,0,0,0.45);
+  animation: dm-float linear forwards;
+  pointer-events: none;
+}
+@keyframes dm-float {
+  0%   { transform: translateX(0); opacity: 0.95; }
+  100% { transform: translateX(calc(-100% - 100vw)); opacity: 0.7; }
+}
+
+.demo-input-bar {
+  display: flex; gap: 8px; margin-top: 12px;
+}
+.demo-input-bar input {
+  flex: 1; height: 40px; padding: 0 14px;
+  font-size: 14px; color: #e8fdff;
+  background: rgba(0,8,20,0.9);
+  border: 1px solid rgba(0,255,255,0.3);
+  border-radius: 8px; outline: none;
+}
+.demo-input-bar input::placeholder { color: #4b5563; }
+.demo-input-bar button {
+  flex-shrink: 0; padding: 0 20px; height: 40px;
+  background: linear-gradient(90deg, #0099cc, #00c8e8);
+  color: #041820; font-weight: 600; font-size: 14px;
+  border: none; border-radius: 8px; cursor: pointer;
+  transition: opacity 0.2s;
+}
+.demo-input-bar button:hover { opacity: 0.9; }
+.demo-input-bar button:disabled { opacity: 0.45; cursor: default; }
+
+.feat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+.feat-card {
+  background: rgba(129,140,248,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; padding: 20px; transition: border-color 0.2s, background 0.2s;
+}
+.feat-card:hover { border-color: rgba(129,140,248,0.3); background: rgba(129,140,248,0.06); }
+.feat-card .feat-icon { font-size: 28px; margin-bottom: 10px; }
+.feat-card .feat-name { font-size: 16px; font-weight: 600; color: #e0e0ff; margin-bottom: 6px; }
+.feat-card .feat-desc { font-size: 13px; color: #9ca3af; line-height: 1.7; }
+
+.db-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+.db-table th {
+  background: rgba(168,85,247,0.08); color: #c084fc; font-weight: 600;
+  padding: 10px 14px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08);
+  font-size: 12px;
+}
+.db-table td { padding: 10px 14px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #c0c0d0; }
+.db-table tr:hover td { background: rgba(129,140,248,0.04); }
+.db-table code {
+  background: rgba(168,85,247,0.1); color: #c084fc; padding: 1px 5px;
+  border-radius: 3px; font-size: 12px; font-family: 'Menlo','Consolas',monospace;
+}
+
+@media (max-width: 700px) {
+  .illus-row { flex-direction: column; align-items: center; }
+  .phone-frame { width: 240px; }
+  .desc-area { width: 100%; }
+  .feat-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="img-overlay" id="imgOverlay">
+  <img id="overlayImg" src="" alt="zoom">
+  <div class="zoom-hint">click anywhere to close</div>
+</div>
+
+<div class="container">
+
+  <!-- 页面标题 -->
+  <div class="page-header">
+    <h1>💬 弹幕：实时互动</h1>
+    <p class="subtitle">所有角色在赛事主页实时发送和查看弹幕消息，为比赛营造氛围、增强参与感</p>
+  </div>
+
+  <!-- 1. 页面定位 -->
+  <div class="card">
+    <h2><span class="icon">📖</span>页面定位</h2>
+    <p style="color:#c0c0d0;font-size:15px;margin-bottom:16px;">
+      「弹幕」是<strong style="color:#e0e0ff;">嵌入在赛事主页（event.vue）</strong>中的实时互动层。所有已登录用户（管理员、选手、观众）在赛事进行过程中均可发送弹幕，消息以<strong style="color:#e0e0ff;">飘屏滑动</strong>的方式在屏幕上方展示，底部固定输入栏供用户发送新弹幕。
+    </p>
+    <p style="color:#9ca3af;font-size:14px;">
+      弹幕组件 <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">SessionDanmakuLayer.vue</code> 以场次（Session）为维度隔离消息，切换场次时自动清空并重新拉取。采用<strong style="color:#e0e0ff;">HTTP 轮询</strong>方式增量获取新消息，无需 WebSocket。
+    </p>
+  </div>
+
+  <!-- 2. 功能概览 -->
+  <div class="card">
+    <h2><span class="icon">✨</span>功能概览</h2>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">🎬</div>
+        <div class="feat-name">飘屏弹幕层</div>
+        <div class="feat-desc">弹幕以半透明白色文字从右向左滑动飘过，模拟经典弹幕效果。3 条泳道轮流分配，互不遮挡。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">⌨️</div>
+        <div class="feat-name">底部输入栏</div>
+        <div class="feat-desc">固定在屏幕底部的输入条，用户可输入文字并发送。支持键盘确认键直接发送（confirm-type="send"）。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔄</div>
+        <div class="feat-name">增量轮询</div>
+        <div class="feat-desc">每 2.8 秒向后端拉取增量消息（afterId），首次进入拉取最近 8 条。无需 WebSocket，实现简单稳定。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🛡️</div>
+        <div class="feat-name">敏感词过滤</div>
+        <div class="feat-desc">服务端校验敏感词，命中时拒绝发送并提示。支持文件词库和环境变量配置，大小写不敏感。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🏷️</div>
+        <div class="feat-name">按场次隔离</div>
+        <div class="feat-desc">每条弹幕绑定 sessionId，切换场次时清空弹幕层并重新拉取。场次被删除时弹幕级联删除。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">👤</div>
+        <div class="feat-name">显示昵称</div>
+        <div class="feat-desc">弹幕以「昵称：内容」格式展示，发送者身份一目了然。昵称取自用户昵称字段。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. 弹幕实时演示 -->
+  <div class="card">
+    <h2><span class="icon">🎮</span>弹幕效果演示</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      以下模拟弹幕飘屏效果，你可以输入文字并点击「发送」体验：
+    </p>
+    <div class="danmaku-demo" id="danmakuDemo">
+      <span class="demo-label">LIVE DEMO</span>
+    </div>
+    <div class="demo-input-bar">
+      <input type="text" id="demoInput" placeholder="输入弹幕内容…" maxlength="80">
+      <button id="demoSendBtn" onclick="sendDemoDanmaku()">发送</button>
+    </div>
+    <div class="rule-box info" style="margin-top:16px;">
+      <p class="rule-title">💡 弹幕飘屏参数</p>
+      <p class="rule-text">
+        每条弹幕分配到 3 条泳道之一（轮询分配），滑动时长 <strong>11~16 秒</strong>（随机），屏幕上最多同时显示 <strong>16 条</strong>弹幕，超出自裁最早的。
+      </p>
+    </div>
+  </div>
+
+  <!-- 4. 交互流程 -->
+  <div class="card">
+    <h2><span class="icon">🔄</span>交互流程</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      弹幕功能从组件挂载到用户发送消息的完整流程：
+    </p>
+    <div class="flow-strip">
+      <div class="flow-step"><span class="step-label">进入赛事主页</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">组件挂载 · 首次拉取</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">开始轮询（2.8s）</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">新消息飘屏展示</span></div>
+    </div>
+    <div class="flow-strip" style="margin-top:8px;">
+      <div class="flow-step"><span class="step-label">用户输入文字</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">点击发送 / 回车</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">POST 发送请求</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">成功后清空输入框</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">立即飘屏展示</span></div>
+    </div>
+  </div>
+
+  <!-- 5. 前端组件详解 -->
+  <div class="card">
+    <h2><span class="icon">📱</span>前端组件详解</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
+      弹幕组件 <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">SessionDanmakuLayer.vue</code> 挂载在赛事主页（event.vue）中，包含两个区域：
+    </p>
+
+    <!-- 飘屏区 -->
+    <div class="illus-row">
+      <div class="desc-area" style="width:100%;">
+        <h3>🎬 飘屏区域（dm-fly-layer）</h3>
+        <ul class="anno-list">
+          <li data-num="1">
+            <strong>两种定位模式</strong> — <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">flyAnchorInline=true</code> 时以 <strong style="color:#a5b4fc;">absolute</strong> 铺满父级赛事模块锚点，仅覆盖 VS/赔率卡区域，不挡底部 Tab；<code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">flyAnchorInline=false</code>（默认）时以 <strong style="color:#a5b4fc;">fixed</strong> 定位在导航栏下方
+          </li>
+          <li data-num="2">
+            <strong>3 泳道轮询分配</strong> — 每条新弹幕按 <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">laneRound % 3</code> 分配到 0/1/2 泳道，垂直间距 40rpx，避免重叠
+          </li>
+          <li data-num="3">
+            <strong>随机滑速</strong> — 每条弹幕的 <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">animationDuration</code> 为 11 + random(5) 秒，即 11~16 秒不等，营造自然错落感
+          </li>
+          <li data-num="4">
+            <strong>自动清理</strong> — 每条弹幕 16 秒后自动从数组中移除；数组上限 16 条，超出时裁剪最早的
+          </li>
+          <li data-num="5">
+            <strong>文字样式</strong> — 白色文字 + 黑色阴影（text-shadow），确保在各种背景上可读；字号 24rpx，不干扰主要赛事信息
+          </li>
+          <li data-num="6">
+            <strong>pointer-events: none</strong> — 飘屏层不拦截触摸事件，不影响下方赛事模块的正常交互
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 输入栏 -->
+    <div class="illus-row">
+      <div class="desc-area" style="width:100%;">
+        <h3>⌨️ 底部输入栏（dm-input-bar）</h3>
+        <ul class="anno-list">
+          <li data-num="1">
+            <strong>fixed 固定底部</strong> — 输入栏始终贴在屏幕底部（z-index: 95），适配安全区（safe-area-inset-bottom）
+          </li>
+          <li data-num="2">
+            <strong>输入框</strong> — <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">maxlength="80"</code>，placeholder 为「发条弹幕…」，confirm-type="send" 支持键盘确认键发送
+          </li>
+          <li data-num="3">
+            <strong>发送按钮</strong> — 发送中（sending=true）或输入为空时禁用；发送成功后自动清空输入框
+          </li>
+          <li data-num="4">
+            <strong>赛博青蓝配色</strong> — 深色半透明背景 + 青色边框 + 渐变发送按钮，与赛事页面整体风格统一
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 轮询机制 -->
+  <div class="card">
+    <h2><span class="icon">🔄</span>轮询机制详解</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      弹幕采用 <strong style="color:#e0e0ff;">HTTP 短轮询</strong>（非 WebSocket），以 <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">afterId</code> 实现增量拉取：
+    </p>
+    <table class="api-table">
+      <thead><tr><th>阶段</th><th>行为</th><th>拉取数量</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">首次进入</td>
+          <td>afterId=0，拉取该场次<strong>最近 N 条</strong>（按 id DESC 取再反转为时间正序）</td>
+          <td><code>limit=50</code>，前端只展示最后 <strong>8 条</strong>（避免刷屏）</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">增量轮询</td>
+          <td>每 <strong>2.8 秒</strong> 请求一次，where id > afterId，按 id ASC</td>
+          <td><code>limit=50</code>，全部展示</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">发送成功</td>
+          <td>POST 成功后立即更新 afterId，自己的弹幕立即飘屏（不等轮询）</td>
+          <td>1 条</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">切换场次</td>
+          <td>重置 afterId=0，清空弹幕数组，重新首次拉取</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">离开页面</td>
+          <td>onUnmounted 停止轮询计时器，释放资源</td>
+          <td>—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="rule-box info">
+      <p class="rule-title">💡 为什么用轮询而不是 WebSocket？</p>
+      <p class="rule-text">
+        弹幕消息频率较低（非高并发直播场景），2.8 秒轮询延迟在可接受范围内。HTTP 轮询的优势：<strong>实现简单、无需维护长连接、兼容性好</strong>（小程序 WebSocket 在后台切回时可能断连需额外处理）。如果未来弹幕量增大，可平滑升级为 WebSocket 方案。
+      </p>
+    </div>
+  </div>
+
+  <!-- 7. 后端接口 -->
+  <div class="card">
+    <h2><span class="icon">🔌</span>后端接口</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      弹幕模块位于后端 <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">modules/danmaku</code>，提供两个 RESTful 接口，均需 JWT 认证：
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
+      <div style="background:rgba(16,185,129,0.04);border:1px solid rgba(16,185,129,0.15);border-radius:10px;padding:18px;">
+        <p style="font-size:14px;font-weight:600;color:#34d399;margin-bottom:8px;">📥 GET /api/danmaku</p>
+        <p style="font-size:13px;color:#9ca3af;line-height:1.8;">
+          按场次增量拉取弹幕<br>
+          参数：<code>sessionId</code>、<code>afterId</code>（默认 0）、<code>limit</code>（默认 50，最大 100）
+        </p>
+      </div>
+      <div style="background:rgba(251,146,60,0.04);border:1px solid rgba(251,146,60,0.15);border-radius:10px;padding:18px;">
+        <p style="font-size:14px;font-weight:600;color:#fb923c;margin-bottom:8px;">📤 POST /api/danmaku</p>
+        <p style="font-size:13px;color:#9ca3af;line-height:1.8;">
+          发送弹幕<br>
+          参数：<code>sessionId</code>（int, ≥1）、<code>content</code>（string, 1~80字）
+        </p>
+      </div>
+    </div>
+
+    <h3 style="font-size:16px;font-weight:600;color:#a5b4fc;margin-bottom:12px;">📤 发送弹幕校验链</h3>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:12px;">
+      后端收到 POST 请求后依次执行以下校验，任一不通过即返回错误：
+    </p>
+    <table class="api-table">
+      <thead><tr><th>步骤</th><th>校验内容</th><th>错误提示</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">① 空内容校验</td>
+          <td><code>content.trim()</code> 为空 → 拒绝</td>
+          <td style="color:#fb923c;">弹幕内容不能为空</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">② 长度校验</td>
+          <td><code>content.length > 80</code> → 拒绝（DTO 层 @MaxLength(80)，服务层二次校验）</td>
+          <td style="color:#fb923c;">弹幕内容过长（最多 80 字）</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">③ 敏感词校验</td>
+          <td>匹配词库中的敏感词（子串匹配，大小写不敏感）→ 拒绝</td>
+          <td style="color:#fb923c;">弹幕内容包含敏感词，请修改后重试</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">④ 场次存在校验</td>
+          <td><code>sessionId</code> 对应的场次不存在 → 拒绝</td>
+          <td style="color:#fb923c;">场次不存在</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">⑤ 用户存在校验</td>
+          <td>JWT 中的 userId 对应的用户不存在 → 拒绝</td>
+          <td style="color:#fb923c;">用户不存在</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:16px;font-weight:600;color:#a5b4fc;margin:24px 0 12px;">📤 响应结构</h3>
+    <div class="rule-box code">
+      <p class="rule-title">DanmakuMessagePayload</p>
+      <p class="rule-text">
+        <strong>id</strong>: number — 弹幕唯一 ID<br>
+        <strong>sessionId</strong>: number — 所属场次 ID<br>
+        <strong>userId</strong>: number — 发送者用户 ID<br>
+        <strong>displayName</strong>: string — 发送者昵称<br>
+        <strong>content</strong>: string — 弹幕正文<br>
+        <strong>createdAt</strong>: string — 发送时间（ISO 8601）
+      </p>
+    </div>
+
+    <div class="rule-box code" style="margin-top:12px;">
+      <p class="rule-title">DanmakuListPayload（GET 响应）</p>
+      <p class="rule-text">
+        <strong>messages</strong>: DanmakuMessagePayload[] — 弹幕列表（时间正序）<br>
+        <strong>maxId</strong>: number — 当前列表中最大 ID，客户端用于下次轮询的 afterId
+      </p>
+    </div>
+  </div>
+
+  <!-- 8. 敏感词过滤 -->
+  <div class="card">
+    <h2><span class="icon">🛡️</span>敏感词过滤系统</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      后端 <code style="background:rgba(96,165,250,0.1);color:#60a5fa;padding:2px 6px;border-radius:4px;font-size:12px;">SensitiveWordFilterService</code> 在服务启动时自动加载敏感词库，对弹幕内容做<strong style="color:#e0e0ff;">子串匹配</strong>：
+    </p>
+
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon">📁</div>
+        <div class="feat-name">文件词库</div>
+        <div class="feat-desc">通过环境变量 <code style="background:rgba(168,85,247,0.1);color:#c084fc;padding:1px 4px;border-radius:3px;font-size:11px;">DANMAKU_SENSITIVE_WORDS_FILE</code> 指定词库文件路径，默认使用 <code style="background:rgba(168,85,247,0.1);color:#c084fc;padding:1px 4px;border-radius:3px;font-size:11px;">config/danmaku-sensitive-words.txt</code>，每行一个词，<code>#</code> 开头为注释行。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔧</div>
+        <div class="feat-name">环境变量词库</div>
+        <div class="feat-desc">通过 <code style="background:rgba(168,85,247,0.1);color:#c084fc;padding:1px 4px;border-radius:3px;font-size:11px;">DANMAKU_SENSITIVE_WORDS</code> 逗号分隔传入敏感词，与文件词库合并去重。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🔍</div>
+        <div class="feat-name">子串匹配 + 大小写不敏感</div>
+        <div class="feat-desc">对弹幕正文做<strong>子串包含</strong>检查（非全文精确匹配）。ASCII 字母忽略大小写，中文精确匹配。词库按长度降序排列，优先匹配长词减少误报。</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon">🚫</div>
+        <div class="feat-name">命中即拒绝</div>
+        <div class="feat-desc">命中敏感词时返回 HTTP 400，提示「弹幕内容包含敏感词，请修改后重试」，弹幕不会被存入数据库。</div>
+      </div>
+    </div>
+
+    <div class="rule-box warn" style="margin-top:20px;">
+      <p class="rule-title">⚠️ 词库为空时不拦截</p>
+      <p class="rule-text">
+        如果既未配置文件词库也未配置环境变量词库，服务启动时打印警告：<strong>「弹幕敏感词库为空，将不拦截任何词」</strong>。此行为是为了方便本地开发调试，<strong style="color:#fb923c;">生产环境务必配置词库</strong>。可通过将 <code style="background:rgba(168,85,247,0.1);color:#c084fc;padding:1px 4px;border-radius:3px;font-size:11px;">DANMAKU_SENSITIVE_WORDS_FILE</code> 显式设为空字符串来禁用文件词库。
+      </p>
+    </div>
+  </div>
+
+  <!-- 9. 数据库设计 -->
+  <div class="card">
+    <h2><span class="icon">🗄️</span>数据库设计</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      弹幕存储在 <code style="background:rgba(168,85,247,0.1);color:#c084fc;padding:1px 4px;border-radius:3px;font-size:12px;">session_danmaku</code> 表中，以场次为维度索引，级联跟随场次和用户删除：
+    </p>
+    <table class="db-table">
+      <thead><tr><th>字段</th><th>类型</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><code>id</code></td><td>INT, AUTO_INCREMENT, PK</td><td>弹幕唯一 ID，用于增量拉取的游标</td></tr>
+        <tr><td><code>session_id</code></td><td>INT, NOT NULL, FK</td><td>关联 game_sessions.id，<strong style="color:#fb923c;">ON DELETE CASCADE</strong>（场次删除时弹幕级联删除）</td></tr>
+        <tr><td><code>user_id</code></td><td>INT, NOT NULL, FK</td><td>关联 users.id，<strong style="color:#fb923c;">ON DELETE CASCADE</strong>（用户删除时弹幕级联删除）</td></tr>
+        <tr><td><code>content</code></td><td>VARCHAR(120), NOT NULL</td><td>弹幕正文（前端限制 80 字，数据库预留 120 字符余量）</td></tr>
+        <tr><td><code>created_at</code></td><td>DATETIME(6), AUTO</td><td>创建时间，精度到微秒</td></tr>
+      </tbody>
+    </table>
+    <h3 style="font-size:14px;font-weight:600;color:#c084fc;margin:20px 0 8px;">索引</h3>
+    <table class="db-table">
+      <thead><tr><th>索引名</th><th>字段</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>IDX_session_danmaku_session_id</code></td><td>session_id</td><td>按场次查询弹幕</td></tr>
+        <tr><td><code>IDX_session_danmaku_session_created</code></td><td>session_id, created_at</td><td>按场次 + 时间排序查询</td></tr>
+      </tbody>
+    </table>
+    <div class="rule-box info" style="margin-top:12px;">
+      <p class="rule-title">💡 数据库 VARCHAR(120) vs 前后端 80 字限制</p>
+      <p class="rule-text">
+        数据库字段为 <code>varchar(120)</code>，DTO 层 <code>@MaxLength(80)</code> 限制输入，Service 层二次校验 <code>content.length > 80</code>。数据库多预留 40 字符是为了未来可能的长度调整，无需立即执行 DDL 变更。
+      </p>
+    </div>
+  </div>
+
+  <!-- 10. 角色权限 -->
+  <div class="card">
+    <h2><span class="icon">👥</span>角色与权限</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      弹幕功能的角色权限非常简单——<strong style="color:#e0e0ff;">所有已登录用户均可发送和查看弹幕</strong>，不区分管理员/选手/观众：
+    </p>
+    <table class="api-table">
+      <thead><tr><th>角色</th><th>查看弹幕</th><th>发送弹幕</th><th>管理弹幕</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="role-tag admin">管理员</span></td>
+          <td style="color:#4ade80;">✓ 可查看</td>
+          <td style="color:#4ade80;">✓ 可发送</td>
+          <td style="color:#9ca3af;">✗ 无独立管理（无删除/屏蔽接口）</td>
+        </tr>
+        <tr>
+          <td><span class="role-tag player">选手</span></td>
+          <td style="color:#4ade80;">✓ 可查看</td>
+          <td style="color:#4ade80;">✓ 可发送</td>
+          <td style="color:#9ca3af;">—</td>
+        </tr>
+        <tr>
+          <td><span class="role-tag viewer">观众</span></td>
+          <td style="color:#4ade80;">✓ 可查看</td>
+          <td style="color:#4ade80;">✓ 可发送</td>
+          <td style="color:#9ca3af;">—</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="rule-box info" style="margin-top:12px;">
+      <p class="rule-title">💡 为什么所有角色都能发弹幕？</p>
+      <p class="rule-text">
+        弹幕是轻量级的<strong>氛围互动工具</strong>，而非核心业务操作（如竞猜下注）。允许所有人参与能最大化现场气氛，与"赛事无门槛互动"的产品定位一致。后端仅校验 JWT 有效性（<code>@UseGuards(JwtAuthGuard)</code>），不检查角色字段。
+      </p>
+    </div>
+  </div>
+
+  <!-- 11. 弹幕生命周期 -->
+  <div class="card">
+    <h2><span class="icon">⏱️</span>弹幕生命周期</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      一条弹幕从前端发送到消失的完整生命周期：
+    </p>
+    <div class="flow-strip">
+      <div class="flow-step"><span class="step-label">用户输入并发送</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">前端校验（非空）</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">POST /api/danmaku</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">后端校验链</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">写入数据库</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">返回 payload</span></div>
+    </div>
+    <div class="flow-strip" style="margin-top:8px;">
+      <div class="flow-step"><span class="step-label">前端收到成功响应</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">pushFlying() 飘屏</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">分配泳道 + 随机时长</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">CSS 动画滑动</span></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">16s 后自动移除</span></div>
+    </div>
+    <div class="rule-box ok" style="margin-top:20px;">
+      <p class="rule-title">✅ 发送成功后立即展示</p>
+      <p class="rule-text">
+        用户发送的弹幕在 POST 成功后<strong>立即调用 pushFlying()</strong> 飘屏展示，无需等待下一轮轮询（2.8s）。这样用户体验是"发出去立刻看到"，而其他用户会在最近一次轮询中看到。
+      </p>
+    </div>
+  </div>
+
+  <!-- 12. 前端参数速查 -->
+  <div class="card">
+    <h2><span class="icon">⚙️</span>关键参数速查</h2>
+    <table class="api-table">
+      <thead><tr><th>参数</th><th>值</th><th>位置</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">弹幕最大长度</td>
+          <td style="color:#fb923c;">80 字</td>
+          <td>DTO / 前端</td>
+          <td>前端 maxlength=80，后端 @MaxLength(80)，数据库 varchar(120)</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">轮询间隔</td>
+          <td style="color:#fb923c;">2.8 秒</td>
+          <td>前端 SessionDanmakuLayer.vue</td>
+          <td>setInterval 2800ms</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">单次拉取上限</td>
+          <td style="color:#fb923c;">50 条</td>
+          <td>前端 + 后端</td>
+          <td>limit=50，后端最大允许 100</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">首次展示条数</td>
+          <td style="color:#fb923c;">最多 8 条</td>
+          <td>前端</td>
+          <td>首次拉取超过 8 条只展示最后 8 条，避免历史消息刷屏</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">泳道数量</td>
+          <td style="color:#fb923c;">3 条</td>
+          <td>前端</td>
+          <td>laneRound % 3，垂直间距 40rpx</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">滑动时长</td>
+          <td style="color:#fb923c;">11~16 秒</td>
+          <td>前端</td>
+          <td>11 + Math.random() * 5，随机错落</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">屏幕最大条数</td>
+          <td style="color:#fb923c;">16 条</td>
+          <td>前端</td>
+          <td>flying 数组超过 16 时裁剪最早的</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">自动清理时间</td>
+          <td style="color:#fb923c;">16 秒</td>
+          <td>前端</td>
+          <td>setTimeout 16s 后从 flying 数组移除</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">敏感词提示</td>
+          <td style="color:#fb923c;">弹幕内容包含敏感词，请修改后重试</td>
+          <td>后端</td>
+          <td>DANMAKU_SENSITIVE_REJECT_MESSAGE 常量</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">默认词库路径</td>
+          <td style="color:#fb923c;">config/danmaku-sensitive-words.txt</td>
+          <td>后端</td>
+          <td>相对项目根目录，每行一词，# 开头为注释</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 13. 代码结构 -->
+  <div class="card">
+    <h2><span class="icon">📁</span>代码结构一览</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      弹幕功能涉及的前后端文件：
+    </p>
+
+    <h3 style="font-size:15px;font-weight:600;color:#34d399;margin-bottom:10px;">📂 后端（NestJS）</h3>
+    <table class="api-table" style="margin-bottom:24px;">
+      <thead><tr><th>文件</th><th>职责</th></tr></thead>
+      <tbody>
+        <tr><td><code>modules/danmaku/danmaku.controller.ts</code></td><td>路由：GET 拉取 + POST 发送</td></tr>
+        <tr><td><code>modules/danmaku/danmaku.service.ts</code></td><td>业务逻辑：发送（校验+存储）、拉取（增量查询）</td></tr>
+        <tr><td><code>modules/danmaku/danmaku.types.ts</code></td><td>TypeScript 类型定义（DanmakuMessagePayload、DanmakuListPayload）</td></tr>
+        <tr><td><code>modules/danmaku/dto/create-danmaku.dto.ts</code></td><td>发送弹幕入参校验（sessionId + content）</td></tr>
+        <tr><td><code>modules/danmaku/dto/list-danmaku.dto.ts</code></td><td>拉取弹幕入参校验（sessionId + afterId + limit）</td></tr>
+        <tr><td><code>modules/danmaku/entities/session-danmaku.entity.ts</code></td><td>TypeORM 实体：session_danmaku 表映射</td></tr>
+        <tr><td><code>modules/danmaku/sensitive-word-filter.service.ts</code></td><td>敏感词过滤服务：加载词库 + 子串匹配</td></tr>
+        <tr><td><code>migrations/1721000000000-SessionDanmaku.ts</code></td><td>数据库迁移：创建 session_danmaku 表 + 索引 + 外键</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:15px;font-weight:600;color:#60a5fa;margin-bottom:10px;">📂 前端（uni-app Vue3）</h3>
+    <table class="api-table">
+      <thead><tr><th>文件</th><th>职责</th></tr></thead>
+      <tbody>
+        <tr><td><code>api/danmaku.ts</code></td><td>API 封装：getDanmakuApi（GET）+ postDanmakuApi（POST）</td></tr>
+        <tr><td><code>pages/player/components/danmaku/SessionDanmakuLayer.vue</code></td><td>弹幕组件：飘屏层 + 输入栏 + 轮询逻辑</td></tr>
+        <tr><td><code>pages/player/event.vue</code></td><td>赛事主页：引用 SessionDanmakuLayer 组件，传入 sessionId</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 14. 待开发/优化 -->
+  <div class="card">
+    <h2><span class="icon">🚧</span>待开发 / 可优化方向</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
+      当前弹幕功能为基础版本（MVP），以下为后续可考虑的优化方向：
+    </p>
+    <table class="api-table">
+      <thead><tr><th>方向</th><th>说明</th><th>优先级</th></tr></thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">管理员弹幕管理</td>
+          <td>增加管理员删除/屏蔽弹幕的接口和界面，当前无管理能力</td>
+          <td style="color:#fb923c;">高</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">发送频率限制</td>
+          <td>当前无发送频率限制，理论上可刷屏。可增加每用户每 N 秒限 1 条</td>
+          <td style="color:#fb923c;">高</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">升级 WebSocket</td>
+          <td>若弹幕量增大，可从 HTTP 轮询升级为 WebSocket 实时推送</td>
+          <td style="color:#fbbf24;">中</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">弹幕颜色 / 特效</td>
+          <td>VIP 用户彩色弹幕、打赏弹幕等增值功能</td>
+          <td style="color:#9ca3af;">低</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:#e0e0ff;">历史弹幕回放</td>
+          <td>查看已完成场次的弹幕记录</td>
+          <td style="color:#9ca3af;">低</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+/* ── 弹幕演示 ── */
+const demoBox = document.getElementById('danmakuDemo');
+const demoInput = document.getElementById('demoInput');
+const demoSendBtn = document.getElementById('demoSendBtn');
+let demoLane = 0;
+const DEMO_COLORS = ['#ffffff','#a5b4fc','#34d399','#fb923c','#f87171','#fbbf24','#c084fc'];
+
+// 预置弹幕
+const presetDanmaku = [
+  '红方加油！💪', '蓝方必胜！🔥', '这场感觉会很激烈',
+  '竞猜押了红方 100 币', '好紧张啊', '裁判是我同学',
+  '我赌蓝方翻盘', '上一局打得好精彩', '大师模式太好看了',
+  '比分咬得好紧', '有没有人一起猜精准总分', '开局就上强度了',
+];
+
+function spawnDanmaku(text, isUser) {
+  const el = document.createElement('div');
+  el.className = 'danmaku-bullet';
+  el.textContent = text;
+  const lane = demoLane % 3;
+  demoLane++;
+  const topOffset = 20 + lane * 36;
+  const duration = 11 + Math.random() * 5;
+  el.style.top = topOffset + 'px';
+  el.style.left = '100%';
+  el.style.animationDuration = duration + 's';
+  if (isUser) {
+    el.style.color = '#00e8ff';
+    el.style.fontWeight = '600';
+    el.style.textShadow = '0 0 6px rgba(0,232,255,0.6), 0 0 12px rgba(0,0,0,0.5)';
+  } else {
+    el.style.color = DEMO_COLORS[Math.floor(Math.random() * DEMO_COLORS.length)];
+  }
+  demoBox.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
+}
+
+// 自动弹幕
+let autoIdx = 0;
+setInterval(() => {
+  spawnDanmaku(presetDanmaku[autoIdx % presetDanmaku.length], false);
+  autoIdx++;
+}, 2200 + Math.random() * 1800);
+
+// 初始几条
+setTimeout(() => spawnDanmaku('欢迎来到弹幕演示区 🎉', false), 300);
+setTimeout(() => spawnDanmaku('试试在下方输入弹幕发送吧', false), 1500);
+
+function sendDemoDanmaku() {
+  const text = demoInput.value.trim();
+  if (!text) return;
+  spawnDanmaku(text, true);
+  demoInput.value = '';
+}
+
+demoInput.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') sendDemoDanmaku();
+});
+
+/* ── 图片放大 ── */
+function zoomImg(src) {
+  var o = document.getElementById('imgOverlay');
+  document.getElementById('overlayImg').src = src;
+  o.classList.add('active');
+}
+document.getElementById('imgOverlay').addEventListener('click', function(){ this.classList.remove('active'); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') document.getElementById('imgOverlay').classList.remove('active'); });
+</script>
+
+</body>
+</html>
