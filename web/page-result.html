@@ -6,789 +6,273 @@
 <title>结束：胜负结算</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: #0f0f1a;
-  color: #e0e0e0;
-  line-height: 1.7;
-}
-
-.container {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 40px 24px 80px;
-}
-
-/* ── 页面标题 ── */
-.page-header {
-  text-align: center;
-  margin-bottom: 48px;
-}
-.page-header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #818cf8, #c084fc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 8px;
-}
-.page-header .subtitle {
-  color: #9ca3af;
-  font-size: 15px;
-}
-
-/* ── 卡片 ── */
-.card {
-  background: rgba(129,140,248,0.04);
-  border: 1px solid rgba(129,140,248,0.10);
-  border-top: 2px solid;
-  border-image: linear-gradient(90deg, #818cf8, #06b6d4) 1;
-  border-radius: 16px;
-  padding: 32px;
-  margin-bottom: 32px;
-}
-.card h2 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.card h2 .icon { font-size: 22px; }
-
-/* ── 图文布局 ── */
-.illus-row {
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  margin-bottom: 36px;
-}
-.illus-row:last-child { margin-bottom: 0; }
-
-/* 手机壳 */
-.phone-frame {
-  flex-shrink: 0;
-  width: 280px;
-  background: #1e1e35;
-  border-radius: 28px;
-  border: 3px solid #2a2a3e;
-  padding: 12px 10px 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  position: relative;
-}
-.phone-frame::before {
-  content: '';
-  position: absolute;
-  top: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 5px;
-  background: #2a2a3e;
-  border-radius: 3px;
-}
-.phone-frame img {
-  width: 100%;
-  border-radius: 16px;
-  display: block;
-  cursor: zoom-in;
-  transition: filter 0.2s;
-}
-.phone-frame img:hover {
-  filter: brightness(1.08);
-}
-.phone-label {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 500;
-}
-
-/* 说明区 */
-.desc-area {
-  flex: 1;
-  min-width: 0;
-}
-.desc-area h3 {
-  font-size: 17px;
-  font-weight: 600;
-  color: #e0e0ff;
-  margin-bottom: 14px;
-}
-
-.anno-list {
-  list-style: none;
-}
-.anno-list li {
-  position: relative;
-  padding: 10px 0 10px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 14px;
-  color: #c0c0d0;
-  transition: background 0.2s;
-}
-.anno-list li:last-child { border-bottom: none; }
-.anno-list li:hover {
-  background: rgba(129,140,248,0.06);
-  border-radius: 6px;
-}
-.anno-list li::before {
-  content: attr(data-num);
-  position: absolute;
-  left: 0;
-  top: 10px;
-  width: 18px;
-  height: 18px;
-  background: rgba(129,140,248,0.2);
-  color: #a5b4fc;
-  border-radius: 50%;
-  font-size: 11px;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.anno-list li strong {
-  color: #e0e0ff;
-  font-weight: 600;
-}
-
-/* ── 图片放大遮罩 ── */
-.img-overlay {
-  display: none;
-  position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.88);
-  z-index: 9999;
-  align-items: center;
-  justify-content: center;
-  cursor: zoom-out;
-  backdrop-filter: blur(8px);
-  animation: overlayIn 0.25s ease;
-}
-.img-overlay.active {
-  display: flex;
-}
-@keyframes overlayIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-.img-overlay img {
-  max-width: 92vw;
-  max-height: 90vh;
-  border-radius: 12px;
-  box-shadow: 0 0 60px rgba(129,140,248,0.15);
-  animation: imgZoomIn 0.3s ease;
-}
-@keyframes imgZoomIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-.img-overlay .zoom-hint {
-  position: absolute;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 12px;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 1px;
-}
-
-/* ── 状态流转图 ── */
-.flow-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  flex-wrap: wrap;
-  margin: 16px 0 8px;
-}
-.flow-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 16px;
-  background: rgba(129,140,248,0.08);
-  border: 1px solid rgba(129,140,248,0.15);
-  border-radius: 10px;
-  min-width: 100px;
-  text-align: center;
-}
-.flow-step .step-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #a5b4fc;
-}
-.flow-step .step-detail {
-  font-size: 11px;
-  color: #6b7280;
-}
-.flow-arrow {
-  font-size: 18px;
-  color: #4b5563;
-  padding: 0 6px;
-}
-
-/* ── 角色标签 ── */
-.role-tag {
-  display: inline-block;
-  padding: 2px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-}
-.role-tag.admin { background: rgba(251,146,60,0.15); color: #fb923c; }
-.role-tag.player { background: rgba(74,222,128,0.15); color: #4ade80; }
-.role-tag.viewer { background: rgba(96,165,250,0.15); color: #60a5fa; }
-
-/* ── 角色对比表 ── */
-.role-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 16px;
-  font-size: 14px;
-}
-.role-table th {
-  background: rgba(129,140,248,0.1);
-  color: #a5b4fc;
-  font-weight: 600;
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.role-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: #c0c0d0;
-}
-.role-table tr:hover td {
-  background: rgba(129,140,248,0.04);
-}
-
-/* ── 规则提示框 ── */
-.rule-box {
-  background: rgba(129,140,248,0.06);
-  border: 1px solid rgba(129,140,248,0.15);
-  border-radius: 12px;
-  padding: 16px 20px;
-  margin-top: 20px;
-}
-.rule-box.warning {
-  background: rgba(251,146,60,0.06);
-  border-color: rgba(251,146,60,0.15);
-}
-.rule-box.success {
-  background: rgba(74,222,128,0.06);
-  border-color: rgba(74,222,128,0.15);
-}
-.rule-box p.rule-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-.rule-box p.rule-title.blue { color: #a5b4fc; }
-.rule-box p.rule-title.orange { color: #fb923c; }
-.rule-box p.rule-title.green { color: #4ade80; }
-.rule-box p.rule-text {
-  font-size: 13px;
-  color: #9ca3af;
-  line-height: 1.8;
-}
-
-/* ── 结算规则卡片网格 ── */
-.rule-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-  margin-top: 16px;
-}
-.rule-card {
-  background: rgba(129,140,248,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 20px;
-  transition: border-color 0.2s, background 0.2s;
-}
-.rule-card:hover {
-  border-color: rgba(129,140,248,0.3);
-  background: rgba(129,140,248,0.05);
-}
-.rule-card .rule-icon {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-.rule-card .rule-name {
-  font-size: 15px;
-  font-weight: 600;
-  color: #e0e0ff;
-  margin-bottom: 8px;
-}
-.rule-card .rule-desc {
-  font-size: 13px;
-  color: #9ca3af;
-  line-height: 1.7;
-}
-
-/* ── 只读数据行 ── */
-.readonly-data-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin-top: 16px;
-}
-.readonly-data-item {
-  background: rgba(129,140,248,0.06);
-  border: 1px solid rgba(129,140,248,0.12);
-  border-radius: 10px;
-  padding: 14px 16px;
-  text-align: center;
-}
-.readonly-data-item .data-label {
-  font-size: 12px;
-  color: #9ca3af;
-  margin-bottom: 6px;
-}
-.readonly-data-item .data-value {
-  font-size: 22px;
-  font-weight: 700;
-  color: #e0e0ff;
-}
-
-/* ── 响应式 ── */
-@media (max-width: 700px) {
-  .illus-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  .phone-frame {
-    width: 240px;
-  }
-  .desc-area {
-    width: 100%;
-  }
-  .flow-strip {
-    flex-direction: column;
-  }
-  .flow-arrow {
-    transform: rotate(90deg);
-  }
-  .rule-card-grid {
-    grid-template-columns: 1fr;
-  }
-  .readonly-data-grid {
-    grid-template-columns: 1fr;
-  }
-}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#0f0f1a;color:#e0e0e0;line-height:1.7}
+.container{max-width:960px;margin:0 auto;padding:40px 24px 80px}
+.page-header{text-align:center;margin-bottom:48px}
+.page-header h1{font-size:32px;font-weight:700;background:linear-gradient(135deg,#818cf8,#c084fc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px}
+.page-header .subtitle{color:#9ca3af;font-size:15px}
+.card{background:rgba(129,140,248,0.04);border:1px solid rgba(129,140,248,0.10);border-top:2px solid;border-image:linear-gradient(90deg,#818cf8,#06b6d4)1;border-radius:16px;padding:32px;margin-bottom:32px}
+.card h2{font-size:20px;font-weight:600;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.card h2 .icon{font-size:22px}
+.illus-row{display:flex;gap:32px;align-items:flex-start;margin-bottom:36px}
+.phone-frame{flex-shrink:0;width:280px;background:#1e1e35;border-radius:28px;border:3px solid #2a2a3e;padding:12px 10px 16px;box-shadow:0 8px 32px rgba(0,0,0,0.4);position:relative}
+.phone-frame::before{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:60px;height:5px;background:#2a2a3e;border-radius:3px}
+.phone-frame img{width:100%;border-radius:16px;display:block;cursor:zoom-in;transition:filter 0.2s}
+.phone-frame img:hover{filter:brightness(1.08)}
+.phone-label{text-align:center;margin-top:10px;font-size:13px;color:#6b7280;font-weight:500}
+.desc-area{flex:1;min-width:0}
+.desc-area h3{font-size:17px;font-weight:600;color:#e0e0ff;margin-bottom:14px}
+.anno-list{list-style:none}
+.anno-list li{position:relative;padding:10px 0 10px 24px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:14px;color:#c0c0d0;transition:background 0.2s}
+.anno-list li:last-child{border-bottom:none}
+.anno-list li:hover{background:rgba(129,140,248,0.06);border-radius:6px}
+.anno-list li::before{content:attr(data-num);position:absolute;left:0;top:10px;width:18px;height:18px;background:rgba(129,140,248,0.2);color:#a5b4fc;border-radius:50%;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.anno-list li strong{color:#e0e0ff;font-weight:600}
+.img-overlay{display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.88);z-index:9999;align-items:center;justify-content:center;cursor:zoom-out;backdrop-filter:blur(8px);animation:overlayIn 0.25s ease}
+.img-overlay.active{display:flex}
+@keyframes overlayIn{from{opacity:0}to{opacity:1}}
+.img-overlay img{max-width:92vw;max-height:90vh;border-radius:12px;box-shadow:0 0 60px rgba(129,140,248,0.15);animation:imgZoomIn 0.3s ease}
+@keyframes imgZoomIn{from{transform:scale(0.85);opacity:0}to{transform:scale(1);opacity:1}}
+.img-overlay .zoom-hint{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:1px}
+.flow-strip{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;margin:16px 0 8px}
+.flow-step{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 16px;background:rgba(129,140,248,0.08);border:1px solid rgba(129,140,248,0.15);border-radius:10px;min-width:100px;text-align:center}
+.flow-step .step-label{font-size:13px;font-weight:600;color:#a5b4fc}
+.flow-arrow{font-size:18px;color:#4b5563;padding:0 6px}
+.role-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:12px;font-weight:600}
+.role-tag.admin{background:rgba(251,146,60,0.15);color:#fb923c}
+.role-tag.player{background:rgba(74,222,128,0.15);color:#4ade80}
+.role-tag.viewer{background:rgba(96,165,250,0.15);color:#60a5fa}
+.role-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
+.role-table th{background:rgba(129,140,248,0.1);color:#a5b4fc;font-weight:600;padding:10px 16px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.08)}
+.role-table td{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:#c0c0d0}
+.role-table tr:hover td{background:rgba(129,140,248,0.04)}
+.rule-box{border-radius:12px;padding:16px 20px;margin-top:20px}
+.rule-box p.rule-title{font-size:14px;font-weight:600;margin-bottom:8px}
+.rule-box p.rule-text{font-size:13px;color:#9ca3af;line-height:1.8}
+.rule-box p.rule-text strong{font-weight:600}
+.rule-box.info{background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.15)}
+.rule-box.info p.rule-title{color:#818cf8}
+.rule-box.warn{background:rgba(251,146,60,0.06);border:1px solid rgba(251,146,60,0.15)}
+.rule-box.warn p.rule-title{color:#fb923c}
+.rule-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:16px}
+.rule-card{background:rgba(129,140,248,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px;transition:border-color 0.2s,background 0.2s}
+.rule-card:hover{border-color:rgba(129,140,248,0.3);background:rgba(129,140,248,0.05)}
+.rule-card .rule-icon{font-size:24px;margin-bottom:10px}
+.rule-card .rule-name{font-size:15px;font-weight:600;color:#e0e0ff;margin-bottom:8px}
+.rule-card .rule-desc{font-size:13px;color:#9ca3af;line-height:1.7}
+.fml-block{background:rgba(0,0,0,0.5);border:1px solid rgba(251,191,36,0.25);border-radius:12px;padding:20px 28px;margin:16px 0;font-family:'Courier New',monospace;font-size:15px;line-height:2.2;text-align:center}
+.fml-block .cr{color:#60a5fa}
+.fml-block .cb{color:#f87171}
+.fml-block .co{color:#fb923c}
+.fml-block .cg{color:#34d399}
+.fml-block .cm{color:#6b7280;font-size:12px}
+.sim-table-wrap{overflow-x:auto}
+.sim-table{width:100%;border-collapse:collapse;font-size:12px;font-family:'Courier New',monospace;margin-top:8px}
+.sim-table th{background:rgba(16,185,129,0.08);color:#34d399;font-weight:600;padding:6px 10px;text-align:right;border-bottom:1px solid rgba(16,185,129,0.15);white-space:nowrap}
+.sim-table th:first-child{text-align:center}
+.sim-table td{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,0.04);color:#c0c0d0;text-align:right;white-space:nowrap}
+.sim-table td:first-child{text-align:center;color:#6b7280}
+.sim-table .win-red{color:#60a5fa}
+.sim-table .win-blue{color:#f87171}
+@media(max-width:700px){.illus-row{flex-direction:column;align-items:center}.phone-frame{width:240px}.desc-area{width:100%}.rule-card-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- 图片放大遮罩 -->
-<div class="img-overlay" id="imgOverlay">
-  <img id="overlayImg" src="" alt="zoom">
-  <div class="zoom-hint">click anywhere to close</div>
-</div>
+<div class="img-overlay" id="imgOverlay"><img id="overlayImg" src="" alt="zoom"><div class="zoom-hint">click anywhere to close</div></div>
 
 <div class="container">
 
-  <!-- 页面标题 -->
   <div class="page-header">
     <h1>🏆 结束：胜负结算</h1>
     <p class="subtitle">Server 推送结算数据 → 系统自动赔付竞猜 → 选手成绩归档 → 开启下一轮</p>
   </div>
 
-  <!-- 1. 页面定位 -->
   <div class="card">
     <h2><span class="icon">📖</span>页面定位</h2>
-    <p style="color:#c0c0d0;font-size:15px;margin-bottom:16px;">
-      「胜负结算」是赛事进入<strong style="color:#e0e0ff;">已结算（settled）</strong>状态后的收尾环节。比赛结束后，Server 端自动将比分及附加数据（冰球元素统计 / 拳击倒地次数等）写入场次，小程序端同步展示结算结果，系统自动对竞猜玩法进行赔付——猜中者返还「下注额 × 赔率」、未猜中者扣除下注额、胜负盘平局则原路退款。
-    </p>
-    <p style="color:#9ca3af;font-size:14px;">
-      结算完成后，选手成绩归档到积分榜，管理员可选择<strong style="color:#e0e0ff;">开启下一轮</strong>进入新的竞技循环，或<strong style="color:#e0e0ff;">重选玩法</strong>更换游戏类型。
-    </p>
+    <p style="color:#c0c0d0;font-size:15px;">「胜负结算」是赛事进入<strong style="color:#e0e0ff;">已结算（settled）</strong>状态后的收尾环节。比赛结束后，Server 端自动将比分及附加数据写入场次，系统自动对竞猜玩法进行赔付。结算完成后，选手成绩归档到积分榜，管理员可选择「再来一局」或「返回首页」。</p>
   </div>
 
-  <!-- 2. 结算流程概览 -->
   <div class="card">
     <h2><span class="icon">🔄</span>结算流程概览</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      从比赛结束到结算完成，经历以下环节：
-    </p>
-
     <div class="flow-strip">
-      <div class="flow-step">
-        <span class="step-label">比赛结束</span>
-        <span class="step-detail">VR 对战完成</span>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">Server 推送数据</span>
-        <span class="step-detail">比分 + 附加数据写入场次</span>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">系统自动结算</span>
-        <span class="step-detail">逐项赔付竞猜</span>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">成绩归档</span>
-        <span class="step-detail">积分榜更新</span>
-      </div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step">
-        <span class="step-label">开启下一轮</span>
-        <span class="step-detail">或重选玩法</span>
-      </div>
-    </div>
-
-    <div class="rule-box">
-      <p class="rule-title blue">💡 结算是自动的</p>
-      <p class="rule-text">
-        比赛结束后，Server 端自动将结算数据推送至场次记录并触发竞猜赔付。<strong style="color:#e0e0ff;">管理员无需手动录入比分或提交结算</strong>，小程序端仅展示由服务端写入的数据供查看。
-      </p>
+      <div class="flow-step"><span class="step-label">比赛结束</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">Server 推送数据</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">系统自动结算</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">成绩归档</span></div><span class="flow-arrow">→</span>
+      <div class="flow-step"><span class="step-label">再来一局 / 返回首页</span></div>
     </div>
   </div>
 
-  <!-- 3. 管理员结算页面 -->
+  <div class="card">
+    <h2><span class="icon">📊</span>各玩法结算必填字段</h2>
+    <table class="role-table">
+      <thead><tr><th>游戏</th><th>必填字段</th><th>来源</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;color:#e0e0ff;">通用（全部游戏）</td><td><code>redScore</code>（红方得分）、<code>blueScore</code>（蓝方得分）</td><td>Server 端</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">🏒 冰球（大师模式）</td><td>上述通用字段 + 冰球次数、火球次数、风球次数</td><td>Server 端</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">🥊 拳王</td><td>上述通用字段 + <code>totalKnockdowns</code>（总倒地次数）</td><td>Server 端</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">🤺 击剑</td><td>仅需通用字段（<code>redScore</code> / <code>blueScore</code>）</td><td>Server 端</td></tr>
+      </tbody>
+    </table>
+  </div>
+
   <div class="card">
     <h2><span class="icon">🛡️</span>管理员：结算数据查看</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      场次进入已结算状态后，管理员页面展示由 Server 端写入的结算数据（只读），以及后续操作按钮：
-    </p>
-
     <div class="illus-row">
-      <div>
-        <div class="phone-frame">
-          <img src="result-admin.png" alt="管理员结算页面" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
-        </div>
-        <div class="phone-label">🛡️ 管理员 · 结算页面</div>
-      </div>
-      <div class="desc-area">
-        <h3><span class="role-tag admin">管理员</span> 结算阶段</h3>
+      <div><div class="phone-frame"><img src="result-admin.png" alt="管理员结算页面" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';"></div><div class="phone-label">🛡️ 管理员 · 结算页面</div></div>
+      <div class="desc-area"><h3><span class="role-tag admin">管理员</span> 结算阶段</h3>
         <ul class="anno-list">
-          <li data-num="1">
-            <strong>流程进度条</strong> — 6 步流程，当前停在第 6 步「已结算」
-          </li>
-          <li data-num="2">
-            <strong>场次信息卡</strong> — 展示本场玩法、模式、场次名等配置信息（只读）
-          </li>
-          <li data-num="3">
-            <strong>选手名单卡</strong> — 展示红蓝双方选手昵称（只读）
-          </li>
-          <li data-num="4">
-            <strong>本场结算数据区块</strong> — 由服务端写入并同步，小程序仅供查看：比分（redScore : blueScore）、附加数据（冰球大师模式显示冰/火/风球数及元素之王结果、拳击显示倒地总和）
-          </li>
-          <li data-num="5">
-            <strong>「开启下一轮」按钮</strong> — 点击后场次状态重置，进入新一轮的报名 → 竞猜 → 比赛 → 结算循环
-          </li>
-          <li data-num="6">
-            <strong>「重选玩法」按钮</strong> — 点击后退回玩法配置阶段，可更换游戏类型和模式
-          </li>
+          <li data-num="1"><strong>流程进度条</strong> — 6 步流程，停在第 6 步「已结算」</li>
+          <li data-num="2"><strong>场次信息卡</strong> — 展示玩法、模式、场次名（只读）</li>
+          <li data-num="3"><strong>选手名单卡</strong> — 红蓝双方昵称（只读）</li>
+          <li data-num="4"><strong>结算数据区块</strong> — 服务端写入：比分 + 附加数据</li>
+          <li data-num="5"><strong>「再来一局」</strong>（<code>adminNextRound</code>）— 继承玩法，round+1，新建 waiting</li>
+          <li data-num="6"><strong>「返回首页」</strong>（<code>adminReturnToHome</code>）— excluded_from_latest=true</li>
         </ul>
       </div>
     </div>
-
-    <div class="rule-box">
-      <p class="rule-title blue">💡 数据来源说明</p>
-      <p class="rule-text">
-        结算数据区块中明确标注<strong style="color:#e0e0ff;">"以下由服务端写入并同步，小程序仅供查看"</strong>。管理员无法在小程序端编辑或修改任何结算数据。
-      </p>
-    </div>
   </div>
 
-  <!-- 4. 选手对阵结果页面 -->
   <div class="card">
     <h2><span class="icon">🤺</span>选手：对阵结果页面</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      结算完成后，选手在小程序端查看本场的胜负结果，展示双方比分与胜负判定：
-    </p>
-
     <div class="illus-row">
-      <div>
-        <div class="phone-frame">
-          <img src="result-player.png" alt="选手对阵结果页面" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
-        </div>
-        <div class="phone-label">🤺 选手 · 对阵结果</div>
-      </div>
-      <div class="desc-area">
-        <h3><span class="role-tag player">选手</span> 结算后</h3>
+      <div><div class="phone-frame"><img src="result-player.png" alt="选手对阵结果" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';"></div><div class="phone-label">🤺 选手 · 对阵结果</div></div>
+      <div class="desc-area"><h3><span class="role-tag player">选手</span> 结算后</h3>
         <ul class="anno-list">
-          <li data-num="1">
-            <strong>比赛名称与状态</strong> — 顶部展示本场比赛名称（matchName），状态标签显示「已结算」
-          </li>
-          <li data-num="2">
-            <strong>对阵 VS 展示</strong> — 红蓝双方选手昵称 + 最终得分（蓝方得分 : 红方得分），阵营色区分
-          </li>
-          <li data-num="3">
-            <strong>胜负结果判定</strong> — 根据比分显示「胜利」「失败」或「平局」标签；正面对比表展示双方的最终成绩
-          </li>
-          <li data-num="4">
-            <strong>积分变动提示</strong> — 胜负结算后，选手的 Rating 积分会根据比赛结果更新（Elo 算法），在界面中展示积分变化
-          </li>
-          <li data-num="5">
-            <strong>本场游戏附加数据</strong> — 如有（冰球元素统计 / 拳击倒地次数等），一并展示供选手回顾
-          </li>
+          <li data-num="1"><strong>比赛名称与状态</strong> — matchName，标签「已结算」</li>
+          <li data-num="2"><strong>对阵 VS</strong> — 双方昵称 + 最终得分</li>
+          <li data-num="3"><strong>胜负判定</strong> — 「胜利」「失败」或「平局」</li>
+          <li data-num="4"><strong>积分变动</strong> — 按公式更新，三种玩法独立</li>
+          <li data-num="5"><strong>附加数据</strong> — 冰球元素 / 拳击倒地次数等</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- 5. 观众竞猜结果页面 -->
   <div class="card">
     <h2><span class="icon">👥</span>观众：竞猜结算结果页面</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      结算完成后，观众在「我的竞猜」中查看各项玩法的结算结果，赢得的竞猜币自动到账：
-    </p>
-
     <div class="illus-row">
-      <div>
-        <div class="phone-frame">
-          <img src="result-viewer.png" alt="观众竞猜结果页面" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
-        </div>
-        <div class="phone-label">👥 观众 · 竞猜结算</div>
-      </div>
-      <div class="desc-area">
-        <h3><span class="role-tag viewer">观众</span> 结算后</h3>
+      <div><div class="phone-frame"><img src="result-viewer.png" alt="观众竞猜结算" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';"></div><div class="phone-label">👥 观众 · 竞猜结算</div></div>
+      <div class="desc-area"><h3><span class="role-tag viewer">观众</span> 结算后</h3>
         <ul class="anno-list">
-          <li data-num="1">
-            <strong>结算结果总览</strong> — 比赛名称 + 最终比分一览，下方逐项展示各竞猜玩法的结算状态
-          </li>
-          <li data-num="2">
-            <strong>各项下注结算明细</strong> — 每项竞猜显示：下注选项（红方胜 / 蓝方胜 / 比分值 / 分差值等）、下注金额、开赛时锁定的赔率、结算结果（💰 猜中 / ✗ 未中 / ↩ 退款）
-          </li>
-          <li data-num="3">
-            <strong>猜中赔付</strong> — 猜中的玩法显示绿色标识，赔付金额 = 下注额 × 锁定赔率；竞猜币余额自动增加
-          </li>
-          <li data-num="4">
-            <strong>未猜中扣除</strong> — 未猜中的玩法显示红色标识，下注金额已扣除，返还 0
-          </li>
-          <li data-num="5">
-            <strong>平局退款（仅胜负盘）</strong> — 若比赛结果为平局，胜负盘所有下注标记为「退款」，金额原路退还
-          </li>
-          <li data-num="6">
-            <strong>竞猜币余额与段位更新</strong> — 顶部资产信息条展示结算后最新余额；累计盈利（totalBettingWinnings）自动更新并影响「预言家」段位
-          </li>
+          <li data-num="1"><strong>结算总览</strong> — 比赛名称 + 比分，逐项结算状态</li>
+          <li data-num="2"><strong>下注明细</strong> — 选项、金额、锁定赔率、结果</li>
+          <li data-num="3"><strong>猜中赔付</strong> — 赔付额 = 下注额 × 锁定赔率</li>
+          <li data-num="4"><strong>未猜中扣除</strong> — 下注金额已扣</li>
+          <li data-num="5"><strong>平局退款</strong> — 仅胜负盘，原路退还</li>
+          <li data-num="6"><strong>段位更新</strong> — totalBettingWinnings 更新</li>
         </ul>
       </div>
     </div>
   </div>
 
-  <!-- 6. 五种竞猜玩法结算规则 -->
+  <!-- ═══ 积分结算规则 ═══ -->
+  <div class="card">
+    <h2><span class="icon">📈</span>积分结算规则</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">选手的竞技积分按以下规则独立结算，三种玩法各自维护。源码见 <code>player-rating.service.ts</code> → <code>applyReferenceRatingSettlement</code>。</p>
+    <table class="role-table">
+      <thead><tr><th>参数</th><th>值</th><th>常量</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;color:#e0e0ff;">默认积分</td><td style="color:#4ade80;">100</td><td style="color:#6b7280;font-size:11px;">REF_DEFAULT_RATING</td><td>新选手初始积分</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">最低积分</td><td style="color:#fbbf24;">1</td><td style="color:#6b7280;font-size:11px;">REF_MIN_RATING</td><td>积分下限</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">变动倍率</td><td style="color:#60a5fa;">20</td><td style="color:#6b7280;font-size:11px;">REF_SCORE_RATE</td><td>决定单场变动幅度</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">独立玩法</td><td colspan="2"><code>hockey</code> / <code>boxing</code> / <code>fencing</code> 各一个 rating</td><td>不同玩法互不影响</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:16px;font-weight:600;color:#a5b4fc;margin-top:24px;margin-bottom:4px;">🧮 积分结算公式</h3>
+
+    <div class="fml-block">
+      <p class="cm">/* 已知量 */</p>
+      <p><span class="cr">R<sub>红</sub></span> = 红方赛前积分 &nbsp;|&nbsp; <span class="cb">R<sub>蓝</sub></span> = 蓝方赛前积分</p>
+      <p><strong>S</strong> = <span class="cr">R<sub>红</sub></span> + <span class="cb">R<sub>蓝</sub></span> &nbsp;&nbsp;<span class="cm">// 双方积分之和</span></p>
+      <p style="margin-top:16px;" class="cm">/* 步骤一：算双方变化量 Δ — 由对方积分占比决定 */</p>
+      <p><strong class="cr">Δ<sub>红</sub></strong> = <span class="co">20</span> × <span class="cb">R<sub>蓝</sub></span> / <strong>S</strong></p>
+      <p><strong class="cb">Δ<sub>蓝</sub></strong> = <span class="co">20</span> × <span class="cr">R<sub>红</sub></span> / <strong>S</strong></p>
+      <p style="margin-top:16px;" class="cm">/* 步骤二：应用到赛前积分 — 胜方加、败方减 */</p>
+      <p><strong>红方胜</strong> → <span class="cr">R<sub>红</sub></span> <span class="cg">+= Δ<sub>红</sub></span> , <span class="cb">R<sub>蓝</sub></span> <span style="color:#f87171;">−= Δ<sub>蓝</sub></span></p>
+      <p><strong>蓝方胜</strong> → <span class="cr">R<sub>红</sub></span> <span style="color:#f87171;">−= Δ<sub>红</sub></span> , <span class="cb">R<sub>蓝</sub></span> <span class="cg">+= Δ<sub>蓝</sub></span></p>
+      <p style="margin-top:16px;"><strong>平局 → 双方积分不变</strong></p>
+    </div>
+
+    <div class="rule-box info">
+      <p class="rule-title">💡 公式直觉</p>
+      <p class="rule-text"><strong>强者胜弱 → 加分少</strong>（败方积分低 → Δ 小）。<strong>弱者胜强 → 加分多</strong>（败方积分高 → Δ 大）。双方积分越接近，单场变动越大（最大接近 10）。</p>
+    </div>
+    <div class="rule-box warn">
+      <p class="rule-title">⚠️ 非零和：总积分通胀</p>
+      <p class="rule-text">Δ<sub>红</sub> + Δ<sub>蓝</sub> = 20 恒定，但胜方加对方占比 Δ、败方减对方占比 Δ——不对称叠加导致长期总积分膨胀。以下模拟直观感受。</p>
+    </div>
+  </div>
+
+  <!-- ═══ 附录 ═══ -->
+  <div class="card">
+    <h2><span class="icon">📎</span>附录：公式行为模拟 — 红 5 连胜后 5 连败</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:6px;">初始 R<sub>红</sub>=<strong>100</strong>，R<sub>蓝</sub>=<strong>100</strong>。先红连胜 5 局再蓝连胜 5 局，Δ 每局按最新积分重算。</p>
+    <div class="sim-table-wrap"><table class="sim-table">
+      <thead><tr><th>局</th><th>胜方</th><th>R<sub>红</sub> 赛前</th><th>R<sub>蓝</sub> 赛前</th><th>S</th><th>Δ<sub>红</sub></th><th>Δ<sub>蓝</sub></th><th>R<sub>红</sub> 赛后</th><th>R<sub>蓝</sub> 赛后</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="win-red">红</td><td>100.00</td><td>100.00</td><td>200.00</td><td>10.00</td><td>10.00</td><td>110.00</td><td>90.00</td></tr>
+        <tr><td>2</td><td class="win-red">红</td><td>110.00</td><td>90.00</td><td>200.00</td><td>9.00</td><td>11.00</td><td>119.00</td><td>79.00</td></tr>
+        <tr><td>3</td><td class="win-red">红</td><td>119.00</td><td>79.00</td><td>198.00</td><td>7.98</td><td>12.02</td><td>126.98</td><td>66.98</td></tr>
+        <tr><td>4</td><td class="win-red">红</td><td>126.98</td><td>66.98</td><td>193.96</td><td>6.91</td><td>13.09</td><td>133.89</td><td>53.89</td></tr>
+        <tr><td>5</td><td class="win-red">红</td><td>133.89</td><td>53.89</td><td>187.78</td><td>5.74</td><td>14.26</td><td>139.63</td><td>39.63</td></tr>
+        <tr><td>6</td><td class="win-blue">蓝</td><td>139.63</td><td>39.63</td><td>179.26</td><td>4.42</td><td>15.58</td><td>135.21</td><td>55.21</td></tr>
+        <tr><td>7</td><td class="win-blue">蓝</td><td>135.21</td><td>55.21</td><td>190.42</td><td>5.80</td><td>14.20</td><td>129.41</td><td>69.41</td></tr>
+        <tr><td>8</td><td class="win-blue">蓝</td><td>129.41</td><td>69.41</td><td>198.82</td><td>6.98</td><td>13.02</td><td>122.43</td><td>82.43</td></tr>
+        <tr><td>9</td><td class="win-blue">蓝</td><td>122.43</td><td>82.43</td><td>204.86</td><td>8.04</td><td>11.96</td><td>114.39</td><td>94.39</td></tr>
+        <tr><td>10</td><td class="win-blue">蓝</td><td>114.39</td><td>94.39</td><td>208.78</td><td>9.04</td><td>10.96</td><td>105.35</td><td>105.35</td></tr>
+      </tbody>
+    </table></div>
+    <p style="color:#9ca3af;font-size:13px;margin-top:14px;line-height:1.8;">10 局后<strong>约 105.35</strong>（非 100）。胜负各 5 局不回原点——非零和通胀。<strong>连胜阶段</strong>红强蓝弱，红赢得少；<strong>翻盘阶段</strong>蓝弱胜强，蓝赚得多。净效果：<strong>输家追分比赢家掉分更快</strong>，缩小强弱差，利于竞技生态。</p>
+  </div>
+
   <div class="card">
     <h2><span class="icon">📊</span>竞猜玩法 · 结算对照</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
-      结算时，系统根据 Server 推送的比赛数据逐项判定每种玩法的结果。以下是各玩法的结算依据与赔付逻辑：
-    </p>
-
     <div class="rule-card-grid">
-      <div class="rule-card">
-        <div class="rule-icon">⚔️</div>
-        <div class="rule-name">胜负盘</div>
-        <div class="rule-desc">
-          <strong style="color:#e0e0ff;">结算依据：</strong>红方得分 vs 蓝方得分<br>
-          <strong style="color:#4ade80;">猜中：</strong>下注额 × 锁定赔率<br>
-          <strong style="color:#f87171;">未中：</strong>扣除全部下注额<br>
-          <strong style="color:#fbbf24;">平局：</strong>退还全部下注额<br>
-          <span style="color:#6b7280;">赔率在开赛时已锁定，以锁定值为准</span>
-        </div>
-      </div>
-
-      <div class="rule-card">
-        <div class="rule-icon">🔥</div>
-        <div class="rule-name">元素之王</div>
-        <div class="rule-desc">
-          <strong style="color:#e0e0ff;">结算依据：</strong>冰/火/风球统计中数量最多的元素<br>
-          <strong style="color:#4ade80;">猜中：</strong>下注额 × 3 倍<br>
-          <strong style="color:#f87171;">未中：</strong>扣除全部下注额<br>
-          <span style="color:#6b7280;">仅疾速冰球大师模式有此玩法</span>
-        </div>
-      </div>
-
-      <div class="rule-card">
-        <div class="rule-icon">🥊</div>
-        <div class="rule-name">躺平之王</div>
-        <div class="rule-desc">
-          <strong style="color:#e0e0ff;">结算依据：</strong>totalKnockdowns（总倒地次数）<br>
-          <strong style="color:#4ade80;">猜中：</strong>下注额 × 3 倍<br>
-          <strong style="color:#f87171;">未中：</strong>扣除全部下注额<br>
-          <span style="color:#6b7280;">仅烈焰拳王有此玩法；需精确匹配倒地次数</span>
-        </div>
-      </div>
-
-      <div class="rule-card">
-        <div class="rule-icon">🎯</div>
-        <div class="rule-name">精准总分</div>
-        <div class="rule-desc">
-          <strong style="color:#e0e0ff;">结算依据：</strong>红方得分 + 蓝方得分 = 精确总分<br>
-          <strong style="color:#4ade80;">猜中：</strong>下注额 × 20 倍<br>
-          <strong style="color:#f87171;">未中：</strong>扣除全部下注额<br>
-          <span style="color:#6b7280;">所有游戏适用</span>
-        </div>
-      </div>
-
-      <div class="rule-card">
-        <div class="rule-icon">📏</div>
-        <div class="rule-name">精准分差</div>
-        <div class="rule-desc">
-          <strong style="color:#e0e0ff;">结算依据：</strong>|红方得分 − 蓝方得分| = 精确分差<br>
-          <strong style="color:#4ade80;">猜中：</strong>下注额 × 15 倍<br>
-          <strong style="color:#f87171;">未中：</strong>扣除全部下注额<br>
-          <span style="color:#6b7280;">所有游戏适用</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="rule-box">
-      <p class="rule-title blue">💡 结算顺序</p>
-      <p class="rule-text">
-        系统按<strong style="color:#e0e0ff;">胜负盘 → 元素之王 → 躺平之王 → 精准总分 → 精准分差</strong>的顺序依次结算，每种玩法独立计算、互不影响。观众可能在部分玩法猜中、部分玩法未中，竞猜币余额为各项结算结果的代数和。
-      </p>
+      <div class="rule-card"><div class="rule-icon">⚔️</div><div class="rule-name">胜负盘</div><div class="rule-desc"><strong>依据：</strong>红 vs 蓝得分<br><strong style="color:#4ade80;">猜中：</strong>下注额 × 锁定赔率<br><strong style="color:#fbbf24;">平局：</strong>全额退款</div></div>
+      <div class="rule-card"><div class="rule-icon">🔥</div><div class="rule-name">元素之王</div><div class="rule-desc"><strong>依据：</strong>冰/火/风球最多者<br><strong>并列：</strong>ice > fire > wind<br><strong style="color:#4ade80;">猜中：</strong>下注额 × 3 倍</div></div>
+      <div class="rule-card"><div class="rule-icon">🥊</div><div class="rule-name">躺平之王</div><div class="rule-desc"><strong>依据：</strong>totalKnockdowns<br><strong style="color:#4ade80;">猜中：</strong>下注额 × 3 倍</div></div>
+      <div class="rule-card"><div class="rule-icon">🎯</div><div class="rule-name">精准总分</div><div class="rule-desc"><strong>依据：</strong>红方得分 + 蓝方得分<br><strong style="color:#4ade80;">猜中：</strong>下注额 × 20 倍</div></div>
+      <div class="rule-card"><div class="rule-icon">📏</div><div class="rule-name">精准分差</div><div class="rule-desc"><strong>依据：</strong>|红 − 蓝|<br><strong style="color:#4ade80;">猜中：</strong>下注额 × 15 倍</div></div>
     </div>
   </div>
 
-  <!-- 7. 三角色操作对比 -->
   <div class="card">
     <h2><span class="icon">📊</span>结算阶段三角色操作对比</h2>
-
     <table class="role-table">
-      <thead>
-        <tr>
-          <th>操作</th>
-          <th><span class="role-tag admin">管理员</span></th>
-          <th><span class="role-tag player">选手</span></th>
-          <th><span class="role-tag viewer">观众</span></th>
-        </tr>
-      </thead>
+      <thead><tr><th>操作</th><th><span class="role-tag admin">管理员</span></th><th><span class="role-tag player">选手</span></th><th><span class="role-tag viewer">观众</span></th></tr></thead>
       <tbody>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">查看比分与结果</td>
-          <td>✅ 结算数据区块（只读）</td>
-          <td>✅ 对阵结果页面</td>
-          <td>✅ 竞猜结算页面</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">竞猜赔付结果查看</td>
-          <td>✅ 大盘池统计</td>
-          <td>—</td>
-          <td>✅ 个人竞猜明细</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">竞猜币余额变动</td>
-          <td>—</td>
-          <td>—</td>
-          <td>✅ 猜中到账 / 未中扣除</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">积分（Rating）更新</td>
-          <td>✅ 查看积分榜</td>
-          <td>✅ 自身积分变化</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">预言家段位更新</td>
-          <td>—</td>
-          <td>—</td>
-          <td>✅ 累计盈利触发升段</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">开启下一轮</td>
-          <td>✅ 唯一有权操作</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">重选玩法</td>
-          <td>✅ 退回玩法配置阶段</td>
-          <td>—</td>
-          <td>—</td>
-        </tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">查看比分与结果</td><td>✅ 结算数据（只读）</td><td>✅ 对阵结果</td><td>✅ 竞猜结算</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">竞猜赔付查看</td><td>✅ 大盘池</td><td>—</td><td>✅ 个人明细</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">积分更新</td><td>✅ 积分榜</td><td>✅ 自身变化</td><td>—</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">再来一局</td><td>✅ round+1</td><td>—</td><td>—</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">返回首页</td><td>✅ 收起场次</td><td>—</td><td>—</td></tr>
       </tbody>
     </table>
   </div>
 
-  <!-- 8. 成绩归档与积分榜 -->
   <div class="card">
     <h2><span class="icon">📈</span>成绩归档与积分榜更新</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      结算完成后，系统自动将本场结果写入选手的竞技档案，更新积分榜排名：
-    </p>
-
     <table class="role-table">
-      <thead>
-        <tr>
-          <th>归档项</th>
-          <th>说明</th>
-          <th>影响</th>
-        </tr>
-      </thead>
+      <thead><tr><th>归档项</th><th>说明</th><th>影响</th></tr></thead>
       <tbody>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">胜负场次</td>
-          <td>胜方 +1 胜场，负方 +1 负场；平局双方各 +1 平局</td>
-          <td>胜率（winRate）更新</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">Rating 积分</td>
-          <td>根据 Elo 算法调整：胜方加分、负方减分；变动幅度取决于双方赛前积分差距</td>
-          <td>积分榜排名变化</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">历史对局记录</td>
-          <td>双方对阵记录写入数据库（包含比分、游戏类型、附加数据）</td>
-          <td>个人战绩页可查历史</td>
-        </tr>
-        <tr>
-          <td style="font-weight:600;color:#e0e0ff;">竞猜盈利累计</td>
-          <td>观众的 totalBettingWinnings 更新（猜中盈利 − 未中损失）</td>
-          <td>预言家段位变化</td>
-        </tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">胜负场次</td><td>胜方 +1 胜场，负方 +1 负场；平局各 +1</td><td>胜率更新</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">Rating 积分</td><td>按公式更新，三种玩法独立</td><td>积分榜排名</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">历史对局</td><td>写入数据库（含积分快照）</td><td>战绩可查</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">竞猜盈利</td><td>totalBettingWinnings 更新</td><td>段位变化</td></tr>
       </tbody>
     </table>
-  </div>
-
-  <!-- 9. 关键规则汇总 -->
-  <div class="card">
-    <h2><span class="icon">⚙️</span>关键规则汇总</h2>
-    <ul style="font-size:14px;color:#c0c0d0;padding-left:20px;line-height:2.2;">
-      <li><strong style="color:#e0e0ff;">结算由 Server 自动触发</strong> — 比赛结束后 Server 端自动推送结算数据并完成赔付，无需管理员手动操作</li>
-      <li><strong style="color:#e0e0ff;">结算数据只读</strong> — 管理员页面展示的比分和附加数据由服务端写入，小程序端不可编辑</li>
-      <li><strong style="color:#e0e0ff;">赔率以开赛锁定值为准</strong> — 结算时使用的赔率是开赛瞬间锁定的值，而非结算时的实时赔率</li>
-      <li><strong style="color:#e0e0ff;">各玩法独立结算</strong> — 每种玩法按各自的结算依据独立判定，互不影响；盈亏合并计入竞猜币余额</li>
-      <li><strong style="color:#e0e0ff;">猜中赔付即时到账</strong> — 猜中者的竞猜币在结算后即时增加，无需手动领取</li>
-      <li><strong style="color:#e0e0ff;">胜负盘平局全额退款</strong> — 仅胜负盘有此特例；其余玩法不设平局退款</li>
-      <li><strong style="color:#e0e0ff;">积分归档到积分榜</strong> — 结算后选手的 Rating、胜率等竞技数据同步更新，影响后续比赛的赔率计算</li>
-      <li><strong style="color:#e0e0ff;">开启下一轮重新循环</strong> — 管理员点击「开启下一轮」后，场次状态重置，进入新一轮的报名 → 竞猜 → 比赛 → 结算循环</li>
-      <li><strong style="color:#e0e0ff;">重选玩法可更换游戏</strong> — 管理员点击「重选玩法」后退回玩法配置阶段，可更换游戏类型和模式</li>
-    </ul>
   </div>
 
 </div>
 
 <script>
-function zoomImg(src) {
-  var overlay = document.getElementById('imgOverlay');
-  var img = document.getElementById('overlayImg');
-  img.src = src;
-  overlay.classList.add('active');
-}
-
-document.getElementById('imgOverlay').addEventListener('click', function() {
-  this.classList.remove('active');
-});
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    document.getElementById('imgOverlay').classList.remove('active');
-  }
-});
+function zoomImg(src){var o=document.getElementById('imgOverlay');document.getElementById('overlayImg').src=src;o.classList.add('active')}
+document.getElementById('imgOverlay').addEventListener('click',function(){this.classList.remove('active')});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')document.getElementById('imgOverlay').classList.remove('active')});
 </script>
-
 </body>
 </html>
