@@ -179,6 +179,34 @@ body { font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sa
   .desc-area { width:100%; }
 }
 
+
+/* === 过往竞猜模拟 === */
+.hist-sim { display:flex; flex-direction:column; gap:6px; padding:10px 12px; }
+.hist-head { display:flex; justify-content:space-between; align-items:center; }
+.hist-time { font-size:11px; color:rgba(160,200,220,0.65); }
+.hist-net { font-size:13px; font-weight:700; color:#e8fdff; }
+.hist-net.hist-pos { color:#73d13d; }
+.hist-match { font-size:11px; color:rgba(220,245,255,0.9); }
+.hist-score { font-size:11px; color:#e8fdff; }
+.hist-sum { font-size:10px; color:rgba(160,200,220,0.55); }
+.hist-details { margin-top:4px; padding-top:6px; border-top:1px solid rgba(0,255,255,0.12); display:flex; flex-direction:column; gap:3px; }
+.hist-detail { display:flex; flex-wrap:wrap; gap:4px; align-items:center; font-size:10px; padding:3px 6px; border-radius:4px; }
+.hist-detail.hit { color:#95de64; background:rgba(20,60,30,0.55); border:1px solid rgba(82,196,26,0.35); }
+.hist-detail.miss { color:#ff9c9c; background:rgba(60,20,25,0.5); border:1px solid rgba(255,77,79,0.35); }
+.hist-detail.draw { color:#ffc069; background:rgba(50,40,10,0.55); border:1px solid rgba(250,173,20,0.35); }
+.hd-type { font-weight:600; }
+
+
+/* === 竞猜币流水模拟 === */
+.coin-sim { display:flex; flex-direction:column; gap:4px; padding:8px 12px; }
+.coin-row1 { display:flex; justify-content:space-between; align-items:center; }
+.coin-time { font-size:11px; color:rgba(160,200,220,0.65); }
+.coin-amt { font-size:14px; font-weight:700; }
+.coin-amt.coin-gain { color:#73d13d; }
+.coin-amt.coin-spend { color:#ff7875; }
+.coin-reason { font-size:12px; color:rgba(220,245,255,0.92); line-height:1.4; }
+.coin-bal { font-size:10px; color:rgba(160,200,220,0.55); }
+
 </style>
 </head>
 <body>
@@ -476,50 +504,160 @@ body { font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sa
   <!-- ==================== 7. 过往竞猜 ==================== -->
   <div class="card">
     <h2><span class="icon">📜</span>过往竞猜 · betting-history</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
-      最近 50 条竞猜记录，每条为一个卡片，包含多层信息：
-    </p>
-    <ul class="anno-list">
-      <li data-num="1"><strong>头行</strong> — 时间（M/D HH:MM）+ 净收益（正数绿色带 <code>+</code>，负数红色）</li>
-      <li data-num="2"><strong>赛事行</strong> — 「第 X 局 · 疾速冰球 · 赛事名」</li>
-      <li data-num="3"><strong>对阵行</strong> — 🟥选手名 <strong>5 : 3</strong> 选手名🟦（含比分）</li>
-      <li data-num="4"><strong>汇总行</strong> — 本金 X · 发放 Y · 猜中派奖累计 Z</li>
-      <li data-num="5"><strong>明细行</strong> — 按竞猜类型逐项展示猜中/未中/退还</li>
-    </ul>
-    <h3 style="font-size:16px;font-weight:600;color:#a5b4fc;margin:20px 0 12px;">颜色编码</h3>
-    <p style="font-size:14px;color:#c0c0d0;margin-bottom:12px;">
-      每条明细根据结果使用不同的视觉标识：
-    </p>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;">
-      <div><span class="color-demo hit">猜中 hit</span> <span style="font-size:13px;color:#9ca3af;margin-left:6px;">绿色背景 + 派奖金额</span></div>
-      <div><span class="color-demo miss">未中 miss</span> <span style="font-size:13px;color:#9ca3af;margin-left:6px;">红色背景 + 输掉金额</span></div>
-      <div><span class="color-demo draw">退还 draw</span> <span style="font-size:13px;color:#9ca3af;margin-left:6px;">橙色背景 + 退还金额</span></div>
+
+    <div class="illus-row" style="gap:32px;align-items:flex-start;margin-bottom:28px;">
+      <div class="phone-frame" style="width:300px;">
+        <div class="cyber-nav">
+          <span class="cyber-back">‹ 返回</span>
+          <span class="cyber-title">过往竞猜</span>
+          <span style="width:60px"></span>
+        </div>
+        <div class="cyber-body">
+          <!-- 卡片1：猜中 -->
+          <div class="cyber-card hist-sim">
+            <div class="hist-head">
+              <span class="hist-time">5/11 14:30</span>
+              <span class="hist-net hist-pos">+150</span>
+            </div>
+            <div class="hist-match">第 3 局 · 疾速冰球 · 周末争霸</div>
+            <div class="hist-score">🔵 小明 5 : 3 大壮 🔴</div>
+            <div class="hist-sum">本金 200 · 发放 350 · 猜中派奖累计 150</div>
+            <div class="hist-details">
+              <div class="hist-detail hit">
+                <span class="hd-type">胜负盘</span>
+                <span class="hd-my">我选: 红方胜</span>
+                <span class="hd-res">红方胜</span>
+                <span class="hd-won">+150</span>
+              </div>
+              <div class="hist-detail miss">
+                <span class="hd-type">精准总分</span>
+                <span class="hd-my">预测: 6</span>
+                <span class="hd-res">实际: 8</span>
+                <span class="hd-lost">-50</span>
+              </div>
+            </div>
+          </div>
+          <!-- 卡片2：退还 -->
+          <div class="cyber-card hist-sim">
+            <div class="hist-head">
+              <span class="hist-time">5/10 10:15</span>
+              <span class="hist-net">0</span>
+            </div>
+            <div class="hist-match">第 1 局 · 烈焰拳王</div>
+            <div class="hist-score">🔵 张三 2 : 2 李四 🔴</div>
+            <div class="hist-sum">本金 100 · 发放 100 · 猜中派奖累计 0</div>
+            <div class="hist-details">
+              <div class="hist-detail draw">
+                <span class="hd-type">胜负盘</span>
+                <span class="hd-my">我选: 红方胜</span>
+                <span class="hd-res">平局</span>
+                <span class="hd-refund">退100</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="desc-area">
+        <h3 style="font-size:17px;font-weight:600;color:#e0e0ff;margin-bottom:14px;">页面布局解析</h3>
+        <ul class="anno-list">
+          <li data-num="1"><strong>头行</strong> — 左侧时间（M/D HH:MM），右侧净收益（<span style="color:#73d13d">正数绿色 +N</span> / <span style="color:#ff7875">负数红色 -N</span> / 灰色 0）</li>
+          <li data-num="2"><strong>赛事行</strong> — 「第 X 局 · 游戏类型 · 赛事名」，如「疾速冰球 · 周末争霸」</li>
+          <li data-num="3"><strong>对阵行</strong> — 🔵蓝方名 比分:比分 红方名🔴，直观展示对阵结果</li>
+          <li data-num="4"><strong>汇总行</strong> — 灰色小字：「本金 X · 发放 Y · 猜中派奖累计 Z」</li>
+          <li data-num="5"><strong>明细区</strong> — 分隔线下按竞猜类型逐项展示，三种颜色编码：
+            <br>&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;background:rgba(20,60,30,0.55);color:#95de64;border:1px solid rgba(82,196,26,0.35)">猜中 hit</span>
+            <span style="display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;background:rgba(60,20,25,0.5);color:#ff9c9c;border:1px solid rgba(255,77,79,0.35);margin-left:4px">未中 miss</span>
+            <span style="display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;background:rgba(50,40,10,0.55);color:#ffc069;border:1px solid rgba(250,173,20,0.35);margin-left:4px">退还 draw</span>
+          </li>
+        </ul>
+        <div class="rule-box info" style="margin-top:16px;">
+          <p class="rule-title">💡 数据说明</p>
+          <p class="rule-text">
+            接口 <code>GET /api/betting/my-history?limit=50</code>，最多拉取 50 条。<br>
+            每条明细展示：竞猜类型名、我的选择、结果描述，以及猜中派奖 / 输掉 / 退还金额。
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- ==================== 8. 竞猜币流水 ==================== -->
   <div class="card">
     <h2><span class="icon">📒</span>竞猜币流水 · betting-coin-log</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      最近 80 条竞猜币收支明细，清晰记录每一笔变动：
-    </p>
-    <table class="rank-table">
-      <thead><tr><th>元素</th><th>说明</th><th>示例</th></tr></thead>
-      <tbody>
-        <tr><td style="font-weight:600;color:#e0e0ff;">时间</td><td style="color:#9ca3af;">YYYY-M-D HH:MM</td><td>2026-5-11 14:30</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">金额</td><td style="color:#9ca3af;"><span style="color:#4ade80;">gain</span> 绿色 +N / <span style="color:#f87171;">spend</span> 红色 −N</td><td><span style="color:#4ade80;">+100</span> / <span style="color:#f87171;">−50</span></td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">原因</td><td style="color:#9ca3af;">文字描述</td><td>每日签到 / 下注 - 胜负竞猜</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">余额</td><td style="color:#9ca3af;">交易后余额</td><td>1,200</td></tr>
-      </tbody>
-    </table>
-    <div class="info-duo" style="margin-top:20px;">
-      <div class="info-block green">
-        <p class="block-title">📈 收入（gain）</p>
-        <p class="block-text">「每日签到」<br>「结算派奖 - 胜负竞猜」<br>「退还 - 本局流局」</p>
+
+    <div class="illus-row" style="gap:32px;align-items:flex-start;margin-bottom:28px;">
+      <div class="phone-frame" style="width:300px;">
+        <div class="cyber-nav">
+          <span class="cyber-back">‹ 返回</span>
+          <span class="cyber-title">竞猜币流水</span>
+          <span style="width:60px"></span>
+        </div>
+        <div class="cyber-body">
+          <!-- 流水条目1：收入 -->
+          <div class="cyber-card coin-sim">
+            <div class="coin-row1">
+              <span class="coin-time">2026-5-11 14:30</span>
+              <span class="coin-amt coin-gain">+100</span>
+            </div>
+            <div class="coin-reason">每日签到</div>
+            <div class="coin-bal">余额 1,200</div>
+          </div>
+          <!-- 流水条目2：支出 -->
+          <div class="cyber-card coin-sim">
+            <div class="coin-row1">
+              <span class="coin-time">2026-5-11 15:02</span>
+              <span class="coin-amt coin-spend">−200</span>
+            </div>
+            <div class="coin-reason">下注 - 胜负竞猜</div>
+            <div class="coin-bal">余额 1,000</div>
+          </div>
+          <!-- 流水条目3：收入 -->
+          <div class="cyber-card coin-sim">
+            <div class="coin-row1">
+              <span class="coin-time">2026-5-11 16:45</span>
+              <span class="coin-amt coin-gain">+350</span>
+            </div>
+            <div class="coin-reason">结算派奖 - 胜负竞猜</div>
+            <div class="coin-bal">余额 1,350</div>
+          </div>
+          <!-- 流水条目4：退还 -->
+          <div class="cyber-card coin-sim">
+            <div class="coin-row1">
+              <span class="coin-time">2026-5-10 09:10</span>
+              <span class="coin-amt coin-gain">+100</span>
+            </div>
+            <div class="coin-reason">退还 - 本局流局</div>
+            <div class="coin-bal">余额 1,100</div>
+          </div>
+        </div>
       </div>
-      <div class="info-block amber">
-        <p class="block-title">📉 支出（spend）</p>
-        <p class="block-text">「下注 - 胜负竞猜」<br>「下注 - 元素之王」<br>「下注 - 精准总分」</p>
+
+      <div class="desc-area">
+        <h3 style="font-size:17px;font-weight:600;color:#e0e0ff;margin-bottom:14px;">页面布局解析</h3>
+        <ul class="anno-list">
+          <li data-num="1"><strong>头行</strong> — 左侧时间（YYYY-M-D HH:MM），右侧金额（<span style="color:#73d13d;font-weight:600">gain 绿色 +N</span> / <span style="color:#ff7875;font-weight:600">spend 红色 −N</span>），字号加粗醒目</li>
+          <li data-num="2"><strong>原因行</strong> — 简洁文字描述交易来源，如「每日签到」「下注 - 胜负竞猜」「结算派奖 - 胜负竞猜」「退还 - 本局流局」</li>
+          <li data-num="3"><strong>余额行</strong> — 灰色小字显示交易后余额，如「余额 1,200」</li>
+        </ul>
+        <h3 style="font-size:15px;font-weight:600;color:#a5b4fc;margin:20px 0 10px;">常见流水原因</h3>
+        <div class="info-duo">
+          <div class="info-block green">
+            <p class="block-title">📈 收入（gain）</p>
+            <p class="block-text">每日签到<br>结算派奖 - 胜负竞猜<br>退还 - 本局流局</p>
+          </div>
+          <div class="info-block amber">
+            <p class="block-title">📉 支出（spend）</p>
+            <p class="block-text">下注 - 胜负竞猜<br>下注 - 元素之王<br>下注 - 精准总分</p>
+          </div>
+        </div>
+        <div class="rule-box info" style="margin-top:16px;">
+          <p class="rule-title">💡 数据说明</p>
+          <p class="rule-text">
+            接口 <code>GET /api/betting/coin-log?limit=80</code>，最多拉取 80 条。<br>
+            每条流水写入 <code>user_coin_logs</code> 表，含 kind / amount / reason / balance_after / session_id 字段。
+          </p>
+        </div>
       </div>
     </div>
   </div>
