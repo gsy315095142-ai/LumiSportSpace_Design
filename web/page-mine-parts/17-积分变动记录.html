@@ -1,0 +1,93 @@
+<!-- ==================== 17. 积分变动记录（规划中） ==================== -->
+  <div class="card card-planned">
+    <h2><span class="icon">📊</span>积分变动记录<span class="badge-planned">规划中</span></h2>
+    <p class="planned-hint">类似「竞猜币流水」，记录每场比赛后的积分变化。对标竞猜侧的收支明细能力。</p>
+
+    <div class="illus-row" style="gap:32px;align-items:flex-start;margin-bottom:28px;">
+      <div class="phone-frame" style="width:300px;">
+        <div class="cyber-nav">
+          <span class="cyber-back">‹ 返回</span>
+          <span class="cyber-title">积分变动</span>
+          <span style="width:60px"></span>
+        </div>
+        <div class="cyber-body">
+          <!-- 条目1：胜利加分 -->
+          <div class="cyber-card rat-sim">
+            <div class="rat-row1">
+              <span class="rat-time">2026-5-11 14:30</span>
+              <span class="rat-amt rat-up">+12.50</span>
+            </div>
+            <div class="rat-cause">🏒 疾速冰球 · 胜利（5:3）</div>
+            <div class="rat-bal">积分 850.00</div>
+          </div>
+          <!-- 条目2：失败扣分 -->
+          <div class="cyber-card rat-sim">
+            <div class="rat-row1">
+              <span class="rat-time">2026-5-10 16:00</span>
+              <span class="rat-amt rat-down">−8.20</span>
+            </div>
+            <div class="rat-cause">🥊 烈焰拳王 · 失败（2:5）</div>
+            <div class="rat-bal">积分 928.30</div>
+          </div>
+          <!-- 条目3：平局 -->
+          <div class="cyber-card rat-sim">
+            <div class="rat-row1">
+              <span class="rat-time">2026-5-9 10:15</span>
+              <span class="rat-amt rat-draw">+0.00</span>
+            </div>
+            <div class="rat-cause">🤺 雷霆击剑 · 平局（3:3）</div>
+            <div class="rat-bal">积分 936.50</div>
+          </div>
+          <!-- 条目4：胜利加分 -->
+          <div class="cyber-card rat-sim">
+            <div class="rat-row1">
+              <span class="rat-time">2026-5-8 15:20</span>
+              <span class="rat-amt rat-up">+15.80</span>
+            </div>
+            <div class="rat-cause">🥊 烈焰拳王 · 胜利（5:1）</div>
+            <div class="rat-bal">积分 936.50</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="desc-area">
+        <h3 style="font-size:17px;font-weight:600;color:#e0e0ff;margin-bottom:14px;">设计说明</h3>
+        <ul class="anno-list">
+          <li data-num="1"><strong>头行</strong> — 左侧时间，右侧积分变化（<span style="color:#73d13d;font-weight:600">+N 绿色</span> / <span style="color:#ff7875;font-weight:600">−N 红色</span> / <span style="color:#ffc069">0 橙色</span>），与竞猜币流水视觉一致</li>
+          <li data-num="2"><strong>原因行</strong> — emoji玩法 + 结果 + 比分，如「🏒 疾速冰球 · 胜利（5:3）」</li>
+          <li data-num="3"><strong>余额行</strong> — 灰色小字，显示变动后的积分值</li>
+        </ul>
+        <h3 style="font-size:15px;font-weight:600;color:#a5b4fc;margin:20px 0 10px;">积分计算规则（ELO）</h3>
+        <div class="info-duo">
+          <div class="info-block green">
+            <p class="block-title">📈 加分场景</p>
+            <p class="block-text">胜利（胜方获得积分）<br>以弱胜强加分更多<br>大比分胜出加分更多</p>
+          </div>
+          <div class="info-block amber">
+            <p class="block-title">📉 扣分场景</p>
+            <p class="block-text">失败（败方扣除积分）<br>强输弱扣分更多<br>平局基本不变动</p>
+          </div>
+        </div>
+        <div class="rule-box info" style="margin-top:16px;">
+          <p class="rule-title">💡 数据来源</p>
+          <p class="rule-text">
+            后端结算时已记录 <code>redRatingBefore → redRatingAfter</code>，前端需新增接口 <code>GET /api/player/rating-log</code> 聚合流水。<br>
+            表结构可复用 <code>user_coin_logs</code> 的模式，新建 <code>user_rating_logs</code> 表。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<style>
+/* === 积分变动记录模拟 === */
+.rat-sim { display:flex; flex-direction:column; gap:4px; padding:8px 12px; }
+.rat-row1 { display:flex; justify-content:space-between; align-items:center; }
+.rat-time { font-size:11px; color:rgba(160,200,220,0.65); }
+.rat-amt { font-size:14px; font-weight:700; }
+.rat-amt.rat-up { color:#73d13d; }
+.rat-amt.rat-down { color:#ff7875; }
+.rat-amt.rat-draw { color:#ffc069; }
+.rat-cause { font-size:12px; color:rgba(220,245,255,0.92); line-height:1.4; }
+.rat-bal { font-size:10px; color:rgba(160,200,220,0.55); }
+</style>

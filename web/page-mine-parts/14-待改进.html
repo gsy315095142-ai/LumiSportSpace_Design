@@ -1,0 +1,16 @@
+<!-- ==================== 14. 待改进 ==================== -->
+  <div class="card">
+    <h2><span class="icon">📋</span>局限性与待改进</h2>
+    <table class="rank-table">
+      <thead><tr><th>项目</th><th>现状</th><th>建议</th></tr></thead>
+      <tbody>
+        <tr><td style="font-weight:600;color:#e0e0ff;">管理员视图</td><td style="color:#9ca3af;">管理员可看到个人中心，但签到/竞猜对其无意义</td><td style="color:#fbbf24;">对 admin 角色隐藏竞猜区或显示管理员专属内容</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">分页加载</td><td style="color:#9ca3af;">所有列表仅做一次全量加载（limit=50/80）</td><td style="color:#fbbf24;">数据量大时改为滚动分页加载</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">下拉刷新</td><td style="color:#9ca3af;">页面无下拉刷新支持</td><td style="color:#fbbf24;">增加 <code>onPullDownRefresh</code> 支持</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">头像</td><td style="color:#9ca3af;">无头像功能，仅显示昵称</td><td style="color:#fbbf24;">可扩展微信头像展示</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">手机号绑定</td><td style="color:#9ca3af;">后端支持 phone 字段但前端未展示</td><td style="color:#fbbf24;">增加手机号绑定/换绑功能</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">积分展示</td><td style="color:#9ca3af;">个人中心不直接展示三项玩法积分</td><td style="color:#fbbf24;">增加积分概览卡片</td></tr>
+        <tr><td style="font-weight:600;color:#e0e0ff;">竞猜币充值</td><td style="color:#9ca3af;">无充值渠道，仅签到获取</td><td style="color:#fbbf24;">可考虑扩展充值/购买功能</td></tr>
+      </tbody>
+    </table>
+  </div>

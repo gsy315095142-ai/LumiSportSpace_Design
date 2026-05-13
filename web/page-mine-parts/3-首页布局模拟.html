@@ -1,0 +1,73 @@
+<!-- ==================== 3. 首页布局模拟 ==================== -->
+  <div class="card">
+    <h2><span class="icon">📱</span>个人中心首页布局</h2>
+    <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
+      以下是 mine.vue 的页面布局模拟，展示各区域的位置与内容：
+    </p>
+    <div class="mock-screen">
+      <div class="mock-nav">
+        <span>← 返回</span>
+        <span class="nav-title">我的</span>
+        <span style="width:36px;"></span>
+      </div>
+      <div class="mock-body">
+        <!-- 个人资料 -->
+        <div class="mock-section">
+          <div class="mock-profile">
+            <div class="mp-name">昵称 / 未设置昵称</div>
+            <div class="mp-role"><span class="role-tag user">用户</span> 或 <span class="role-tag admin">管理员</span></div>
+            <div class="mp-btn">修改昵称</div>
+          </div>
+        </div>
+        <!-- 竞猜区 -->
+        <div class="mock-section">
+          <div class="sec-label">竞猜</div>
+          <div class="mock-betting">
+            <div class="mb-row">
+              <span class="mb-label">竞猜币</span>
+              <span class="mb-value">1,200</span>
+            </div>
+            <div class="mb-row">
+              <span></span>
+              <span class="mock-btn-checkin">签到 +100</span>
+            </div>
+            <div class="mb-row">
+              <span class="mb-label">我的竞猜数据</span>
+              <span class="mb-arrow">›</span>
+            </div>
+            <div class="mb-row">
+              <span class="mb-label">过往竞猜</span>
+              <span class="mb-arrow">›</span>
+            </div>
+            <div class="mb-row">
+              <span class="mb-label">竞猜币流水</span>
+              <span class="mb-arrow">›</span>
+            </div>
+            <div class="mb-row">
+              <span class="mb-label">竞猜排行</span>
+              <span class="mb-arrow">›</span>
+            </div>
+          </div>
+        </div>
+        <!-- 参赛区 -->
+        <div class="mock-section">
+          <div class="sec-label">参赛</div>
+          <div class="mock-links">
+            <div class="ml-row">
+              <span>过往战绩</span>
+              <span class="ml-arrow">›</span>
+            </div>
+          </div>
+        </div>
+        <!-- 退出 -->
+        <div class="mock-logout">退出登录</div>
+      </div>
+    </div>
+    <div class="rule-box info">
+      <p class="rule-title">💡 数据加载策略</p>
+      <p class="rule-text">
+        <strong>onMounted</strong>：初始化导航栏 + 获取用户资料 + 加载钱包余额<br>
+        <strong>onShow</strong>：每次页面可见时重新刷新钱包和用户资料，确保余额与昵称为最新状态
+      </p>
+    </div>
+  </div>
