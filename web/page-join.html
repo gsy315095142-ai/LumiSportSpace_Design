@@ -4,401 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>匹配：选手报名</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: #0f0f1a;
-  color: #e0e0e0;
-  line-height: 1.7;
-}
-
-.container { max-width: 960px; margin: 0 auto; padding: 40px 24px 80px; }
-
-.page-header { text-align: center; margin-bottom: 48px; }
-.page-header h1 {
-  font-size: 32px; font-weight: 700;
-  background: linear-gradient(135deg, #818cf8, #c084fc);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; margin-bottom: 8px;
-}
-.page-header .subtitle { color: #9ca3af; font-size: 15px; }
-
-.card {
-  background: rgba(129,140,248,0.04); border: 1px solid rgba(129,140,248,0.10);
-  border-top: 2px solid; border-image: linear-gradient(90deg, #818cf8, #06b6d4) 1;
-  border-radius: 16px; padding: 32px; margin-bottom: 32px;
-}
-.card h2 { font-size: 20px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-.card h2 .icon { font-size: 22px; }
-
-.illus-row { display: flex; gap: 32px; align-items: flex-start; margin-bottom: 36px; }
-.illus-row:last-child { margin-bottom: 0; }
-
-.phone-frame {
-  flex-shrink: 0; width: 280px; background: #1e1e35; border-radius: 28px;
-  border: 3px solid #2a2a3e; padding: 12px 10px 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4); position: relative;
-}
-.phone-frame::before {
-  content: ''; position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
-  width: 60px; height: 5px; background: #2a2a3e; border-radius: 3px;
-}
-.phone-frame img { width: 100%; border-radius: 16px; display: block; cursor: zoom-in; transition: filter 0.2s; }
-.phone-frame img:hover { filter: brightness(1.08); }
-.phone-label { text-align: center; margin-top: 10px; font-size: 13px; color: #6b7280; font-weight: 500; }
-
-.desc-area { flex: 1; min-width: 0; }
-.desc-area h3 { font-size: 17px; font-weight: 600; color: #e0e0ff; margin-bottom: 14px; }
-
-.anno-list { list-style: none; }
-.anno-list li {
-  position: relative; padding: 10px 0 10px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; color: #c0c0d0;
-  transition: background 0.2s;
-}
-.anno-list li:last-child { border-bottom: none; }
-.anno-list li:hover { background: rgba(129,140,248,0.06); border-radius: 6px; }
-.anno-list li::before {
-  content: attr(data-num); position: absolute; left: 0; top: 10px;
-  width: 18px; height: 18px; background: rgba(129,140,248,0.2); color: #a5b4fc;
-  border-radius: 50%; font-size: 11px; font-weight: 600;
-  display: flex; align-items: center; justify-content: center;
-}
-.anno-list li strong { color: #e0e0ff; font-weight: 600; }
-
-.pending-tag {
-  display: inline-block; background: rgba(251,191,36,0.12); color: #fbbf24;
-  font-size: 10px; font-weight: 600; padding: 1px 7px; border-radius: 4px;
-  margin-left: 4px; vertical-align: middle;
-}
-
-.img-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.88); z-index: 9999; align-items: center; justify-content: center; cursor: zoom-out; backdrop-filter: blur(8px); animation: overlayIn 0.25s ease; }
-.img-overlay.active { display: flex; }
-@keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
-.img-overlay img { max-width: 92vw; max-height: 90vh; border-radius: 12px; box-shadow: 0 0 60px rgba(129,140,248,0.15); animation: imgZoomIn 0.3s ease; }
-@keyframes imgZoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.img-overlay .zoom-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 1px; }
-
-.flow-strip { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin: 16px 0 8px; }
-.flow-step { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 16px; background: rgba(129,140,248,0.08); border: 1px solid rgba(129,140,248,0.15); border-radius: 10px; min-width: 100px; text-align: center; }
-.flow-step .step-label { font-size: 13px; font-weight: 600; color: #a5b4fc; }
-.flow-arrow { font-size: 18px; color: #4b5563; padding: 0 6px; }
-
-.role-table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
-.role-table th { background: rgba(129,140,248,0.1); color: #a5b4fc; font-weight: 600; padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.role-table td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #c0c0d0; }
-.role-table tr:hover td { background: rgba(129,140,248,0.04); }
-.role-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
-.role-tag.admin { background: rgba(251,146,60,0.15); color: #fb923c; }
-.role-tag.player { background: rgba(74,222,128,0.15); color: #4ade80; }
-.role-tag.viewer { background: rgba(96,165,250,0.15); color: #60a5fa; }
-
-.rule-box { border-radius: 12px; padding: 16px 20px; margin-top: 20px; }
-.rule-box p.rule-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-.rule-box p.rule-text { font-size: 13px; color: #9ca3af; line-height: 1.8; }
-.rule-box p.rule-text strong { font-weight: 600; }
-.rule-box.info { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15); }
-.rule-box.info p.rule-title { color: #818cf8; }
-.rule-box.info p.rule-text strong { color: #c0c0d0; }
-.rule-box.warn { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.15); }
-.rule-box.warn p.rule-title { color: #fb923c; }
-.rule-box.warn p.rule-text strong { color: #c0c0d0; }
-.rule-box.pending { background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.15); }
-.rule-box.pending p.rule-title { color: #fbbf24; }
-.rule-box.pending p.rule-text strong { color: #c0c0d0; }
-
-@media (max-width: 700px) {
-  .illus-row { flex-direction: column; align-items: center; }
-  .phone-frame { width: 240px; }
-  .desc-area { width: 100%; }
-}
-</style>
+<link rel="stylesheet" href="page-join.css">
 </head>
 <body>
 
+<!-- 图片放大遮罩（全局复用） -->
 <div class="img-overlay" id="imgOverlay">
   <img id="overlayImg" src="" alt="zoom">
   <div class="zoom-hint">click anywhere to close</div>
 </div>
 
-<div class="container">
+<!-- 主容器，模块动态挂载点 -->
+<div class="container" id="app"></div>
 
-  <div class="page-header">
-    <h1>🤺 匹配：选手报名</h1>
-    <p class="subtitle">管理员开放报名后，选手选边提交、管理员审核通过、观众等待竞猜的完整流程</p>
-  </div>
+<!-- 公共工具（最先加载） -->
+<script src="page-join-utils.js"></script>
 
-  <div class="card">
-    <h2><span class="icon">📖</span>页面定位</h2>
-    <p style="color:#c0c0d0;font-size:15px;margin-bottom:16px;">
-      「选手报名」是赛事从<strong style="color:#e0e0ff;">等待报名</strong>进入<strong style="color:#e0e0ff;">报名中</strong>阶段后的核心环节。管理员点击「开始报名」后，选手通过赛事主页的「我要参赛」Tab 进行选边和提交，管理员在「场次管理」页面审核通过后，选手成为正式参赛者。
-    </p>
-    <p style="color:#9ca3af;font-size:14px;">
-      报名阶段的核心特点是<strong style="color:#e0e0ff;">三方异步协作</strong>：管理员审核选手、选手等待审核结果、观众等待双方选手通过后由管理员开启竞猜。
-    </p>
-  </div>
+<!-- 各业务模块（顺序即渲染顺序） -->
+<script src="page-join-header.js"></script>
+<script src="page-join-viewer.js"></script>
+<script src="page-join-player.js"></script>           <!-- 🤺 选手：选边报名 -->
+<script src="page-join-admin.js"></script>             <!-- 🛡️ 管理员：报名阶段 -->
+<script src="page-join-player-confirmed.js"></script>  <!-- ✅ 选手：审核通过 -->
+<script src="page-join-summary.js"></script>
 
-  <div class="card">
-    <h2><span class="icon">🔄</span>报名流程概览</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      从管理员开放报名到竞猜开启，经历以下步骤：
-    </p>
-    <div class="flow-strip">
-      <div class="flow-step"><span class="step-label">管理员开始报名</span></div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="step-label">选手选边提交</span></div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="step-label">管理员审核通过</span></div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="step-label">管理员开启竞猜</span></div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="step-label">观众可下注</span></div>
-    </div>
-    <div class="rule-box info">
-      <p class="rule-title">💡 关键前提</p>
-      <p class="rule-text">
-        竞猜功能需要管理员手动点击「开启竞猜」按钮后才会开放。若双方实力过于悬殊，系统将拒绝开启竞猜。在此之前，观众只能看到竞猜面板但无法操作。
-      </p>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2><span class="icon">👥</span>观众：报名阶段的赛事主页</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      观众在「我要竞猜」Tab 下查看竞猜面板，但由于管理员尚未开启竞猜，无法进行任何下注操作：
-    </p>
-    <div class="illus-row">
-      <div>
-        <div class="phone-frame">
-          <img src="join-viewer.png" alt="观众视角 - 报名阶段" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
-        </div>
-        <div class="phone-label">👥 观众视角（报名阶段）</div>
-      </div>
-      <div class="desc-area">
-        <h3><span class="role-tag viewer">观众</span> 报名阶段时</h3>
-        <ul class="anno-list">
-          <li data-num="1">
-            <strong>本场对阵模块显示当前状态</strong> — 局数 · 报名中 · 游戏类型，双方选手尚未确定或仍在审核中
-          </li>
-          <li data-num="2">
-            <strong>竞猜面板显示但不可操作</strong> — 根据游戏类型显示对应的竞猜项，均处于不可下注状态
-          </li>
-          <li data-num="3">
-            <strong>信息条显示个人竞猜资产</strong> — 昵称 + 当前金币余额
-          </li>
-          <li data-num="4">
-            <strong>等待管理员开启竞猜</strong> — 双方选手通过审核后，管理员手动点击「开启竞猜」才会开放下注
-          </li>
-          <li data-num="5">
-            <strong>排行榜可浏览</strong> — 即使无法下注，仍可查看竞猜排行榜与历史数据
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2><span class="icon">🤺</span>选手：选边报名</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      管理员开放报名后，选手在「我要参赛」Tab 中看到选边界面，选择蓝方或红方并提交报名：
-    </p>
-    <div class="illus-row">
-      <div>
-        <div class="phone-frame">
-          <img src="join-player-ready.png" alt="选手视角 - 选边报名" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
-        </div>
-        <div class="phone-label">🤺 选手视角（选边报名）</div>
-      </div>
-      <div class="desc-area">
-        <h3><span class="role-tag player">选手</span> 选边报名时</h3>
-        <ul class="anno-list">
-          <li data-num="1">
-            <strong>状态提示文案</strong> — 「报名进行中，请选择阵营并提交（需管理员通过后方为正式选手）」
-          </li>
-          <li data-num="2">
-            <strong>「选边 · 每方 1 人」提示</strong> — 每个阵营限 1 名正式选手，先通过审核先占位
-          </li>
-          <li data-num="3">
-            <strong>蓝方 / 红方选边按钮</strong> — 点击选择阵营；如果某一方已有正式选手，该按钮变为灰色并显示「（已占）」
-          </li>
-          <li data-num="4">
-            <strong>「确认报名」按钮</strong> — 选中阵营后点击提交，进入待审核状态。提交前可自由切换阵营
-          </li>
-          <li data-num="5">
-            <strong>信息条显示个人积分</strong> — 昵称 + 三种玩法积分（冰球 / 拳王 / 击剑）
-          </li>
-          <li data-num="6">
-            <strong>上一局结果卡片（如有）</strong> — 如果上一局刚结束，会展示上一局的比分结果
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="rule-box info">
-      <p class="rule-title">💡 选边规则</p>
-      <p class="rule-text">
-        每方限 1 名正式选手，先通过审核先占位。同一阵营可有多人排队待审，但管理员通过其中一人后，<strong>同侧其余申请将被后端自动删除</strong>（<code>DELETE FROM registration_requests WHERE sessionId=? AND side=?</code>）。选手提交报名后状态变为「待审」，在审核通过前不可参与竞猜。<strong>已在一侧待审核中</strong>时，若想切换到另一阵营，<strong style="color:#fbbf24;">需先撤销当前报名</strong>再重新选边提交。
-      </p>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2><span class="icon">🛡️</span>管理员：报名阶段页面</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      管理员进入「场次管理」页面后，在报名阶段可进行选手审核和流程操作：
-    </p>
-    <div class="illus-row">
-      <div>
-        <div class="phone-frame">
-          <img src="join-admin-review.png" alt="管理员报名阶段页面" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
-        </div>
-        <div class="phone-label">🛡️ 管理员页面（报名阶段）</div>
-      </div>
-      <div class="desc-area">
-        <h3><span class="role-tag admin">管理员</span> 报名阶段时</h3>
-        <ul class="anno-list">
-          <li data-num="1">
-            <strong>流程进度条</strong> — 顶部显示 6 步流程，当前停留在第 3 步「报名中」
-          </li>
-          <li data-num="2">
-            <strong>场次信息卡</strong> — 显示当前局数、玩法、模式，报名阶段字段已锁定不可编辑
-          </li>
-          <li data-num="3">
-            <strong>选手名单与审核</strong> — 红蓝双方分区展示：正式选手昵称、待审选手列表、每位待审选手旁的「通过」按钮。管理员通过某侧一人后，<strong>同侧其余待审记录自动从数据库删除</strong>
-          </li>
-          <li data-num="4">
-            <strong>「开启竞猜」按钮</strong> — 双方选手通过审核后可点击；若实力悬殊系统会拒绝并提示原因
-          </li>
-          <li data-num="5">
-            <strong>「重新等待报名」按钮</strong> — 取消本局，退还全部竞猜币，局数 +1，退回等待报名阶段
-          </li>
-          <li data-num="6">
-            <strong>「立即开始比赛」按钮</strong> — 可跳过竞猜阶段直接开赛，适用于无需竞猜的场景
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="rule-box warn">
-      <p class="rule-title">⚠️ 审核规则</p>
-      <p class="rule-text">
-        同一阵营可多人同时待审，管理员通过其中一人后，<strong>同侧其余申请自动作废</strong>（数据库 DELETE）。管理员在报名阶段可「移出该侧全部」选手（含正式和待审），操作后如有观众已下注，竞猜币全额退还。报名阶段也可直接点击「立即开始比赛」跳过竞猜环节。
-      </p>
-    </div>
-    <div class="rule-box pending">
-      <p class="rule-title">⚠️ 管理员能否参赛/竞猜（待实现）</p>
-      <p class="rule-text">
-        当前代码中 <code>PlayerJoinService.register</code> 不检查用户角色，<strong>管理员（role=admin）理论上可以报名参赛和下注</strong>。产品设计上管理员身份互斥：不能报名参赛、不能参与竞猜。此限制<strong>待后端增加 Guard/校验</strong>后落地，目前手动保管。
-      </p>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2><span class="icon">✅</span>选手：审核通过</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
-      管理员审核通过后，选手的界面从「审核中」变为「已报名」，名字出现在本场对阵模块中：
-    </p>
-    <div class="illus-row">
-      <div>
-        <div class="phone-frame">
-          <img src="join-player-confirmed.png" alt="选手视角 - 审核通过" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
-        </div>
-        <div class="phone-label">✅ 选手视角（审核通过）</div>
-      </div>
-      <div class="desc-area">
-        <h3><span class="role-tag player">选手</span> 审核通过后</h3>
-        <ul class="anno-list">
-          <li data-num="1">
-            <strong>状态变为「已报名 红方/蓝方」</strong> — 明确显示所属阵营，文字颜色跟随阵营色（红/蓝）
-          </li>
-          <li data-num="2">
-            <strong>名字出现在对阵模块中</strong> — 本场对阵卡片展示正式选手昵称 + 积分
-          </li>
-          <li data-num="3">
-            <strong>「撤销参赛」按钮</strong> — 比赛正式开始前，选手仍可撤销报名退出比赛
-          </li>
-          <li data-num="4">
-            <strong>等待管理员开启竞猜或开始比赛</strong> — 双方均通过审核后，管理员可选择开启竞猜或直接开始比赛
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="rule-box warn">
-      <p class="rule-title">⚠️ 撤销参赛的影响</p>
-      <p class="rule-text">
-        选手撤销参赛后，该阵营名额释放，其他选手可以重新报名。如果撤销时已有观众对比赛结果下注，所有相关竞猜币将<strong>全额退还</strong>。
-      </p>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2><span class="icon">📊</span>报名阶段三角色操作对比</h2>
-    <table class="role-table">
-      <thead>
-        <tr><th>操作</th><th><span class="role-tag admin">管理员</span></th><th><span class="role-tag player">选手</span></th><th><span class="role-tag viewer">观众</span></th></tr>
-      </thead>
-      <tbody>
-        <tr><td style="font-weight:600;color:#e0e0ff;">选边报名</td><td>—</td><td>✅ 选择蓝/红方 → 提交报名</td><td>—</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">审核通过</td><td>✅ 通过/拒绝待审选手</td><td>等待审核结果</td><td>—</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">撤销报名</td><td>—</td><td>✅ 撤销已提交的报名</td><td>—</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">移出选手</td><td>✅ 移出某侧全部选手（含待审）</td><td>—</td><td>—</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">开启竞猜</td><td>✅ 双方通过后可操作</td><td>—</td><td>—</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">竞猜下注</td><td>❌ 管理员不可下注<span class="pending-tag">⚠️ 待实现</span></td><td>❌ 参赛者不可竞猜</td><td>❌ 管理员未开启竞猜前不可下注</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">重新等待报名</td><td>✅ 取消本局，退还竞猜币，局数 +1</td><td>—</td><td>—</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">立即开始比赛</td><td>✅ 可跳过竞猜直接开赛</td><td>等待开始</td><td>等待开始</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2><span class="icon">🔀</span>选手报名状态流转</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      选手在报名阶段的个人状态经历以下变化：
-    </p>
-    <div class="flow-strip">
-      <div class="flow-step"><span class="step-label">未报名</span></div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="step-label">待审核</span></div>
-      <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="step-label">已通过（正式选手）</span></div>
-    </div>
-    <table class="role-table" style="margin-top:20px;">
-      <thead><tr><th>选手状态</th><th>界面展示</th><th>可操作</th></tr></thead>
-      <tbody>
-        <tr><td style="font-weight:600;color:#e0e0ff;">未报名</td><td>显示选边按钮（蓝/红）+ 确认报名按钮</td><td>选边、提交报名</td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">待审核</td><td>显示「报名审核中 · 红方/蓝方」+ 撤销报名按钮</td><td>撤销报名<br><span style="color:#fbbf24;font-size:12px;">⚠️ 已在一侧待审时，想切阵营需先撤销再重选</span></td></tr>
-        <tr><td style="font-weight:600;color:#e0e0ff;">已通过</td><td>显示「已报名 红方/蓝方」+ 撤销参赛按钮；名字出现在对阵卡片</td><td>撤销参赛</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="card">
-    <h2><span class="icon">⚙️</span>关键交互规则</h2>
-    <ul style="font-size:14px;color:#c0c0d0;padding-left:20px;line-height:2.2;">
-      <li><strong style="color:#e0e0ff;">每方限 1 人</strong> — 蓝方和红方各限 1 名正式选手，先通过审核先占位</li>
-      <li><strong style="color:#e0e0ff;">同侧互斥</strong> — 管理员通过某位选手后，同阵营其余待审申请自动作废（数据库 DELETE）</li>
-      <li><strong style="color:#e0e0ff;">阵营已占提示</strong> — 某方已有正式选手时，选边按钮显示灰色并标注「（已占）」，新选手无法选择该阵营</li>
-      <li><strong style="color:#e0e0ff;">切换阵营需先撤销</strong> — 已在一侧待审核时，想切换到另一阵营需先撤销当前报名再重新选边提交</li>
-      <li><strong style="color:#e0e0ff;">审核前不可竞猜</strong> — 选手在「待审核」状态下（<code>myPendingSide</code> 非空）无法参与竞猜下注</li>
-      <li><strong style="color:#e0e0ff;">参赛者不可竞猜</strong> — 已成为正式选手后（<code>mySide</code> 非空），不可对本场竞猜下注</li>
-      <li><strong style="color:#e0e0ff;">撤销退还竞猜币</strong> — 选手撤销参赛或管理员移出选手时，如有观众已下注则全额退还</li>
-      <li><strong style="color:#e0e0ff;">实力悬殊拦截</strong> — 双方实力过于悬殊时，管理员无法开启竞猜，系统会提示原因</li>
-      <li><strong style="color:#e0e0ff;">可跳过竞猜</strong> — 管理员可点击「立即开始比赛」跳过竞猜环节直接开赛</li>
-      <li><strong style="color:#e0e0ff;">管理员参赛/竞猜待拦截</strong> — 代码中 <code>PlayerJoinService.register</code> 不检查角色，管理员理论上可报名/下注，需后端补充 Guard <span class="pending-tag">⚠️ 待实现</span></li>
-    </ul>
-  </div>
-
-</div>
-
+<!-- 启动渲染 -->
 <script>
-function zoomImg(src) {
-  var overlay = document.getElementById('imgOverlay');
-  var img = document.getElementById('overlayImg');
-  img.src = src;
-  overlay.classList.add('active');
-}
-document.getElementById('imgOverlay').addEventListener('click', function() { this.classList.remove('active'); });
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.getElementById('imgOverlay').classList.remove('active'); });
+(function () {
+  'use strict';
+
+  JoinUtils.initOverlay();
+
+  var app = document.getElementById('app');
+
+  JoinHeader.render(app);            // 页头 + 定位 + 流程
+  JoinViewer.render(app);            // 观众视角
+  JoinPlayerSignup.render(app);      // 选手选边报名
+  JoinAdmin.render(app);             // 管理员审核 ← 在审核通过之前
+  JoinPlayerConfirmed.render(app);   // 选手审核通过 ← 在管理员之后
+  JoinSummary.render(app);           // 对比表 + 状态流转 + 规则
+})();
 </script>
 </body>
 </html>
