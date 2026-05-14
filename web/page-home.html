@@ -9,8 +9,8 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
   font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: #0f0f1a;
-  color: #e0e0e0;
+  background: #f0f2f8;
+  color: #1e293b;
   line-height: 1.7;
 }
 
@@ -27,25 +27,31 @@ body {
 .page-header h1 {
   font-size: 32px;
   font-weight: 700;
-  background: linear-gradient(135deg, #818cf8, #c084fc);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin-bottom: 8px;
 }
 .page-header .subtitle {
-  color: #9ca3af;
+  color: #64748b;
   font-size: 15px;
 }
 
 .card {
-  background: rgba(129,140,248,0.04);
-  border: 1px solid rgba(129,140,248,0.10);
+  background: #ffffff;
+  border: 1px solid rgba(99,102,241,0.12);
   border-top: 2px solid;
-  border-image: linear-gradient(90deg, #818cf8, #06b6d4) 1;
+  border-image: linear-gradient(90deg, #6366f1, #0891b2) 1;
   border-radius: 16px;
   padding: 32px;
   margin-bottom: 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.card:hover {
+  border-color: rgba(99,102,241,0.25);
+  box-shadow: 0 2px 8px rgba(99,102,241,0.06);
 }
 .card h2 {
   font-size: 20px;
@@ -68,11 +74,11 @@ body {
 .phone-frame {
   flex-shrink: 0;
   width: 280px;
-  background: #1e1e35;
+  background: #e2e8f0;
   border-radius: 28px;
-  border: 3px solid #2a2a3e;
+  border: 3px solid #cbd5e1;
   padding: 12px 10px 16px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
   position: relative;
 }
 .phone-frame::before {
@@ -83,7 +89,7 @@ body {
   transform: translateX(-50%);
   width: 60px;
   height: 5px;
-  background: #2a2a3e;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 .phone-frame img {
@@ -94,49 +100,49 @@ body {
   transition: filter 0.2s;
 }
 .phone-frame img:hover {
-  filter: brightness(1.08);
+  filter: brightness(1.04);
 }
 .phone-label {
   text-align: center;
   margin-top: 10px;
   font-size: 13px;
-  color: #6b7280;
+  color: #64748b;
   font-weight: 500;
 }
 
 .desc-area { flex: 1; min-width: 0; }
-.desc-area h3 { font-size: 17px; font-weight: 600; color: #e0e0ff; margin-bottom: 14px; }
+.desc-area h3 { font-size: 17px; font-weight: 600; color: #1e293b; margin-bottom: 14px; }
 
 .anno-list { list-style: none; }
 .anno-list li {
   position: relative;
   padding: 10px 0 10px 24px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
   font-size: 14px;
-  color: #c0c0d0;
+  color: #475569;
   transition: background 0.2s;
 }
 .anno-list li:last-child { border-bottom: none; }
-.anno-list li:hover { background: rgba(129,140,248,0.06); border-radius: 6px; }
+.anno-list li:hover { background: rgba(99,102,241,0.04); border-radius: 6px; }
 .anno-list li::before {
   content: attr(data-num);
   position: absolute;
   left: 0; top: 10px;
   width: 18px; height: 18px;
-  background: rgba(129,140,248,0.2);
-  color: #a5b4fc;
+  background: rgba(99,102,241,0.10);
+  color: #6366f1;
   border-radius: 50%;
   font-size: 11px; font-weight: 600;
   display: flex; align-items: center; justify-content: center;
 }
-.anno-list li strong { color: #e0e0ff; font-weight: 600; }
+.anno-list li strong { color: #1e293b; font-weight: 600; }
 
 .img-overlay {
   display: none;
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.88);
+  background: rgba(0,0,0,0.70);
   z-index: 9999;
   align-items: center;
   justify-content: center;
@@ -148,33 +154,33 @@ body {
 @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
 .img-overlay img {
   max-width: 92vw; max-height: 90vh; border-radius: 12px;
-  box-shadow: 0 0 60px rgba(129,140,248,0.15);
+  box-shadow: 0 0 60px rgba(99,102,241,0.10);
   animation: imgZoomIn 0.3s ease;
 }
 @keyframes imgZoomIn { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 .img-overlay .zoom-hint {
   position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
-  font-size: 12px; color: rgba(255,255,255,0.35); letter-spacing: 1px;
+  font-size: 12px; color: rgba(255,255,255,0.5); letter-spacing: 1px;
 }
 
 .role-tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
-.role-tag.admin { background: rgba(251,146,60,0.15); color: #fb923c; }
-.role-tag.player { background: rgba(74,222,128,0.15); color: #4ade80; }
-.role-tag.viewer { background: rgba(96,165,250,0.15); color: #60a5fa; }
+.role-tag.admin { background: rgba(234,88,12,0.10); color: #ea580c; }
+.role-tag.player { background: rgba(22,163,74,0.10); color: #16a34a; }
+.role-tag.viewer { background: rgba(37,99,235,0.10); color: #2563eb; }
 
 .rule-box { border-radius: 12px; padding: 16px 20px; margin-top: 20px; }
 .rule-box p.rule-title { font-size: 14px; font-weight: 600; margin-bottom: 8px; }
-.rule-box p.rule-text { font-size: 13px; color: #9ca3af; line-height: 1.8; }
+.rule-box p.rule-text { font-size: 13px; color: #64748b; line-height: 1.8; }
 .rule-box p.rule-text strong { font-weight: 600; }
-.rule-box.warn { background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.15); }
-.rule-box.warn p.rule-title { color: #fb923c; }
-.rule-box.warn p.rule-text strong { color: #c0c0d0; }
-.rule-box.info { background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.15); }
-.rule-box.info p.rule-title { color: #818cf8; }
-.rule-box.info p.rule-text strong { color: #c0c0d0; }
-.rule-box.pending { background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.15); }
-.rule-box.pending p.rule-title { color: #fbbf24; }
-.rule-box.pending p.rule-text strong { color: #c0c0d0; }
+.rule-box.warn { background: rgba(234,88,12,0.04); border: 1px solid rgba(234,88,12,0.12); }
+.rule-box.warn p.rule-title { color: #ea580c; }
+.rule-box.warn p.rule-text strong { color: #475569; }
+.rule-box.info { background: rgba(99,102,241,0.04); border: 1px solid rgba(99,102,241,0.12); }
+.rule-box.info p.rule-title { color: #6366f1; }
+.rule-box.info p.rule-text strong { color: #475569; }
+.rule-box.pending { background: rgba(217,119,6,0.04); border: 1px solid rgba(217,119,6,0.12); }
+.rule-box.pending p.rule-title { color: #d97706; }
+.rule-box.pending p.rule-text strong { color: #475569; }
 
 @media (max-width: 700px) {
   .illus-row { flex-direction: column; align-items: center; }
@@ -200,25 +206,25 @@ body {
   <!-- 1. 页面定位 -->
   <div class="card">
     <h2><span class="icon">📖</span>页面定位</h2>
-    <p style="color:#c0c0d0;font-size:15px;margin-bottom:16px;">
-      「首页：赛事选择」是用户<strong style="color:#e0e0ff;">选择门店后</strong>进入的核心阶段。在此阶段，管理员负责配置玩法项目与模式，选手等待报名开放，观众等待竞猜开放。
+    <p style="color:#475569;font-size:15px;margin-bottom:16px;">
+      「首页：赛事选择」是用户<strong style="color:#1e293b;">选择门店后</strong>进入的核心阶段。在此阶段，管理员负责配置玩法项目与模式，选手等待报名开放，观众等待竞猜开放。
     </p>
-    <p style="color:#9ca3af;font-size:14px;">
-      管理员通过赛事主页导航栏的「管理」按钮进入独立的<strong style="color:#e0e0ff;">场次管理页面</strong>（admin.vue），在此完成玩法选择、确认玩法、开放报名等操作。选手和观众则留在赛事主页（event.vue）等待状态推进。
+    <p style="color:#64748b;font-size:14px;">
+      管理员通过赛事主页导航栏的「管理」按钮进入独立的<strong style="color:#1e293b;">场次管理页面</strong>（admin.vue），在此完成玩法选择、确认玩法、开放报名等操作。选手和观众则留在赛事主页（event.vue）等待状态推进。
     </p>
   </div>
 
   <!-- 2. 管理员：场次管理页面 -->
   <div class="card">
     <h2><span class="icon">🛡️</span>管理员：场次管理页面</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
+    <p style="color:#64748b;font-size:14px;margin-bottom:24px;">
       管理员点击赛事主页导航栏的「管理」按钮后，进入独立的场次管理页面。页面结构随当前阶段动态变化：
     </p>
 
     <div class="illus-row">
       <div>
         <div class="phone-frame">
-          <img src="event-admin-waiting.png" alt="管理员场次管理 - 玩法配置" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
+          <img src="event-admin-waiting.png" alt="管理员场次管理 - 玩法配置" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#e2e8f0';">
         </div>
         <div class="phone-label">🛡️ 场次管理页面（玩法配置阶段）</div>
       </div>
@@ -229,16 +235,16 @@ body {
             <strong>场次流程进度条</strong> — 顶部显示 6 步流程：玩法配置 → 等待报名 → 报名中 → 竞猜中 → 比赛中 → 已结算。当前步骤高亮显示，下方提示当前阶段操作指引
           </li>
           <li data-num="2">
-            <strong>场次名称输入框</strong> — 可自定义赛事名称，如「春季友谊赛」。最多 <strong style="color:#fbbf24;">20 个字符</strong>，可为空（nullable）；开启下一轮时若不填，后端自动命名为「第N局」。（代码中数据库字段为 varchar(200)，前端 20 字符限制待实现）
+            <strong>场次名称输入框</strong> — 可自定义赛事名称，如「春季友谊赛」。最多 <strong style="color:#d97706;">20 个字符</strong>，可为空（nullable）；开启下一轮时若不填，后端自动命名为「第N局」。（代码中数据库字段为 varchar(200)，前端 20 字符限制待实现）
           </li>
           <li data-num="3">
             <strong>玩法项目切换按钮</strong> — 三个按钮：冰球 / 拳王 / 击剑。点击切换时有二次确认弹窗
           </li>
           <li data-num="4">
-            <strong>冰球大师模式开关</strong> — 仅当玩法选为「冰球」时显示。开启后结算时由 Server 自动上报冰/火/风球出现次数。<strong style="color:#fbbf24;">切换到非冰球玩法时开关值保留但隐藏</strong>，切回冰球后恢复显示原设置（isMasterMode 与 gameType 为独立字段）
+            <strong>冰球大师模式开关</strong> — 仅当玩法选为「冰球」时显示。开启后结算时由 Server 自动上报冰/火/风球出现次数。<strong style="color:#d97706;">切换到非冰球玩法时开关值保留但隐藏</strong>，切回冰球后恢复显示原设置（isMasterMode 与 gameType 为独立字段）
           </li>
           <li data-num="5">
-            <strong>Server 端玩法切换</strong> — 点击玩法按钮切换时，不仅前端配置变化，Server 端（Unity 大屏）也会同步跳转到对应玩法的匹配界面。<strong style="color:#fbbf24;">⚠️ 待调整</strong>：当前 Server 端的模式切换在匹配页面操作，将改为统一收归到首页（玩法配置阶段）
+            <strong>Server 端玩法切换</strong> — 点击玩法按钮切换时，不仅前端配置变化，Server 端（Unity 大屏）也会同步跳转到对应玩法的匹配界面。<strong style="color:#d97706;">⚠️ 待调整</strong>：当前 Server 端的模式切换在匹配页面操作，将改为统一收归到首页（玩法配置阶段）
           </li>
           <li data-num="6">
             <strong>「确认玩法」按钮</strong> — 填写完玩法配置后点击此按钮，系统创建首局场次并进入「等待报名」阶段。此时 Unity Server 端会自动跳转进入对应玩法的匹配页面，等待选手就位
@@ -275,39 +281,39 @@ body {
   <!-- 3. 赛事主页子Tab详解 -->
   <div class="card">
     <h2><span class="icon">📑</span>赛事主页子 Tab 详解</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
+    <p style="color:#64748b;font-size:14px;margin-bottom:20px;">
       选手和观众在赛事主页底部看到的两个子 Tab：
     </p>
 
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-      <div style="background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.15);border-radius:12px;padding:20px;">
-        <h3 style="font-size:16px;font-weight:600;color:#a5b4fc;margin-bottom:12px;">🎰 我要竞猜</h3>
-        <p style="font-size:14px;color:#c0c0d0;margin-bottom:12px;">竞猜操作与排行榜</p>
-        <ul style="font-size:13px;color:#9ca3af;padding-left:16px;line-height:2;">
+      <div style="background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.12);border-radius:12px;padding:20px;">
+        <h3 style="font-size:16px;font-weight:600;color:#6366f1;margin-bottom:12px;">🎰 我要竞猜</h3>
+        <p style="font-size:14px;color:#475569;margin-bottom:12px;">竞猜操作与排行榜</p>
+        <ul style="font-size:13px;color:#64748b;padding-left:16px;line-height:2;">
           <li>信息条：昵称 + 金币余额</li>
-          <li><strong style="color:#c0c0d0;">胜负盘</strong> — 押红/蓝方获胜（所有游戏）</li>
-          <li><strong style="color:#c0c0d0;">精准总分</strong> — 猜最终总得分（所有游戏）</li>
-          <li><strong style="color:#c0c0d0;">精准分差</strong> — 猜红蓝分差（所有游戏）</li>
-          <li><strong style="color:#c0c0d0;">元素之王</strong> — 猜冰/火/风球最多者（仅冰球大师模式）</li>
-          <li><strong style="color:#c0c0d0;">躺平之王</strong> — 猜双方倒地总次数（仅拳王）</li>
+          <li><strong style="color:#475569;">胜负盘</strong> — 押红/蓝方获胜（所有游戏）</li>
+          <li><strong style="color:#475569;">精准总分</strong> — 猜最终总得分（所有游戏）</li>
+          <li><strong style="color:#475569;">精准分差</strong> — 猜红蓝分差（所有游戏）</li>
+          <li><strong style="color:#475569;">元素之王</strong> — 猜冰/火/风球最多者（仅冰球大师模式）</li>
+          <li><strong style="color:#475569;">躺平之王</strong> — 猜双方倒地总次数（仅拳王）</li>
           <li>竞猜收益排行榜 → 更多跳转</li>
         </ul>
-        <p style="font-size:12px;color:#6b7280;margin-top:12px;">
+        <p style="font-size:12px;color:#94a3b8;margin-top:12px;">
           ⚠️ 需管理员开启竞猜后才能下注；已参赛选手不可下胜负盘
         </p>
       </div>
-      <div style="background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.15);border-radius:12px;padding:20px;">
-        <h3 style="font-size:16px;font-weight:600;color:#4ade80;margin-bottom:12px;">🤺 我要参赛</h3>
-        <p style="font-size:14px;color:#c0c0d0;margin-bottom:12px;">报名操作与排行榜</p>
-        <ul style="font-size:13px;color:#9ca3af;padding-left:16px;line-height:2;">
+      <div style="background:rgba(22,163,74,0.04);border:1px solid rgba(22,163,74,0.12);border-radius:12px;padding:20px;">
+        <h3 style="font-size:16px;font-weight:600;color:#16a34a;margin-bottom:12px;">🤺 我要参赛</h3>
+        <p style="font-size:14px;color:#475569;margin-bottom:12px;">报名操作与排行榜</p>
+        <ul style="font-size:13px;color:#64748b;padding-left:16px;line-height:2;">
           <li>信息条：昵称 + 三玩法积分</li>
-          <li><strong style="color:#c0c0d0;">状态提示</strong> — 当前能否操作的文案</li>
-          <li><strong style="color:#c0c0d0;">选边</strong> — 蓝/红阵营二选一</li>
-          <li><strong style="color:#c0c0d0;">提交报名</strong> — 进入待审核状态</li>
-          <li><strong style="color:#c0c0d0;">撤销报名</strong> — 取消已提交的报名</li>
+          <li><strong style="color:#475569;">状态提示</strong> — 当前能否操作的文案</li>
+          <li><strong style="color:#475569;">选边</strong> — 蓝/红阵营二选一</li>
+          <li><strong style="color:#475569;">提交报名</strong> — 进入待审核状态</li>
+          <li><strong style="color:#475569;">撤销报名</strong> — 取消已提交的报名</li>
           <li>排行榜（可切换玩法查看）</li>
         </ul>
-        <p style="font-size:12px;color:#6b7280;margin-top:12px;">
+        <p style="font-size:12px;color:#94a3b8;margin-top:12px;">
           ⚠️ 仅报名阶段可操作；提交后需管理员审核通过才成为正式选手
         </p>
       </div>
@@ -317,14 +323,14 @@ body {
   <!-- 4. 选手视角 -->
   <div class="card">
     <h2><span class="icon">🤺</span>选手：赛事主页（等待报名开放）</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
+    <p style="color:#64748b;font-size:14px;margin-bottom:24px;">
       选手留在赛事主页，等待管理员确认玩法并开放报名。此时无法进行任何操作：
     </p>
 
     <div class="illus-row">
       <div>
         <div class="phone-frame">
-          <img src="event-player-waiting.png" alt="选手视角 - 等待报名" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
+          <img src="event-player-waiting.png" alt="选手视角 - 等待报名" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#e2e8f0';">
         </div>
         <div class="phone-label">🤺 选手视角（等待阶段）</div>
       </div>
@@ -354,14 +360,14 @@ body {
   <!-- 5. 观众视角 -->
   <div class="card">
     <h2><span class="icon">👥</span>观众：赛事主页（无法押注）</h2>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">
+    <p style="color:#64748b;font-size:14px;margin-bottom:24px;">
       观众同样留在赛事主页，但切换到「我要竞猜」Tab 查看竞猜面板。此时竞猜尚未开启，无法进行押注：
     </p>
 
     <div class="illus-row">
       <div>
         <div class="phone-frame">
-          <img src="event-viewer-waiting.png" alt="观众视角 - 无法押注" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#1a1a2e';">
+          <img src="event-viewer-waiting.png" alt="观众视角 - 无法押注" onclick="zoomImg(this.src)" onerror="this.alt='截图加载失败';this.style.height='400px';this.style.background='#e2e8f0';">
         </div>
         <div class="phone-label">👥 观众视角（等待阶段）</div>
       </div>
