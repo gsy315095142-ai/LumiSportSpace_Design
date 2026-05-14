@@ -1,7 +1,7 @@
 ﻿<!-- ==================== 17. 积分变动记录（规划中） ==================== -->
   <div class="card card-planned">
     <h2><span class="icon">📊</span>积分变动记录<span class="badge-planned">规划中</span></h2>
-    <p class="planned-hint">类似「竞猜币流水」，记录每场比赛后的积分变化。对标竞猜侧的收支明细能力。</p>
+    <p class="planned-hint">类似「竞猜币流水」，记录每场比赛后的积分变化。支持按玩法筛选，对标「过往战绩增强版」。</p>
 
     <div class="illus-row" style="gap:32px;align-items:flex-start;margin-bottom:28px;">
       <div class="phone-frame" style="width:300px;">
@@ -11,6 +11,13 @@
           <span style="width:60px"></span>
         </div>
         <div class="cyber-body">
+          <!-- 玩法筛选栏 -->
+          <div class="filter-bar">
+            <span class="filter-chip active">全部</span>
+            <span class="filter-chip">🏒冰球</span>
+            <span class="filter-chip">🥊拳王</span>
+            <span class="filter-chip">🤺击剑</span>
+          </div>
           <!-- 条目1：胜利加分 -->
           <div class="cyber-card rat-sim">
             <div class="rat-row1">
@@ -53,26 +60,69 @@
       <div class="desc-area">
         <h3 style="font-size:17px;font-weight:600;color:#1e293b;margin-bottom:14px;">设计说明</h3>
         <ul class="anno-list">
-          <li data-num="1"><strong>头行</strong> — 左侧时间，右侧积分变化（<span style="color:#73d13d;font-weight:600">+N 绿色</span> / <span style="color:#ff7875;font-weight:600">−N 红色</span> / <span style="color:#ffc069">0 橙色</span>），与竞猜币流水视觉一致</li>
-          <li data-num="2"><strong>原因行</strong> — emoji玩法 + 结果 + 比分，如「🏒 疾速冰球 · 胜利（5:3）」</li>
-          <li data-num="3"><strong>余额行</strong> — 灰色小字，显示变动后的积分值</li>
+          <li data-num="1"><strong>玩法筛选栏</strong> — 顶部水平标签：「全部 / 🏒冰球 / 🥊拳王 / 🤺击剑」，与「过往战绩增强版」保持一致的筛选交互</li>
+          <li data-num="2"><strong>头行</strong> — 左侧时间，右侧积分变化（<span style="color:#73d13d;font-weight:600">+N 绿色</span> / <span style="color:#ff7875;font-weight:600">−N 红色</span> / <span style="color:#ffc069">0 橙色</span>），与竞猜币流水视觉一致</li>
+          <li data-num="3"><strong>原因行</strong> — emoji玩法 + 结果 + 比分，如「🏒 疾速冰球 · 胜利（5:3）」</li>
+          <li data-num="4"><strong>余额行</strong> — 灰色小字，显示变动后的积分值</li>
         </ul>
-        <h3 style="font-size:15px;font-weight:600;color:#6366f1;margin:20px 0 10px;">积分计算规则（ELO）</h3>
+
+        <h3 style="font-size:15px;font-weight:600;color:#6366f1;margin:20px 0 10px;">积分计算规则</h3>
+        <div style="background:#1e293b;border-radius:8px;padding:16px 20px;margin-bottom:16px;font-family:monospace;font-size:13px;color:#a5b4fc;line-height:2;">
+          <span style="color:#64748b;">// 常量</span><br>
+          SCORE_RATE = <span style="color:#fbbf24;">20</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b;">// 每场变动基数</span><br>
+          INIT_RATING = <span style="color:#fbbf24;">100</span>&nbsp;&nbsp;&nbsp;<span style="color:#64748b;">// 初始积分</span><br>
+          MIN_RATING  = <span style="color:#fbbf24;">1</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64748b;">// 积分下限</span><br><br>
+          <span style="color:#64748b;">// 胜负结算</span><br>
+          sum = redRating + blueRating<br>
+          redDelta = SCORE_RATE × (blueRating / sum)<br>
+          blueDelta = SCORE_RATE × (redRating / sum)<br><br>
+          <span style="color:#64748b;">// 胜方 +delta，败方 -delta；平局双方 ±0</span>
+        </div>
+
         <div class="info-duo">
           <div class="info-block green">
-            <p class="block-title">📈 加分场景</p>
-            <p class="block-text">胜利（胜方获得积分）<br>以弱胜强加分更多<br>大比分胜出加分更多</p>
+            <p class="block-title">📈 胜方加分</p>
+            <p class="block-text">
+              delta = 20 × (对手积分 / 双方积分之和)<br><br>
+              <strong>对手积分占比越高，加分越多</strong> — 即"以弱胜强"获得更多积分奖励
+            </p>
           </div>
           <div class="info-block amber">
-            <p class="block-title">📉 扣分场景</p>
-            <p class="block-text">失败（败方扣除积分）<br>强输弱扣分更多<br>平局基本不变动</p>
+            <p class="block-title">📉 败方扣分</p>
+            <p class="block-text">
+              delta = 20 × (自己积分 / 双方积分之和)<br><br>
+              <strong>自己积分占比越高，扣分越多</strong> — 即"强输弱"扣除更多积分惩罚
+            </p>
           </div>
         </div>
+
+        <ul style="font-size:13px;color:#475569;padding-left:20px;line-height:2.2;margin-top:16px;">
+          <li><strong style="color:#1e293b;">积分按玩法独立</strong> — 冰球、拳王、击剑各自独立计算和存储（<code>user_game_ratings</code> 表按 <code>gameType</code> 区分）</li>
+          <li><strong style="color:#1e293b;">平局不变动</strong> — 比分为平局时双方 <code>ratingChange = 0</code></li>
+          <li><strong style="color:#1e293b;">积分下限为 1</strong> — 扣分后不低于 <code>MIN_RATING = 1</code>，不会变成 0 或负数</li>
+          <li><strong style="color:#1e293b;">双方变动不对等</strong> — 胜方加分与败方扣分的数值通常不相等（各自 delta 独立计算）</li>
+          <li><strong style="color:#1e293b;">赔率也基于积分</strong> — 胜负盘赔率 = <code>(1 / 预期胜率) × (1 - 10%手续费)</code>，预期胜率 = 自己积分 / 双方积分之和</li>
+        </ul>
+
         <div class="rule-box info" style="margin-top:16px;">
+          <p class="rule-title">💡 举例说明</p>
+          <p class="rule-text">
+            红方积分 <strong>100</strong>，蓝方积分 <strong>100</strong>（初始状态）：<br>
+            sum = 200，redDelta = 20 × (100/200) = <strong>10</strong>，blueDelta = 20 × (100/200) = <strong>10</strong><br>
+            红方胜利 → 红方 <span style="color:#16a34a;">+10</span> 变成 110，蓝方 <span style="color:#dc2626;">−10</span> 变成 90<br><br>
+            红方积分 <strong>150</strong>，蓝方积分 <strong>80</strong>（实力悬殊）：<br>
+            sum = 230，redDelta = 20 × (80/230) ≈ <strong>6.96</strong>，blueDelta = 20 × (150/230) ≈ <strong>13.04</strong><br>
+            红方胜利 → 红方仅 <span style="color:#16a34a;">+6.96</span>（强者赢弱者加分少）<br>
+            蓝方胜利 → 蓝方 <span style="color:#16a34a;">+13.04</span>（弱者赢强者加分多），红方 <span style="color:#dc2626;">−6.96</span>
+          </p>
+        </div>
+
+        <div class="rule-box info" style="margin-top:12px;">
           <p class="rule-title">💡 数据来源</p>
           <p class="rule-text">
-            后端结算时已记录 <code>redRatingBefore → redRatingAfter</code>，前端需新增接口 <code>GET /api/player/rating-log</code> 聚合流水。<br>
-            表结构可复用 <code>user_coin_logs</code> 的模式，新建 <code>user_rating_logs</code> 表。
+            后端结算时已记录 <code>redRatingBefore → redRatingAfter</code>，前端需新增接口 <code>GET /api/player/rating-log</code> 聚合流水，支持 <code>gameType</code> 筛选参数。<br>
+            表结构可复用 <code>user_coin_logs</code> 的模式，新建 <code>user_rating_logs</code> 表。<br>
+            积分计算逻辑详见 <code>player-rating.service.ts</code> → <code>applyReferenceRatingSettlement</code>，常量定义见 <code>player-rating.util.ts</code>。
           </p>
         </div>
       </div>
@@ -91,4 +141,3 @@
 .rat-cause { font-size:12px; color:rgba(220,245,255,0.92); line-height:1.4; }
 .rat-bal { font-size:10px; color:rgba(160,200,220,0.55); }
 </style>
-
