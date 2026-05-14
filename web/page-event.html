@@ -11,8 +11,8 @@
 
 body {
   font-family: 'Inter', -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: #0f0f1a;
-  color: #e0e0e0;
+  background: #f0f2f8;
+  color: #1e293b;
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -22,7 +22,7 @@ body::before {
   position: fixed;
   top: -30%; left: -20%;
   width: 60%; height: 60%;
-  background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(99,102,241,0.06) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -31,7 +31,7 @@ body::after {
   position: fixed;
   bottom: -20%; right: -10%;
   width: 50%; height: 50%;
-  background: radial-gradient(circle, rgba(236,72,153,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(236,72,153,0.04) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -62,7 +62,7 @@ body::after {
 .header h1 {
   font-size: 24px;
   font-weight: 700;
-  background: linear-gradient(135deg, #818cf8, #c084fc, #f472b6);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -70,29 +70,30 @@ body::after {
 }
 .header p {
   font-size: 13px;
-  color: #6b7280;
+  color: #64748b;
   margin-top: 6px;
 }
 
 /* 卡片 */
 .card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(129,140,248,0.10);
+  background: #ffffff;
+  border: 1px solid rgba(99,102,241,0.12);
   border-radius: 16px;
   padding: 24px;
   margin-bottom: 20px;
-  backdrop-filter: blur(12px);
-  transition: border-color 0.3s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
 .card:hover {
-  border-color: rgba(129,140,248,0.2);
+  border-color: rgba(99,102,241,0.25);
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
 }
 .card-title {
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
-  color: #818cf8;
+  color: #6366f1;
   margin-bottom: 24px;
   display: flex;
   align-items: center;
@@ -102,7 +103,7 @@ body::after {
   content: '';
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, rgba(129,140,248,0.3), transparent);
+  background: linear-gradient(90deg, rgba(99,102,241,0.2), transparent);
 }
 
 /* ── 横向流程条 ── */
@@ -121,15 +122,15 @@ body::after {
 .flow-step-circle {
   width: 40px; height: 40px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  border: 2px solid rgba(255,255,255,0.12);
+  background: rgba(99,102,241,0.08);
+  border: 2px solid rgba(99,102,241,0.15);
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 8px;
   font-size: 15px;
   font-weight: 700;
-  color: #6b7280;
+  color: #6366f1;
   position: relative;
   z-index: 2;
   transition: all 0.3s;
@@ -142,7 +143,7 @@ body::after {
 .flow-step-title {
   font-size: 13px;
   font-weight: 600;
-  color: #d1d5db;
+  color: #334155;
   margin-bottom: 4px;
   white-space: nowrap;
 }
@@ -158,12 +159,12 @@ body::after {
   margin-top: 2px;
 }
 .flow-step-status.implemented {
-  background: rgba(74,222,128,0.12);
-  color: #4ade80;
+  background: rgba(22,163,74,0.10);
+  color: #16a34a;
 }
 .flow-step-status.substate {
-  background: rgba(251,191,36,0.12);
-  color: #fbbf24;
+  background: rgba(217,119,6,0.10);
+  color: #d97706;
 }
 
 /* 连线 */
@@ -174,7 +175,7 @@ body::after {
   left: calc(50% + 20px);
   width: calc(100% - 40px);
   height: 2px;
-  background: linear-gradient(90deg, rgba(129,140,248,0.3), rgba(129,140,248,0.1));
+  background: linear-gradient(90deg, rgba(99,102,241,0.25), rgba(99,102,241,0.08));
   z-index: 1;
 }
 /* 箭头 */
@@ -184,7 +185,7 @@ body::after {
   top: 8px;
   right: -3px;
   font-size: 22px;
-  color: rgba(129,140,248,0.4);
+  color: rgba(99,102,241,0.35);
   z-index: 3;
 }
 
@@ -196,32 +197,32 @@ body::after {
   font-size: 13px;
 }
 .compare-table th {
-  background: rgba(129,140,248,0.08);
-  color: #a5b4fc;
+  background: rgba(99,102,241,0.06);
+  color: #4f46e5;
   font-weight: 600;
   padding: 10px 12px;
   text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
   white-space: nowrap;
 }
 .compare-table td {
   padding: 10px 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: #c0c0d0;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  color: #475569;
   text-align: center;
   vertical-align: middle;
 }
 .compare-table tr:hover td {
-  background: rgba(129,140,248,0.04);
+  background: rgba(99,102,241,0.04);
 }
 .compare-table td.step-name {
   font-weight: 600;
-  color: #e0e0ff;
+  color: #1e293b;
   text-align: left;
 }
 .compare-table td code {
-  background: rgba(129,140,248,0.1);
-  color: #a5b4fc;
+  background: rgba(99,102,241,0.08);
+  color: #6366f1;
   padding: 1px 5px;
   border-radius: 3px;
   font-size: 12px;
@@ -229,8 +230,8 @@ body::after {
 }
 .tag-implemented {
   display: inline-block;
-  background: rgba(74,222,128,0.12);
-  color: #4ade80;
+  background: rgba(22,163,74,0.10);
+  color: #16a34a;
   font-size: 11px;
   font-weight: 600;
   padding: 2px 8px;
@@ -238,8 +239,8 @@ body::after {
 }
 .tag-substate {
   display: inline-block;
-  background: rgba(251,191,36,0.12);
-  color: #fbbf24;
+  background: rgba(217,119,6,0.10);
+  color: #d97706;
   font-size: 11px;
   font-weight: 600;
   padding: 2px 8px;
@@ -248,7 +249,7 @@ body::after {
 .merge-hint {
   display: block;
   font-size: 11px;
-  color: #9ca3af;
+  color: #94a3b8;
   margin-top: 3px;
 }
 
@@ -268,8 +269,8 @@ body::after {
   width: 300px;
   border-radius: 12px;
   overflow: hidden;
-  background: rgba(129,140,248,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(99,102,241,0.04);
+  border: 1px solid rgba(0,0,0,0.08);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -278,8 +279,8 @@ body::after {
   position: relative;
 }
 .flow-page-img-wrap:hover {
-  border-color: rgba(129,140,248,0.3);
-  box-shadow: 0 0 24px rgba(129,140,248,0.08);
+  border-color: rgba(99,102,241,0.3);
+  box-shadow: 0 0 24px rgba(99,102,241,0.08);
 }
 .flow-page-img-wrap::after {
   content: '🔍';
@@ -304,17 +305,17 @@ body::after {
 .flow-page-num {
   font-size: 32px;
   font-weight: 700;
-  color: rgba(129,140,248,0.2);
+  color: rgba(99,102,241,0.15);
   margin-bottom: 4px;
 }
 .flow-page-label {
   font-size: 15px;
   font-weight: 500;
-  color: #d1d5db;
+  color: #334155;
   line-height: 1.8;
 }
 .flow-page-label strong {
-  color: #a5b4fc;
+  color: #6366f1;
   font-weight: 600;
 }
 
@@ -331,8 +332,8 @@ body::after {
   font-weight: 600;
   padding: 2px 8px;
   border-radius: 4px;
-  background: rgba(129,140,248,0.1);
-  color: #a5b4fc;
+  background: rgba(99,102,241,0.08);
+  color: #6366f1;
 }
 
 /* ── 图片放大遮罩 ── */
@@ -341,7 +342,7 @@ body::after {
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.85);
+  background: rgba(0,0,0,0.70);
   z-index: 9999;
   align-items: center;
   justify-content: center;
@@ -360,7 +361,7 @@ body::after {
   max-width: 92vw;
   max-height: 90vh;
   border-radius: 12px;
-  box-shadow: 0 0 60px rgba(129,140,248,0.15);
+  box-shadow: 0 0 60px rgba(99,102,241,0.15);
   animation: imgZoomIn 0.3s ease;
 }
 @keyframes imgZoomIn {
@@ -373,7 +374,7 @@ body::after {
   left: 50%;
   transform: translateX(-50%);
   font-size: 12px;
-  color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.5);
   letter-spacing: 1px;
 }
 
@@ -383,7 +384,7 @@ body::after {
   display: grid;
   grid-template-columns: 80px repeat(6, 1fr);
   gap: 2px;
-  background: rgba(129,140,248,0.04);
+  background: rgba(99,102,241,0.04);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -394,8 +395,8 @@ body::after {
   text-align: center;
   font-size: 11px;
   font-weight: 600;
-  color: #818cf8;
-  background: rgba(129,140,248,0.06);
+  color: #4f46e5;
+  background: rgba(99,102,241,0.06);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -416,7 +417,7 @@ body::after {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  background: rgba(255,255,255,0.02);
+  background: rgba(0,0,0,0.02);
 }
 .matrix-role .role-icon {
   font-size: 20px;
@@ -424,7 +425,7 @@ body::after {
 .matrix-role .role-name {
   font-size: 11px;
   font-weight: 600;
-  color: #d1d5db;
+  color: #334155;
 }
 
 /* 内容格 */
@@ -437,11 +438,11 @@ body::after {
   gap: 4px;
   text-align: center;
   min-height: 80px;
-  background: rgba(255,255,255,0.01);
+  background: rgba(0,0,0,0.01);
   transition: background 0.2s;
 }
 .matrix-cell:hover {
-  background: rgba(255,255,255,0.04);
+  background: rgba(99,102,241,0.06);
 }
 .matrix-cell.empty {
   opacity: 0.3;
@@ -449,41 +450,41 @@ body::after {
 
 .cell-action {
   font-size: 11px;
-  color: #d1d5db;
+  color: #334155;
   line-height: 1.4;
   padding: 2px 6px;
   border-radius: 4px;
-  background: rgba(255,255,255,0.04);
+  background: rgba(99,102,241,0.06);
   white-space: nowrap;
 }
 
 /* 回退标记的 cell-action */
 .cell-action.rollback {
-  border-color: rgba(251,146,60,0.5);
+  border-color: rgba(234,88,12,0.5);
   position: relative;
 }
 .cell-action.rollback::after {
   content: '↩';
   font-size: 10px;
   margin-left: 2px;
-  color: #fb923c;
+  color: #ea580c;
 }
 
 /* 角色色标 */
-.role-admin .cell-action { border-left: 2px solid #818cf8; }
-.role-player .cell-action { border-left: 2px solid #34d399; }
-.role-audience .cell-action { border-left: 2px solid #f472b6; }
+.role-admin .cell-action { border-left: 2px solid #6366f1; }
+.role-player .cell-action { border-left: 2px solid #16a34a; }
+.role-audience .cell-action { border-left: 2px solid #db2777; }
 
-.role-admin .cell-action.rollback { border-left-color: #fb923c; }
+.role-admin .cell-action.rollback { border-left-color: #ea580c; }
 
-.role-admin .role-name { color: #a5b4fc; }
-.role-player .role-name { color: #6ee7b7; }
-.role-audience .role-name { color: #f9a8d4; }
+.role-admin .role-name { color: #4f46e5; }
+.role-player .role-name { color: #16a34a; }
+.role-audience .role-name { color: #db2777; }
 
 /* ── 规则提示框 ── */
 .rule-box {
-  background: rgba(251,191,36,0.06);
-  border: 1px solid rgba(251,191,36,0.15);
+  background: rgba(217,119,6,0.06);
+  border: 1px solid rgba(217,119,6,0.15);
   border-radius: 12px;
   padding: 16px 20px;
   margin-top: 20px;
@@ -492,11 +493,11 @@ body::after {
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 8px;
-  color: #fbbf24;
+  color: #d97706;
 }
 .rule-box p.rule-text {
   font-size: 13px;
-  color: #9ca3af;
+  color: #64748b;
   line-height: 1.8;
 }
 
@@ -508,25 +509,25 @@ body::after {
 }
 .ctrl-card {
   flex: 1;
-  background: rgba(129,140,248,0.04);
-  border: 1px solid rgba(129,140,248,0.10);
+  background: rgba(99,102,241,0.04);
+  border: 1px solid rgba(99,102,241,0.12);
   border-top: 2px solid;
-  border-image: linear-gradient(90deg, #818cf8, #06b6d4) 1;
+  border-image: linear-gradient(90deg, #6366f1, #0891b2) 1;
   border-radius: 12px;
   padding: 18px 14px;
   text-align: center;
   transition: border-color 0.3s, background 0.3s;
 }
 .ctrl-card:hover {
-  background: rgba(255,255,255,0.05);
-  border-color: rgba(255,255,255,0.12);
+  background: rgba(99,102,241,0.06);
+  border-color: rgba(99,102,241,0.20);
 }
 .ctrl-icon { font-size: 28px; margin-bottom: 8px; display: block; }
-.ctrl-name { font-size: 14px; font-weight: 600; color: #d1d5db; margin-bottom: 4px; }
-.ctrl-desc { font-size: 11px; color: #6b7280; line-height: 1.5; }
+.ctrl-name { font-size: 14px; font-weight: 600; color: #334155; margin-bottom: 4px; }
+.ctrl-desc { font-size: 11px; color: #64748b; line-height: 1.5; }
 .ctrl-sep {
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; color: #4b5563; font-weight: 600;
+  font-size: 11px; color: #94a3b8; font-weight: 600;
   letter-spacing: 1px; flex-shrink: 0;
 }
 
@@ -538,8 +539,8 @@ body::after {
   gap: 12px;
 }
 .ctrl-mode-item {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.02);
+  border: 1px solid rgba(0,0,0,0.06);
   border-radius: 10px;
   padding: 16px;
 }
@@ -553,7 +554,7 @@ body::after {
 }
 .ctrl-mode-item p {
   font-size: 12px;
-  color: #9ca3af;
+  color: #64748b;
   line-height: 1.7;
 }
 .ctrl-mode-item .mode-badge {
@@ -565,23 +566,23 @@ body::after {
   letter-spacing: 0.5px;
 }
 .ctrl-mode-item .mode-badge.default {
-  background: rgba(74,222,128,0.12);
-  color: #4ade80;
+  background: rgba(22,163,74,0.10);
+  color: #16a34a;
 }
 .ctrl-mode-item .mode-badge.optional {
-  background: rgba(129,140,248,0.12);
-  color: #a5b4fc;
+  background: rgba(99,102,241,0.10);
+  color: #6366f1;
 }
 
 .ctrl-footer-note {
   text-align: center;
   font-size: 12px;
-  color: #4b5563;
+  color: #94a3b8;
   margin-top: 16px;
   padding: 12px;
-  border-top: 1px solid rgba(255,255,255,0.04);
+  border-top: 1px solid rgba(0,0,0,0.06);
 }
-.ctrl-footer-note span { color: #818cf8; font-weight: 500; }
+.ctrl-footer-note span { color: #6366f1; font-weight: 500; }
 
 /* ── 响应式 ── */
 @media (max-width: 700px) {
@@ -661,8 +662,8 @@ body::after {
   <!-- 6 步 vs 4 态对照 -->
   <div class="card">
     <div class="card-title">📐 文档 6 步 vs 代码 4 态</div>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">
-      产品设计定义 6 个流程阶段，当前代码实现为 4 个 <code style="background:rgba(129,140,248,0.1);color:#a5b4fc;padding:1px 5px;border-radius:3px;font-size:13px;">SessionStatus</code>。部分阶段在代码中共享同一状态，需后续开发独立拆分。
+    <p style="color:#64748b;font-size:14px;margin-bottom:16px;">
+      产品设计定义 6 个流程阶段，当前代码实现为 4 个 <code style="background:rgba(99,102,241,0.08);color:#6366f1;padding:1px 5px;border-radius:3px;font-size:13px;">SessionStatus</code>。部分阶段在代码中共享同一状态，需后续开发独立拆分。
     </p>
     <table class="compare-table">
       <thead>
@@ -716,8 +717,8 @@ body::after {
     <div class="rule-box">
       <p class="rule-title">⚠️ 子状态待独立说明</p>
       <p class="rule-text">
-        <strong style="color:#e0e0ff;">①② 合并为 <code>waiting</code></strong>：当前靠管理员是否已点「确认玩法」来区分，但代码中无独立字段标记。<br>
-        <strong style="color:#e0e0ff;">③④ 合并为 <code>betting</code></strong>：通过布尔字段 <code>guessingOpen</code> 区分，已可正常工作，但若需前端根据步骤展示不同 UI（如进度条高亮第 3 步 vs 第 4 步），建议后续将 <code>guessingOpen</code> 提升为独立的 SessionStatus 枚举值。
+        <strong style="color:#1e293b;">①② 合并为 <code>waiting</code></strong>：当前靠管理员是否已点「确认玩法」来区分，但代码中无独立字段标记。<br>
+        <strong style="color:#1e293b;">③④ 合并为 <code>betting</code></strong>：通过布尔字段 <code>guessingOpen</code> 区分，已可正常工作，但若需前端根据步骤展示不同 UI（如进度条高亮第 3 步 vs 第 4 步），建议后续将 <code>guessingOpen</code> 提升为独立的 SessionStatus 枚举值。
       </p>
     </div>
   </div>
@@ -725,7 +726,7 @@ body::after {
   <!-- 当前流程（Server 端三大界面） -->
   <div class="card">
     <div class="card-title">🖥️ Server 端三大界面</div>
-    <p style="color:#9ca3af;font-size:14px;margin-bottom:20px;">
+    <p style="color:#64748b;font-size:14px;margin-bottom:20px;">
       Unity 大屏在赛事不同阶段展示三个核心界面，与小程序 6 步流程对应关系如下：
     </p>
     <div class="flow-pages">
@@ -740,8 +741,8 @@ body::after {
             <span class="phase-tag">对应 ① 玩法配置</span>
             <span class="phase-tag">对应 ② 等待报名</span>
           </div>
-          <p style="color:#9ca3af;font-size:13px;margin-top:6px;">
-            管理员在 Server 端选择游戏类型（冰球/拳王/击剑）并确认，小程序端同步进入等待状态。<strong style="color:#fbbf24;">待开发</strong>：Server 端模式切换将统一收归到首页（当前在匹配页面）。
+          <p style="color:#64748b;font-size:13px;margin-top:6px;">
+            管理员在 Server 端选择游戏类型（冰球/拳王/击剑）并确认，小程序端同步进入等待状态。<strong style="color:#d97706;">待开发</strong>：Server 端模式切换将统一收归到首页（当前在匹配页面）。
           </p>
         </div>
       </div>
@@ -757,7 +758,7 @@ body::after {
             <span class="phase-tag">对应 ④ 竞猜中</span>
             <span class="phase-tag">对应 ⑤ 比赛中</span>
           </div>
-          <p style="color:#9ca3af;font-size:13px;margin-top:6px;">
+          <p style="color:#64748b;font-size:13px;margin-top:6px;">
             小程序端进行<strong>报名参赛</strong>、<strong>竞猜胜负</strong>；管理员审核报名、开启竞猜、开始比赛。Server 端展示匹配进度与比赛实况。
           </p>
         </div>
@@ -772,7 +773,7 @@ body::after {
           <div class="phase-tags">
             <span class="phase-tag">对应 ⑥ 已结算</span>
           </div>
-          <p style="color:#9ca3af;font-size:13px;margin-top:6px;">
+          <p style="color:#64748b;font-size:13px;margin-top:6px;">
             展示<strong>比赛结果</strong>与积分变动。管理员可选择<strong>再来一局</strong>（继承玩法配置）、<strong>切换游戏</strong>或<strong>返回首页</strong>（收起当前场次）。
           </p>
         </div>
@@ -908,13 +909,13 @@ body::after {
       <div class="ctrl-mode-item">
         <h4>📱 小程序管理模式 <span class="mode-badge default">默认</span></h4>
         <p>
-          <strong style="color:#e0e0ff;">PC 操控开关 = 关闭</strong>时，<strong style="color:#4ade80;">仅小程序管理端</strong>可操控赛事流程（配置、报名、竞猜、开赛、结算等）。Server 端仅展示画面，不接受操控指令。
+          <strong style="color:#1e293b;">PC 操控开关 = 关闭</strong>时，<strong style="color:#16a34a;">仅小程序管理端</strong>可操控赛事流程（配置、报名、竞猜、开赛、结算等）。Server 端仅展示画面，不接受操控指令。
         </p>
       </div>
       <div class="ctrl-mode-item">
         <h4>🖥️ PC 控制台模式 <span class="mode-badge optional">需手动开启</span></h4>
         <p>
-          <strong style="color:#e0e0ff;">PC 操控开关 = 开启</strong>时，<strong style="color:#a5b4fc;">仅 PC / Server 端</strong>可操控赛事流程。此时小程序管理端的操控按钮将禁用，仅保留状态查看功能。
+          <strong style="color:#1e293b;">PC 操控开关 = 开启</strong>时，<strong style="color:#6366f1;">仅 PC / Server 端</strong>可操控赛事流程。此时小程序管理端的操控按钮将禁用，仅保留状态查看功能。
         </p>
       </div>
     </div>
