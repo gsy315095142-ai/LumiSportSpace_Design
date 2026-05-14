@@ -11,13 +11,13 @@
       card.className = 'card';
       card.innerHTML =
         '<h2><span class="icon">👥</span>观众：报名阶段的赛事主页</h2>' +
-        '<p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">' +
+        '<p style="color:#64748b;font-size:14px;margin-bottom:24px;">' +
           '观众在「我要竞猜」Tab 下查看竞猜面板，但由于管理员尚未开启竞猜，无法进行任何下注操作：' +
         '</p>' +
         '<div class="illus-row">' +
           '<div>' +
             '<div class="phone-frame">' +
-              '<img src="join-viewer.png" alt="观众视角 - 报名阶段" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#1a1a2e\';">' +
+              '<img src="join-viewer.png" alt="观众视角 - 报名阶段" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#e2e8f0\';">' +
             '</div>' +
             '<div class="phone-label">👥 观众视角（报名阶段）</div>' +
           '</div>' +

@@ -12,13 +12,13 @@
       card.className = 'card';
       card.innerHTML =
         '<h2><span class="icon">🛡️</span>管理员：报名阶段页面</h2>' +
-        '<p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">' +
+        '<p style="color:#64748b;font-size:14px;margin-bottom:24px;">' +
           '管理员进入「场次管理」页面后，在报名阶段可进行选手审核和流程操作：' +
         '</p>' +
         '<div class="illus-row">' +
           '<div>' +
             '<div class="phone-frame">' +
-              '<img src="join-admin-review.png" alt="管理员报名阶段页面" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#1a1a2e\';">' +
+              '<img src="join-admin-review.png" alt="管理员报名阶段页面" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#e2e8f0\';">' +
             '</div>' +
             '<div class="phone-label">🛡️ 管理员页面（报名阶段）</div>' +
           '</div>' +

@@ -11,13 +11,13 @@
       card.className = 'card';
       card.innerHTML =
         '<h2><span class="icon">🤺</span>选手：选边报名</h2>' +
-        '<p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">' +
+        '<p style="color:#64748b;font-size:14px;margin-bottom:24px;">' +
           '管理员开放报名后，选手在「我要参赛」Tab 中看到选边界面，选择蓝方或红方并提交报名：' +
         '</p>' +
         '<div class="illus-row">' +
           '<div>' +
             '<div class="phone-frame">' +
-              '<img src="join-player-ready.png" alt="选手视角 - 选边报名" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#1a1a2e\';">' +
+              '<img src="join-player-ready.png" alt="选手视角 - 选边报名" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#e2e8f0\';">' +
             '</div>' +
             '<div class="phone-label">🤺 选手视角（选边报名）</div>' +
           '</div>' +
@@ -40,7 +40,7 @@
             '<strong>同侧其余申请将被后端自动删除</strong>（<code>DELETE FROM registration_requests WHERE sessionId=? AND side=?</code>）。' +
             '选手提交报名后状态变为「待审」，在审核通过前不可参与竞猜。' +
             '<strong>已在一侧待审核中</strong>时，若想切换到另一阵营，' +
-            '<strong style="color:#fbbf24;">需先撤销当前报名</strong>再重新选边提交。' +
+            '<strong style="color:#d97706;">需先撤销当前报名</strong>再重新选边提交。' +
           '</p>' +
         '</div>';
       container.appendChild(card);

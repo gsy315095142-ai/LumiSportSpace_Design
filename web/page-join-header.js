@@ -26,12 +26,12 @@
       card.className = 'card';
       card.innerHTML =
         '<h2><span class="icon">📖</span>页面定位</h2>' +
-        '<p style="color:#c0c0d0;font-size:15px;margin-bottom:16px;">' +
-          '「选手报名」是赛事从<strong style="color:#e0e0ff;">等待报名</strong>进入<strong style="color:#e0e0ff;">报名中</strong>阶段后的核心环节。' +
+        '<p style="color:#475569;font-size:15px;margin-bottom:16px;">' +
+          '「选手报名」是赛事从<strong style="color:#1e293b;">等待报名</strong>进入<strong style="color:#1e293b;">报名中</strong>阶段后的核心环节。' +
           '管理员点击「开始报名」后，选手通过赛事主页的「我要参赛」Tab 进行选边和提交，管理员在「场次管理」页面审核通过后，选手成为正式参赛者。' +
         '</p>' +
-        '<p style="color:#9ca3af;font-size:14px;">' +
-          '报名阶段的核心特点是<strong style="color:#e0e0ff;">三方异步协作</strong>：管理员审核选手、选手等待审核结果、观众等待双方选手通过后由管理员开启竞猜。' +
+        '<p style="color:#64748b;font-size:14px;">' +
+          '报名阶段的核心特点是<strong style="color:#1e293b;">三方异步协作</strong>：管理员审核选手、选手等待审核结果、观众等待双方选手通过后由管理员开启竞猜。' +
         '</p>';
       return card;
     },
@@ -41,7 +41,7 @@
       card.className = 'card';
       card.innerHTML =
         '<h2><span class="icon">🔄</span>报名流程概览</h2>' +
-        '<p style="color:#9ca3af;font-size:14px;margin-bottom:16px;">从管理员开放报名到竞猜开启，经历以下步骤：</p>' +
+        '<p style="color:#64748b;font-size:14px;margin-bottom:16px;">从管理员开放报名到竞猜开启，经历以下步骤：</p>' +
         '<div class="flow-strip">' +
           '<div class="flow-step"><span class="step-label">管理员开始报名</span></div>' +
           '<span class="flow-arrow">→</span>' +

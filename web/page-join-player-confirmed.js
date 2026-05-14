@@ -11,13 +11,13 @@
       card.className = 'card';
       card.innerHTML =
         '<h2><span class="icon">✅</span>选手：审核通过</h2>' +
-        '<p style="color:#9ca3af;font-size:14px;margin-bottom:24px;">' +
+        '<p style="color:#64748b;font-size:14px;margin-bottom:24px;">' +
           '管理员审核通过后，选手的界面从「审核中」变为「已报名」，名字出现在本场对阵模块中：' +
         '</p>' +
         '<div class="illus-row">' +
           '<div>' +
             '<div class="phone-frame">' +
-              '<img src="join-player-confirmed.png" alt="选手视角 - 审核通过" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#1a1a2e\';">' +
+              '<img src="join-player-confirmed.png" alt="选手视角 - 审核通过" onclick="JoinUtils.zoomImg(this.src)" onerror="this.alt=\'截图加载失败\';this.style.height=\'400px\';this.style.background=\'#e2e8f0\';">' +
             '</div>' +
             '<div class="phone-label">✅ 选手视角（审核通过）</div>' +
           '</div>' +
