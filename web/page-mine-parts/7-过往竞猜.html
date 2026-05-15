@@ -22,7 +22,7 @@
             </div>
             <div class="hist-match">第 3 局 · 疾速冰球 · 周末争霸</div>
             <div class="hist-score">🔵 小明 5 : 3 大壮 🔴</div>
-            <div class="hist-sum">本金 200 · 发放 350 · 猜中派奖累计 150</div>
+            <div class="hist-sum">本金 200 · 发放 350 · 猜中收益累计 150</div>
             <div class="hist-details">
               <div class="hist-detail hit">
                 <span class="hd-type">胜负盘</span>
@@ -46,7 +46,7 @@
             </div>
             <div class="hist-match">第 1 局 · 烈焰拳王</div>
             <div class="hist-score">🔵 张三 2 : 2 李四 🔴</div>
-            <div class="hist-sum">本金 100 · 发放 100 · 猜中派奖累计 0</div>
+            <div class="hist-sum">本金 100 · 发放 100 · 猜中收益累计 0</div>
             <div class="hist-details">
               <div class="hist-detail draw">
                 <span class="hd-type">胜负盘</span>
@@ -66,7 +66,7 @@
           <li data-num="2"><strong>头行</strong> — 左侧时间（M/D HH:MM），右侧净收益（<span style="color:#73d13d">正数绿色 +N</span> / <span style="color:#ff7875">负数红色 -N</span> / 灰色 0）</li>
           <li data-num="3"><strong>赛事行</strong> — 「第 X 局 · 游戏类型 · 赛事名」，如「疾速冰球 · 周末争霸」</li>
           <li data-num="4"><strong>对阵行</strong> — 🔵蓝方名 比分:比分 红方名🔴，直观展示对阵结果</li>
-          <li data-num="5"><strong>汇总行</strong> — 灰色小字：「本金 X · 发放 Y · 猜中派奖累计 Z」</li>
+          <li data-num="5"><strong>汇总行</strong> — 灰色小字：「本金 X · 发放 Y · 猜中收益累计 Z」</li>
           <li data-num="6"><strong>明细区</strong> — 分隔线下按竞猜类型逐项展示，三种颜色编码：
             <br>&nbsp;&nbsp;&nbsp;<span style="display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;background:rgba(20,60,30,0.55);color:#95de64;border:1px solid rgba(82,196,26,0.35)">猜中 hit</span>
             <span style="display:inline-block;padding:1px 8px;border-radius:4px;font-size:12px;background:rgba(60,20,25,0.5);color:#ff9c9c;border:1px solid rgba(255,77,79,0.35);margin-left:4px">未中 miss</span>
@@ -77,7 +77,7 @@
           <p class="rule-title">💡 数据说明</p>
           <p class="rule-text">
             接口 <code>GET /api/betting/my-history?storeId={storeId}&limit=50</code>，最多拉取 50 条。<br>
-            每条明细展示：竞猜类型名、我的选择、结果描述，以及猜中派奖 / 输掉 / 退还金额。<br>
+            每条明细展示：竞猜类型名、我的选择、结果描述，以及猜中收益 / 输掉 / 退还金额。<br>
             数据范围限定在当前门店，不会展示其他门店的竞猜记录。
           </p>
         </div>
