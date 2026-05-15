@@ -7,7 +7,7 @@
     <div class="flow-strip">
       <div class="flow-step"><span class="step-label">点击「签到 +100」</span></div>
       <span class="flow-arrow">→</span>
-      <div class="flow-step"><span class="step-label">后端悲观锁校验</span></div>
+      <div class="flow-step"><span class="step-label">后端防重复校验</span></div>
       <span class="flow-arrow">→</span>
       <div class="flow-step"><span class="step-label">coins += 100</span></div>
       <span class="flow-arrow">→</span>
@@ -28,7 +28,7 @@
     <div class="rule-box warn">
       <p class="rule-title">⚠️ 并发安全</p>
       <p class="rule-text">
-        后端使用<strong>悲观写锁</strong> <code>SELECT ... FOR UPDATE</code> + 事务保证同一用户不会重复签到。通过 <code>lastCheckInYmd</code> 字段（YYYY-MM-DD 格式）判断今日是否已签到。
+        后端使用<strong>行级锁</strong> <code>SELECT ... FOR UPDATE</code> + 事务保证同一用户不会重复签到。通过 <code>lastCheckInYmd</code> 字段（YYYY-MM-DD 格式）判断今日是否已签到。
       </p>
     </div>
   </div>
