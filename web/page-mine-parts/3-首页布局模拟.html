@@ -92,15 +92,15 @@
     <div class="rule-box info">
       <p class="rule-title">💡 数据加载策略</p>
       <p class="rule-text">
-        <strong>onMounted</strong>：初始化导航栏 + 获取用户资料 + 读取当前门店信息 + 加载当前门店钱包余额<br>
-        <strong>onShow</strong>：每次页面可见时重新刷新钱包和用户资料，确保余额与昵称为最新状态<br>
-        <strong>门店变更</strong>：从「选择门店」页面返回后，若门店发生变化，重新拉取该门店的钱包余额与签到状态
+        <strong>onMounted</strong>：初始化导航栏 + 获取用户资料 + 读取当前门店信息 + 加载当前门店竞猜币余额<br>
+        <strong>onShow</strong>：每次页面可见时重新刷新竞猜币余额和用户资料，确保余额与昵称为最新状态<br>
+        <strong>门店变更</strong>：从「选择门店」页面返回后，若门店发生变化，重新拉取该门店的竞猜币余额与签到状态
       </p>
     </div>
     <div class="rule-box warn" style="margin-top:12px;">
       <p class="rule-title">🏪 门店隔离规则</p>
       <p class="rule-text">
-        <strong>竞猜币</strong>：每个门店独立账户，余额互不影响；签到、下注、派奖均在当前门店下操作。<br>
+        <strong>竞猜币</strong>：每个门店独立账户，余额互不影响；签到、下注、收益均在当前门店下操作。<br>
         <strong>积分</strong>：每个门店独立计算，参赛所得积分仅计入当场门店；段位、排行均按门店维度展示。<br>
         <strong>数据范围</strong>：竞猜区与参赛区的所有子页面（流水、排行、战绩等）仅展示当前选中门店的数据，不会跨店汇总。<br>
         <strong>门店切换</strong>：本页仅只读展示当前门店，不可直接切换；需点击「重选门店」跳转至选择门店页面完成切换。
