@@ -11,6 +11,10 @@
           <span style="width:60px"></span>
         </div>
         <div class="cyber-body">
+          <!-- 门店标识 -->
+          <div class="cyber-card" style="display:flex;align-items:center;gap:6px;padding:8px 12px;margin-bottom:8px;font-size:12px;color:rgba(160,200,220,0.7);">
+            <span>🏪</span><span>朝阳店</span>
+          </div>
           <!-- 段位卡 -->
           <div class="cyber-card tier-sim">
             <span class="sim-tier-icon">🥇</span>
@@ -32,15 +36,23 @@
         <h3 style="font-size:17px;font-weight:600;color:#1e293b;margin-bottom:14px;">页面布局解析</h3>
         <ul class="anno-list">
           <li data-num="1"><strong>导航栏</strong> — 标题「我的竞猜」，左上角返回按钮（青色 ‹ 返回）</li>
-          <li data-num="2"><strong>段位卡</strong> — 居中大号段位图标（如 🥇）+ 段位名称（如「黄金预言家」）+ 当前门槛文案</li>
-          <li data-num="3"><strong>数据卡</strong> — 三行 key-value 布局：竞猜币余额、累计竞猜派奖、已结算局数</li>
-          <li data-num="4"><strong>脚注</strong> — 灰色小字，说明「累计竞猜派奖」仅统计猜中项，平局退还不计入段位</li>
+          <li data-num="2"><strong>门店标识</strong> — 顶部展示当前门店名称（如「朝阳店」），所有数据均归属该门店</li>
+          <li data-num="3"><strong>段位卡</strong> — 居中大号段位图标（如 🥇）+ 段位名称（如「黄金预言家」）+ 当前门槛文案</li>
+          <li data-num="4"><strong>数据卡</strong> — 三行 key-value 布局：竞猜币余额、累计竞猜派奖、已结算局数，均为当前门店数据</li>
+          <li data-num="5"><strong>脚注</strong> — 灰色小字，说明「累计竞猜派奖」仅统计猜中项，平局退还不计入段位</li>
         </ul>
         <div class="rule-box info" style="margin-top:16px;">
           <p class="rule-title">💡 数据来源</p>
           <p class="rule-text">
-            接口 <code>GET /api/betting/my-summary</code><br>
-            段位由后端 <code>betting-tier.util.ts</code> 按 <code>totalBettingWinnings</code> 自动匹配，前端只做展示。
+            接口 <code>GET /api/betting/my-summary?storeId={storeId}</code><br>
+            段位由后端 <code>betting-tier.util.ts</code> 按当前门店的 <code>totalBettingWinnings</code> 自动匹配，前端只做展示。
+          </p>
+        </div>
+        <div class="rule-box warn" style="margin-top:12px;">
+          <p class="rule-title">🏪 门店隔离说明</p>
+          <p class="rule-text">
+            段位按<strong>门店</strong>独立计算：同一用户在不同门店的累计派奖不同，段位可能不同。<br>
+            竞猜币余额、已结算局数等均限定在当前门店范围内。
           </p>
         </div>
       </div>
@@ -48,7 +60,7 @@
 
     <h3 style="font-size:16px;font-weight:600;color:#6366f1;margin:0 0 12px;">🏆 预言家段位体系</h3>
     <p style="color:#64748b;font-size:14px;margin-bottom:12px;">
-      按累计竞猜派奖（<code>totalBettingWinnings</code>）自动判定，<strong>只升不降</strong>，匹配最大满足阈值：
+      按<strong>当前门店</strong>的累计竞猜派奖（<code>totalBettingWinnings</code>）自动判定，<strong>只升不降</strong>，匹配最大满足阈值：
     </p>
     <div class="tier-bar">
       <div class="tier-item"><span class="tier-icon">🔮</span><span class="tier-name">新手</span><span class="tier-threshold">0+</span></div>

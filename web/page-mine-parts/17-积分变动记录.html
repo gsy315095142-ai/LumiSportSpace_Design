@@ -11,6 +11,10 @@
           <span style="width:60px"></span>
         </div>
         <div class="cyber-body">
+          <!-- 门店标识 -->
+          <div class="cyber-card" style="display:flex;align-items:center;gap:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;color:rgba(160,200,220,0.7);">
+            <span>🏪</span><span>朝阳店</span>
+          </div>
           <!-- 玩法筛选栏 -->
           <div class="filter-bar">
             <span class="filter-chip active">全部</span>
@@ -60,10 +64,11 @@
       <div class="desc-area">
         <h3 style="font-size:17px;font-weight:600;color:#1e293b;margin-bottom:14px;">设计说明</h3>
         <ul class="anno-list">
-          <li data-num="1"><strong>玩法筛选栏</strong> — 顶部水平标签：「全部 / 🏒冰球 / 🥊拳王 / 🤺击剑」，与「过往战绩增强版」保持一致的筛选交互</li>
-          <li data-num="2"><strong>头行</strong> — 左侧时间，右侧积分变化（<span style="color:#73d13d;font-weight:600">+N 绿色</span> / <span style="color:#ff7875;font-weight:600">−N 红色</span> / <span style="color:#ffc069">0 橙色</span>），与竞猜币流水视觉一致</li>
-          <li data-num="3"><strong>原因行</strong> — emoji玩法 + 结果 + 比分，如「🏒 疾速冰球 · 胜利（5:3）」</li>
-          <li data-num="4"><strong>余额行</strong> — 灰色小字，显示变动后的积分值</li>
+          <li data-num="1"><strong>门店标识</strong> — 顶部展示当前门店名称（如「朝阳店」），本页仅展示该门店下的积分变动</li>
+          <li data-num="2"><strong>玩法筛选栏</strong> — 水平标签：「全部 / 🏒冰球 / 🥊拳王 / 🤺击剑」，在当前门店范围内筛选</li>
+          <li data-num="3"><strong>头行</strong> — 左侧时间，右侧积分变化（<span style="color:#73d13d;font-weight:600">+N 绿色</span> / <span style="color:#ff7875;font-weight:600">−N 红色</span> / <span style="color:#ffc069">0 橙色</span>）</li>
+          <li data-num="4"><strong>原因行</strong> — emoji玩法 + 结果 + 比分，如「🏒 疾速冰球 · 胜利（5:3）」</li>
+          <li data-num="5"><strong>余额行</strong> — 灰色小字，显示变动后该门店下该玩法的积分值</li>
         </ul>
 
         <h3 style="font-size:15px;font-weight:600;color:#6366f1;margin:20px 0 10px;">积分计算规则</h3>
@@ -97,7 +102,8 @@
         </div>
 
         <ul style="font-size:13px;color:#475569;padding-left:20px;line-height:2.2;margin-top:16px;">
-          <li><strong style="color:#1e293b;">积分按玩法独立</strong> — 冰球、拳王、击剑各自独立计算和存储（<code>user_game_ratings</code> 表按 <code>gameType</code> 区分）</li>
+          <li><strong style="color:#1e293b;">积分按门店独立</strong> — 不同门店的积分各自独立计算，同一用户在不同门店的积分互不影响</li>
+          <li><strong style="color:#1e293b;">积分按玩法独立</strong> — 冰球、拳王、击剑各自独立计算和存储（<code>user_game_ratings</code> 表按 <code>store_id + gameType</code> 区分）</li>
           <li><strong style="color:#1e293b;">平局不变动</strong> — 比分为平局时双方 <code>ratingChange = 0</code></li>
           <li><strong style="color:#1e293b;">积分下限为 1</strong> — 扣分后不低于 <code>MIN_RATING = 1</code>，不会变成 0 或负数</li>
           <li><strong style="color:#1e293b;">双方变动不对等</strong> — 胜方加分与败方扣分的数值通常不相等（各自 delta 独立计算）</li>
@@ -120,9 +126,18 @@
         <div class="rule-box info" style="margin-top:12px;">
           <p class="rule-title">💡 数据来源</p>
           <p class="rule-text">
-            后端结算时已记录 <code>redRatingBefore → redRatingAfter</code>，前端需新增接口 <code>GET /api/player/rating-log</code> 聚合流水，支持 <code>gameType</code> 筛选参数。<br>
+            后端结算时已记录 <code>redRatingBefore → redRatingAfter</code>，前端需新增接口 <code>GET /api/player/rating-log?storeId={storeId}</code> 聚合流水，支持 <code>gameType</code> 筛选参数。<br>
             表结构可复用 <code>user_coin_logs</code> 的模式，新建 <code>user_rating_logs</code> 表。<br>
-            积分计算逻辑详见 <code>player-rating.service.ts</code> → <code>applyReferenceRatingSettlement</code>，常量定义见 <code>player-rating.util.ts</code>。
+            积分计算逻辑详见 <code>player-rating.service.ts</code> → <code>applyReferenceRatingSettlement</code>，常量定义见 <code>player-rating.util.ts</code>。<br>
+            数据范围限定在当前门店，不会展示其他门店的积分变动。
+          </p>
+        </div>
+
+        <div class="rule-box warn" style="margin-top:12px;">
+          <p class="rule-title">🏪 门店隔离说明</p>
+          <p class="rule-text">
+            积分按<strong>门店 + 玩法</strong>双重独立：同一用户在不同门店的同一玩法积分不同，变动记录仅展示当前门店数据。<br>
+            参赛所得积分仅计入当场门店，不会跨店汇总或影响其他门店积分。
           </p>
         </div>
       </div>

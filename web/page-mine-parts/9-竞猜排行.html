@@ -10,6 +10,10 @@
           <span style="width:60px"></span>
         </div>
         <div class="cyber-body">
+          <!-- 门店标识 -->
+          <div class="cyber-card" style="display:flex;align-items:center;gap:6px;padding:8px 12px;margin-bottom:4px;font-size:12px;color:rgba(160,200,220,0.7);">
+            <span>🏪</span><span>朝阳店</span>
+          </div>
           <!-- 排序提示 -->
           <div class="rank-sub">按「累计竞猜派奖」排序</div>
           <!-- 排行条目1：Top1 金色 -->
@@ -93,18 +97,25 @@
       <div class="desc-area">
         <h3 style="font-size:17px;font-weight:600;color:#1e293b;margin-bottom:14px;">页面布局解析</h3>
         <ul class="anno-list">
-          <li data-num="1"><strong>排序提示</strong> — 页面顶部灰色小字：「按『累计竞猜派奖』排序」</li>
-          <li data-num="2"><strong>排名序号</strong> — 左侧固定宽度，<span style="color:#ffc069;font-weight:600">前 3 名金色高亮</span>（#ffc069），4 名起灰白色</li>
-          <li data-num="3"><strong>段位图标</strong> — 紧跟排名后的大号 emoji（👑 🥇 🥈 🥉 💎），直观反映段位</li>
-          <li data-num="4"><strong>用户信息</strong> — 中间区域双行：用户名（超长省略）+ 段位名（灰色小字）</li>
-          <li data-num="5"><strong>数据右对齐</strong> — 右侧双行：<span style="color:#7ee8ff;font-weight:600">派奖 N</span>（青色加粗）+ 币 N（灰色小字）</li>
+          <li data-num="1"><strong>门店标识</strong> — 顶部展示当前门店名称（如「朝阳店」），排行榜为该门店内排名</li>
+          <li data-num="2"><strong>排序提示</strong> — 页面顶部灰色小字：「按『累计竞猜派奖』排序」</li>
+          <li data-num="3"><strong>排名序号</strong> — 左侧固定宽度，<span style="color:#ffc069;font-weight:600">前 3 名金色高亮</span>（#ffc069），4 名起灰白色</li>
+          <li data-num="4"><strong>段位图标</strong> — 紧跟排名后的大号 emoji（👑 🥇 🥈 🥉 💎），直观反映段位</li>
+          <li data-num="5"><strong>用户信息</strong> — 中间区域双行：用户名（超长省略）+ 段位名（灰色小字）</li>
+          <li data-num="6"><strong>数据右对齐</strong> — 右侧双行：<span style="color:#7ee8ff;font-weight:600">派奖 N</span>（青色加粗）+ 币 N（灰色小字）</li>
         </ul>
         <div class="rule-box info" style="margin-top:16px;">
           <p class="rule-title">💡 排序与刷新</p>
           <p class="rule-text">
-            接口 <code>GET /api/betting/leaderboard?take=50</code>，最多 50 名。<br>
+            接口 <code>GET /api/betting/leaderboard?storeId={storeId}&take=50</code>，最多 50 名。<br>
             排序：<strong>totalBettingWinnings DESC → coins DESC → id ASC</strong><br>
             仅查询 <code>status=ACTIVE</code> 用户。onShow 时重新加载。
+          </p>
+        </div>
+        <div class="rule-box warn" style="margin-top:12px;">
+          <p class="rule-title">🏪 门店隔离说明</p>
+          <p class="rule-text">
+            排行榜按<strong>门店</strong>维度独立排名：不同门店有各自的 Top 50，派奖金额和段位均限定在当前门店范围内统计。
           </p>
         </div>
       </div>
@@ -126,4 +137,3 @@
 .rk-win { font-size:12px; font-weight:600; color:#7ee8ff; }
 .rk-coins { font-size:10px; color:rgba(160,200,220,0.55); }
 </style>
-

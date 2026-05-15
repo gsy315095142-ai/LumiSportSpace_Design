@@ -11,6 +11,10 @@
           <span style="width:60px"></span>
         </div>
         <div class="cyber-body">
+          <!-- 门店标识 -->
+          <div class="cyber-card" style="display:flex;align-items:center;gap:6px;padding:8px 12px;margin-bottom:8px;font-size:12px;color:rgba(160,200,220,0.7);">
+            <span>🏪</span><span>朝阳店</span>
+          </div>
           <!-- 综合概览 -->
           <div class="cyber-card summary-sim">
             <div class="sum-top">综合概览</div>
@@ -47,15 +51,22 @@
       <div class="desc-area">
         <h3 style="font-size:17px;font-weight:600;color:#1e293b;margin-bottom:14px;">设计说明</h3>
         <ul class="anno-list">
-          <li data-num="1"><strong>综合概览卡</strong> — 三栏展示总场次、总胜率、综合积分，一眼掌握整体实力</li>
-          <li data-num="2"><strong>分玩法卡片</strong> — 每项玩法独立卡片，展示积分、场次/胜场、胜率/连胜</li>
-          <li data-num="3"><strong>三项玩法</strong> — 🏒疾速冰球 / 🥊烈焰拳王 / 🤺雷霆击剑，与赛事模块一一对应</li>
-          <li data-num="4"><strong>数据来源</strong> — 后端已有 <code>rating</code> 字段，前端需新增汇总接口 <code>GET /api/player/my-stats</code></li>
+          <li data-num="1"><strong>门店标识</strong> — 顶部展示当前门店名称（如「朝阳店」），所有参赛数据均归属该门店</li>
+          <li data-num="2"><strong>综合概览卡</strong> — 三栏展示当前门店下的总场次、总胜率、综合积分，一眼掌握整体实力</li>
+          <li data-num="3"><strong>分玩法卡片</strong> — 每项玩法独立卡片，展示该门店的积分、场次/胜场、胜率/连胜</li>
+          <li data-num="4"><strong>三项玩法</strong> — 🏒疾速冰球 / 🥊烈焰拳王 / 🤺雷霆击剑，与赛事模块一一对应</li>
+          <li data-num="5"><strong>数据来源</strong> — 后端已有 <code>rating</code> 字段，前端需新增汇总接口 <code>GET /api/player/my-stats?storeId={storeId}</code></li>
         </ul>
         <div class="rule-box info" style="margin-top:16px;">
           <p class="rule-title">💡 设计依据</p>
           <p class="rule-text">
             PRD 明确提到「个人中心不直接展示三项玩法积分」为待改进项。本模块对标「我的竞猜数据」的段位卡 + 数据行结构，补齐参赛侧缺失的数据概览能力。
+          </p>
+        </div>
+        <div class="rule-box warn" style="margin-top:12px;">
+          <p class="rule-title">🏪 门店隔离说明</p>
+          <p class="rule-text">
+            积分、场次、胜率等均按<strong>门店</strong>独立统计：同一用户在不同门店的参赛数据互不影响，综合积分为当前门店下三项玩法积分之和。
           </p>
         </div>
       </div>
@@ -79,4 +90,3 @@
 .game-emoji { font-size:16px; }
 .game-name { font-size:13px; font-weight:600; color:#e8fdff; }
 </style>
-
