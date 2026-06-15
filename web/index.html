@@ -41,7 +41,19 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   white-space: nowrap;
+  text-decoration: none;
 }
+.nav-back {
+  position: absolute;
+  right: 24px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #9ca3af;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: #c4b5fd; }
 
 /* ── 通用 Tab 按钮 ── */
 .nav-tab {
@@ -169,6 +181,7 @@ body {
 /* ── 响应式：小屏品牌隐藏 ── */
 @media (max-width: 640px) {
   .nav-brand { display: none; }
+  .nav-back { right: 8px; font-size: 11px; }
   .top-nav { justify-content: center; gap: 4px; padding: 0 8px; }
   .nav-tab { padding: 8px 10px; font-size: 12px; }
 }
@@ -235,6 +248,8 @@ body {
   <a class="nav-tab" data-page="page-todo" onclick="switchPage('page-todo', this)">
     <span class="tab-icon">📋</span>待开发功能
   </a>
+
+  <a class="nav-back" href="../../lumi-sport.html">← 返回项目</a>
 </nav>
 
 <div class="frame-wrap">
